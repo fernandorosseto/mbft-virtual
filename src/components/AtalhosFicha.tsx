@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import { ArrowUpToLine, TableOfContents, X } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
-import styles from './AtalhosFicha.module.css';
+import { ArrowUpToLine, TableOfContents, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { AnelTinta } from "./AnelTinta";
+import styles from "./AtalhosFicha.module.css";
 
 export interface Secao {
   id: string;
@@ -30,13 +31,17 @@ export function AtalhosFicha({ secoes }: { secoes: Secao[] }) {
       let corrente: string | null = null;
       for (const s of secoes) {
         const e = document.getElementById(s.id);
-        if (e && e.getBoundingClientRect().top < window.innerHeight * 0.35) corrente = s.id;
+        if (e && e.getBoundingClientRect().top < window.innerHeight * 0.35)
+          corrente = s.id;
       }
-      const noFim = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+      const noFim =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 4;
       if (noFim) {
         for (const s of secoes) {
           const e = document.getElementById(s.id);
-          if (e && e.getBoundingClientRect().top < window.innerHeight) corrente = s.id;
+          if (e && e.getBoundingClientRect().top < window.innerHeight)
+            corrente = s.id;
         }
       }
       setAtual(corrente);
@@ -45,11 +50,11 @@ export function AtalhosFicha({ secoes }: { secoes: Secao[] }) {
       if (!quadro) quadro = requestAnimationFrame(calcular);
     };
     calcular();
-    window.addEventListener('scroll', aoRolar, { passive: true });
-    window.addEventListener('resize', aoRolar);
+    window.addEventListener("scroll", aoRolar, { passive: true });
+    window.addEventListener("resize", aoRolar);
     return () => {
-      window.removeEventListener('scroll', aoRolar);
-      window.removeEventListener('resize', aoRolar);
+      window.removeEventListener("scroll", aoRolar);
+      window.removeEventListener("resize", aoRolar);
       if (quadro) cancelAnimationFrame(quadro);
     };
   }, [secoes]);
@@ -61,25 +66,31 @@ export function AtalhosFicha({ secoes }: { secoes: Secao[] }) {
       if (!caixa.current?.contains(e.target as Node)) setAberto(false);
     };
     const tecla = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setAberto(false);
+      if (e.key === "Escape") setAberto(false);
     };
-    document.addEventListener('pointerdown', fora);
-    window.addEventListener('keydown', tecla);
+    document.addEventListener("pointerdown", fora);
+    window.addEventListener("keydown", tecla);
     return () => {
-      document.removeEventListener('pointerdown', fora);
-      window.removeEventListener('keydown', tecla);
+      document.removeEventListener("pointerdown", fora);
+      window.removeEventListener("keydown", tecla);
     };
   }, [aberto]);
 
   const ir = (id: string | null) => {
     setAberto(false);
     if (!id) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.history.replaceState(
+        window.history.state,
+        "",
+        window.location.pathname + window.location.search,
+      );
       return;
     }
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    window.history.replaceState(window.history.state, '', `#${id}`);
+    document
+      .getElementById(id)
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.history.replaceState(window.history.state, "", `#${id}`);
   };
 
   if (!secoes.length) return null;
@@ -87,11 +98,15 @@ export function AtalhosFicha({ secoes }: { secoes: Secao[] }) {
   return (
     <div
       ref={caixa}
-      className={`${styles.atalhos} ${visivel || aberto ? styles.visivel : ''}`}
+      className={`${styles.atalhos} ${visivel || aberto ? styles.visivel : ""}`}
       data-fora-da-busca
     >
       {aberto && (
-        <nav id="atalhos-ficha" className={styles.menu} aria-label="Seções da ficha">
+        <nav
+          id="atalhos-ficha"
+          className={styles.menu}
+          aria-label="Seções da ficha"
+        >
           <p className={styles.titulo}>Ir para</p>
           <ul>
             {secoes.map((s) => (
@@ -99,7 +114,7 @@ export function AtalhosFicha({ secoes }: { secoes: Secao[] }) {
                 <button
                   type="button"
                   onClick={() => ir(s.id)}
-                  aria-current={atual === s.id ? 'location' : undefined}
+                  aria-current={atual === s.id ? "location" : undefined}
                   className={atual === s.id ? styles.atual : undefined}
                 >
                   {s.rotulo}
@@ -114,17 +129,28 @@ export function AtalhosFicha({ secoes }: { secoes: Secao[] }) {
           </ul>
         </nav>
       )}
-      <button
-        type="button"
-        className={styles.botao}
-        aria-expanded={aberto}
-        aria-controls="atalhos-ficha"
-        aria-label={aberto ? 'Fechar atalhos das seções' : 'Atalhos para as seções da ficha'}
-        onClick={() => setAberto((a) => !a)}
-        tabIndex={visivel || aberto ? 0 : -1}
-      >
-        {aberto ? <X aria-hidden size={22} /> : <TableOfContents aria-hidden size={22} />}
-      </button>
+      <span className={styles.comAnel}>
+        <AnelTinta ativo={visivel || aberto} />
+        <button
+          type="button"
+          className={styles.botao}
+          aria-expanded={aberto}
+          aria-controls="atalhos-ficha"
+          aria-label={
+            aberto
+              ? "Fechar atalhos das seções"
+              : "Atalhos para as seções da ficha"
+          }
+          onClick={() => setAberto((a) => !a)}
+          tabIndex={visivel || aberto ? 0 : -1}
+        >
+          {aberto ? (
+            <X aria-hidden size={22} />
+          ) : (
+            <TableOfContents aria-hidden size={22} />
+          )}
+        </button>
+      </span>
     </div>
   );
 }

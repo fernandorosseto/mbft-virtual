@@ -1,7 +1,8 @@
 .atalhos {
   position: fixed;
-  right: max(16px, env(safe-area-inset-right));
-  bottom: calc(16px + env(safe-area-inset-bottom));
+  /* O anel de tinta ocupa 14 px em volta do botão (margem de .comAnel) */
+  right: max(4px, calc(env(safe-area-inset-right) - 10px));
+  bottom: calc(4px + env(safe-area-inset-bottom));
   z-index: 35;
   display: flex;
   flex-direction: column;
@@ -24,10 +25,17 @@
 
 /* Barra de ocorrências da busca na ficha aberta: o botão sobe para não ficar por cima */
 :global(body:has([data-barra-ocorrencias])) .atalhos {
-  bottom: calc(76px + env(safe-area-inset-bottom));
+  bottom: calc(64px + env(safe-area-inset-bottom));
+}
+
+.comAnel {
+  position: relative;
+  display: grid;
+  margin: 14px;
 }
 
 .botao {
+  position: relative;
   display: grid;
   place-items: center;
   width: 52px;
