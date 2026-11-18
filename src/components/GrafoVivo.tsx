@@ -5,6 +5,7 @@ import { LocateFixed, Maximize2, Minimize2, Minus, Plus } from 'lucide-react';
 import {
   useCallback,
   useEffect,
+  useId,
   useMemo,
   useRef,
   useState,
@@ -13,7 +14,17 @@ import {
   type MouseEvent as ReactMouseEvent,
   type PointerEvent as ReactPointerEvent,
 } from 'react';
-import { RAIO, tamanhoDoNo, type NoGrafo } from '@/lib/noGrafo';
+import Link from 'next/link';
+import {
+  NOME_LIGACAO,
+  RAIO,
+  TIPOS_LIGACAO,
+  tamanhoDoNo,
+  tipoPrincipal,
+  type ArestaGrafo,
+  type NoGrafo,
+  type TipoLigacao,
+} from '@/lib/noGrafo';
 import { linhasDoTema } from '@/lib/rotulos';
 import styles from './GrafoVivo.module.css';
 
@@ -76,7 +87,7 @@ export function GrafoVivo({
   className,
 }: {
   nos: NoGrafo[];
-  arestas: [string, string][];
+  arestas: ArestaGrafo[];
   largura: number;
   altura: number;
   rotulo: string;
@@ -89,6 +100,8 @@ export function GrafoVivo({
   const camada = useRef<SVGGElement>(null);
   const elNos = useRef(new Map<string, SVGGElement>());
   const elLinhas = useRef<(SVGLineElement | null)[]>([]);
+  const elAlvos = useRef<(SVGLineElement | null)[]>([]);
+  const idMarcas = useId().replace(/:/g, '');
   const sim = useRef<Simulacao | null>(null);
   const camera = useRef<Camera>({ k: 1, tx: 0, ty: 0 });
   const arrasto = useRef<{ i: number; x0: number; y0: number; moveu: boolean; dx: number; dy: number } | null>(null);
@@ -99,19 +112,33 @@ export function GrafoVivo({
   const [foco, setFoco] = useState<string | null>(null);
   const [telaCheia, setTelaCheia] = useState(false);
   const [arrastando, setArrastando] = useState(false);
+  // Tipos de ligação visíveis (legenda) e ligação tocada (cartão com o motivo)
+  const [visiveis, setVisiveis] = useState<Record<TipoLigacao, boolean>>({ emVez: true, tambem: true, referencia: true });
+  const [ligacaoAberta, setLigacaoAberta] = useState<number | null>(null);
 
   const indice = useMemo(() => new Map(nos.map((n, i) => [n.id, i])), [nos]);
   const tamanhos = useMemo(() => nos.map((n) => tamanhoDoNo(n)), [nos]);
-  const ligacoes = useMemo(
-    () =>
-      arestas
-        .map(([a, b]) => [indice.get(a), indice.get(b)] as const)
-        .filter((par): par is readonly [number, number] => par[0] !== undefined && par[1] !== undefined),
-    [arestas, indice],
-  );
+  // Só as ligações entre nós presentes; `dados` guarda a ligação de cada par de índices
+  const { ligacoes, dados } = useMemo(() => {
+    const ligacoes: (readonly [number, number])[] = [];
+    const dados: ArestaGrafo[] = [];
+    for (const ar of arestas) {
+      const i = indice.get(ar.a);
+      const j = indice.get(ar.b);
+      if (i === undefined || j === undefined) continue;
+      ligacoes.push([i, j]);
+      dados.push(ar);
+    }
+    return { ligacoes, dados };
+  }, [arestas, indice]);
+  const contagem = useMemo(() => {
+    const c: Record<TipoLigacao, number> = { emVez: 0, tambem: 0, referencia: 0 };
+    for (const ar of dados) c[tipoPrincipal(ar)]++;
+    return c;
+  }, [dados]);
   const vizinhos = useMemo(() => {
     const mapa = new Map<string, Set<string>>();
-    for (const [a, b] of arestas) {
+    for (const { a, b } of arestas) {
       if (!mapa.has(a)) mapa.set(a, new Set());
       if (!mapa.has(b)) mapa.set(b, new Set());
       mapa.get(a)!.add(b);
@@ -169,12 +196,14 @@ export function GrafoVivo({
     if (!s) return;
     nos.forEach((n, i) => elNos.current.get(n.id)?.setAttribute('transform', `translate(${s.x[i]} ${s.y[i]})`));
     ligacoes.forEach(([a, b], k) => {
-      const l = elLinhas.current[k];
-      if (!l) return;
-      l.setAttribute('x1', String(s.x[a]));
-      l.setAttribute('y1', String(s.y[a]));
-      l.setAttribute('x2', String(s.x[b]));
-      l.setAttribute('y2', String(s.y[b]));
+      const [x1, y1, x2, y2] = pontas(s.x[a], s.y[a], s.x[b], s.y[b], RAIO[nos[a].papel], RAIO[nos[b].papel]);
+      for (const l of [elLinhas.current[k], elAlvos.current[k]]) {
+        if (!l) continue;
+        l.setAttribute('x1', String(x1));
+        l.setAttribute('y1', String(y1));
+        l.setAttribute('x2', String(x2));
+        l.setAttribute('y2', String(y2));
+      }
     });
   }, [nos, ligacoes]);
 
@@ -311,6 +340,7 @@ export function GrafoVivo({
       visivel: false,
     };
     elLinhas.current.length = ligacoes.length;
+    elAlvos.current.length = ligacoes.length;
     const alvo = svg.current;
     if (!alvo) return;
     const observador = new IntersectionObserver(([e]) => {
@@ -471,6 +501,24 @@ export function GrafoVivo({
           <span>{rotulo}</span>
         </div>
       )}
+      <div className={styles.legendaLigacoes} role="group" aria-label="Tipos de ligação">
+        {TIPOS_LIGACAO.filter((t) => contagem[t] > 0).map((t) => (
+          <button
+            key={t}
+            type="button"
+            aria-pressed={visiveis[t]}
+            className={styles.tipoLigacao}
+            onClick={() => setVisiveis((v) => ({ ...v, [t]: !v[t] }))}
+          >
+            <svg width="26" height="10" aria-hidden>
+              <line x1="1" y1="5" x2="19" y2="5" className={`${styles.amostra} ${styles[`l_${t}`]}`} />
+              {t !== 'referencia' && <path d="M17,1 L25,5 L17,9 z" className={`${styles.ponta} ${styles[`p_${t}`]}`} />}
+            </svg>
+            {NOME_LIGACAO[t]} <span className={styles.qtdLigacoes}>{contagem[t]}</span>
+          </button>
+        ))}
+      </div>
+      <div className={styles.palco}>
       <svg
         ref={svg}
         viewBox={`0 0 ${largura} ${altura}`}
@@ -482,30 +530,75 @@ export function GrafoVivo({
         onPointerUp={aoSoltar}
         onPointerCancel={aoSoltar}
       >
+        <defs>
+          {TIPOS_LIGACAO.flatMap((t) =>
+            [false, true].map((ativa) => (
+              <marker
+                key={`${t}${ativa}`}
+                id={`${idMarcas}-${t}${ativa ? '-a' : ''}`}
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth={ativa ? 9 : 7}
+                markerHeight={ativa ? 9 : 7}
+                markerUnits="userSpaceOnUse"
+                orient="auto-start-reverse"
+              >
+                <path d="M0,1 L10,5 L0,9 z" className={`${styles.ponta} ${styles[`p_${t}`]} ${ativa ? styles.pontaAtiva : ''}`} />
+              </marker>
+            )),
+          )}
+        </defs>
         <g ref={camada}>
           <g>
             {ligacoes.map(([a, b], k) => {
               const na = nos[a];
               const nb = nos[b];
-              const ativa = destaque != null && (na.id === destaque || nb.id === destaque);
+              const ar = dados[k];
+              const tipo = tipoPrincipal(ar);
+              const mostrar = [ar.ab, ar.ba].some((t) => t && visiveis[t]);
+              if (!mostrar) return null;
+              const ativa = ligacaoAberta === k || (destaque != null && (na.id === destaque || nb.id === destaque));
+              const [x1, y1, x2, y2] = pontas(na.x, na.y, nb.x, nb.y, RAIO[na.papel], RAIO[nb.papel]);
+              const titulo = descreverLigacao(ar, nos[a], nos[b]);
               return (
-                <line
-                  key={`${na.id}-${nb.id}`}
-                  ref={(el) => {
-                    elLinhas.current[k] = el;
-                  }}
-                  x1={na.x}
-                  y1={na.y}
-                  x2={nb.x}
-                  y2={nb.y}
-                  className={`${ativa ? styles.arestaAtiva : styles.aresta} ${esmaecer && !ativa ? styles.arestaApagada : ''}`}
-                  style={
-                    {
-                      '--comprimento': Math.ceil(Math.hypot(nb.x - na.x, nb.y - na.y)),
-                      '--atraso': `${250 + Math.min(k * 6, 500)}ms`,
-                    } as CSSProperties
-                  }
-                />
+                <g key={`${na.id}-${nb.id}`} className={styles.ligacao}>
+                  <line
+                    ref={(el) => {
+                      elLinhas.current[k] = el;
+                    }}
+                    x1={x1}
+                    y1={y1}
+                    x2={x2}
+                    y2={y2}
+                    className={`${styles.aresta} ${styles[`l_${tipo}`]} ${ativa ? styles.arestaAtiva : ''} ${
+                      esmaecer && !ativa ? styles.arestaApagada : ''
+                    }`}
+                    markerEnd={ar.ab ? `url(#${idMarcas}-${ar.ab}${ativa ? '-a' : ''})` : undefined}
+                    markerStart={ar.ba ? `url(#${idMarcas}-${ar.ba}${ativa ? '-a' : ''})` : undefined}
+                    style={
+                      {
+                        '--comprimento': Math.ceil(Math.hypot(x2 - x1, y2 - y1)),
+                        '--atraso': `${250 + Math.min(k * 6, 500)}ms`,
+                      } as CSSProperties
+                    }
+                  />
+                  {/* Faixa invisível e larga: passar o mouse mostra o motivo; tocar abre o cartão */}
+                  <line
+                    ref={(el) => {
+                      elAlvos.current[k] = el;
+                    }}
+                    x1={x1}
+                    y1={y1}
+                    x2={x2}
+                    y2={y2}
+                    className={styles.alvoLigacao}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onClick={() => setLigacaoAberta((atual) => (atual === k ? null : k))}
+                  >
+                    <title>{titulo}</title>
+                  </line>
+                </g>
               );
             })}
           </g>
@@ -609,6 +702,79 @@ export function GrafoVivo({
           {telaCheia ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
         </button>
       </div>
+      </div>
+
+      {ligacaoAberta != null && dados[ligacaoAberta] && (
+        <CartaoLigacao
+          aresta={dados[ligacaoAberta]}
+          noA={nos[ligacoes[ligacaoAberta][0]]}
+          noB={nos[ligacoes[ligacaoAberta][1]]}
+          fechar={() => setLigacaoAberta(null)}
+        />
+      )}
+    </div>
+  );
+}
+
+/** Pontas da linha na borda das bolinhas (a seta encosta na bolinha, não no centro). */
+function pontas(x1: number, y1: number, x2: number, y2: number, r1: number, r2: number): [number, number, number, number] {
+  const d = Math.hypot(x2 - x1, y2 - y1) || 1;
+  const ux = (x2 - x1) / d;
+  const uy = (y2 - y1) / d;
+  const f1 = Math.min(r1 + 2, d / 2);
+  const f2 = Math.min(r2 + 2, d / 2);
+  return [x1 + ux * f1, y1 + uy * f1, x2 - ux * f2, y2 - uy * f2];
+}
+
+const FRASE: Record<TipoLigacao, (de: string, para: string) => string> = {
+  emVez: (de, para) => `${de} manda autuar em ${para} (quando não autuar)`,
+  tambem: (de, para) => `${de} pede autuar também em ${para}`,
+  referencia: (de, para) => `${de} cita ${para}`,
+};
+
+/** Texto do balão da linha: sentido(s) e, quando houver, o item do PDF. */
+function descreverLigacao(ar: ArestaGrafo, a: NoGrafo, b: NoGrafo): string {
+  const partes: string[] = [];
+  if (ar.ab) partes.push(FRASE[ar.ab](a.id, b.id));
+  if (ar.ba) partes.push(FRASE[ar.ba](b.id, a.id));
+  for (const m of ar.motivos ?? []) partes.push(`${m.de}: ${m.item}`);
+  return partes.join('\n');
+}
+
+/** Cartão aberto ao tocar numa linha: sentido de cada citação e o item que a faz. */
+function CartaoLigacao({ aresta, noA, noB, fechar }: { aresta: ArestaGrafo; noA: NoGrafo; noB: NoGrafo; fechar: () => void }) {
+  const sentidos: { de: NoGrafo; para: NoGrafo; tipo: TipoLigacao }[] = [];
+  if (aresta.ab) sentidos.push({ de: noA, para: noB, tipo: aresta.ab });
+  if (aresta.ba) sentidos.push({ de: noB, para: noA, tipo: aresta.ba });
+  return (
+    <div className={styles.cartaoLigacao} role="dialog" aria-label="Ligação entre fichas">
+      <button type="button" className={styles.fecharCartao} onClick={fechar} aria-label="Fechar">
+        ×
+      </button>
+      {sentidos.map(({ de, para, tipo }) => {
+        const motivos = (aresta.motivos ?? []).filter((m) => m.de === de.id && m.para === para.id);
+        return (
+          <div key={de.id} className={styles.sentido}>
+            <p className={styles.sentidoTopo}>
+              <span className={`${styles.seloLigacao} ${styles[`s_${tipo}`]}`}>{NOME_LIGACAO[tipo]}</span>
+              <Link href={`/fichas/${de.id}`}>
+                <span className="so-codigo">{de.id}</span>
+                <span className="so-artigo">{de.artigo}</span>
+              </Link>
+              <span aria-hidden>→</span>
+              <Link href={`/fichas/${para.id}`}>
+                <span className="so-codigo">{para.id}</span>
+                <span className="so-artigo">{para.artigo}</span>
+              </Link>
+            </p>
+            {motivos.map((m, i) => (
+              <p key={i} className={styles.motivo}>
+                {m.item}
+              </p>
+            ))}
+          </div>
+        );
+      })}
     </div>
   );
 }

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { GrafoVivo } from './GrafoVivo';
-import { tamanhoDoNo, type NoGrafo } from '@/lib/noGrafo';
+import { juntarArestas, tamanhoDoNo, TIPOS_LIGACAO, type NoGrafo } from '@/lib/noGrafo';
 import { Ref, RefOutra } from './Ref';
 import type { IndiceBusca } from '@/app/busca.json/route';
 import { posicionarComAltura } from '@/lib/grafo';
@@ -30,6 +30,7 @@ export function MapaBusca({ indice, principais }: { indice: IndiceBusca; princip
     const principal = principais.slice(0, MAX_PRINCIPAIS);
     const noMapa = new Set(principal);
     const todas: [string, string][] = indice.citacoes.map(([a, b]) => [indice.fichas[a][0], indice.fichas[b][0]]);
+    const tipadas = indice.citacoes.map(([a, b, t]) => ({ de: indice.fichas[a][0], para: indice.fichas[b][0], tipo: TIPOS_LIGACAO[t] }));
 
     // Vizinhos por citação, primeiro os mais ligados aos resultados
     const ligacoes = new Map<string, number>();
@@ -44,7 +45,8 @@ export function MapaBusca({ indice, principais }: { indice: IndiceBusca; princip
 
     const ids = [...principal, ...vizinhos];
     const presentes = new Set(ids);
-    const arestas = todas.filter(([a, b]) => presentes.has(a) && presentes.has(b));
+    const arestas = juntarArestas(tipadas, presentes);
+    const pares = arestas.map((a): [string, string] => [a.a, a.b]);
     const base = ids.map((id) => {
       const f = indice.fichas[porCodigo.get(id)!];
       return {
@@ -57,7 +59,7 @@ export function MapaBusca({ indice, principais }: { indice: IndiceBusca; princip
       };
     });
     const tamanhos = new Map(base.map((b) => [b.id, tamanhoDoNo(b)]));
-    const { pos, altura } = posicionarComAltura(ids, arestas, {
+    const { pos, altura } = posicionarComAltura(ids, pares, {
       largura,
       minimo: celular ? 420 : 460,
       maximo: celular ? 1400 : 1000,
@@ -69,7 +71,7 @@ export function MapaBusca({ indice, principais }: { indice: IndiceBusca; princip
 
   const escolhida = selecionado != null ? indice.fichas[porCodigo.get(selecionado)!] : null;
   const ligadas = selecionado
-    ? grafo.arestas.filter(([a, b]) => a === selecionado || b === selecionado).length
+    ? grafo.arestas.filter(({ a, b }) => a === selecionado || b === selecionado).length
     : 0;
 
   return (
@@ -108,7 +110,7 @@ export function MapaBusca({ indice, principais }: { indice: IndiceBusca; princip
       ) : (
         <p className={styles.legenda}>
           Bolinhas maiores: fichas encontradas. Menores: fichas ligadas a elas por citação de código ({grafo.vizinhos}).
-          Cor: gravidade. A linha amarela corre de quem cita para a ficha citada. Arraste as bolinhas; toque para ver a ficha. Zoom pelos botões, com Ctrl + roda ou em tela cheia.
+          Cor: gravidade. A seta aponta para a ficha indicada: vermelha, autuar lá em vez daqui; verde, autuar também; cinza tracejada, referência. Toque na linha para ver o tipo; arraste as bolinhas; toque nelas para ver a ficha.
           {grafo.cortados > 0 && ` O mapa mostra as primeiras ${MAX_PRINCIPAIS} fichas encontradas.`}
         </p>
       )}

@@ -1,4 +1,5 @@
-import { citacoes, textoCompleto, todasAsFichas } from '@/lib/mbft';
+import { TIPOS_LIGACAO } from '@/lib/noGrafo';
+import { citacoesTipadas, textoCompleto, todasAsFichas } from '@/lib/mbft';
 import { SECOES } from '@/lib/parteGeral';
 import { normalizar } from '@/lib/texto';
 
@@ -12,8 +13,8 @@ export interface IndiceBusca {
   palavras: string[];
   /** Para cada palavra, as fichas (índices em `fichas`) que a contêm. */
   ocorrencias: number[][];
-  /** Citações [a, b]: a ficha a cita a ficha b (índices em `fichas`). */
-  citacoes: [number, number][];
+  /** Citações [a, b, tipo]: a ficha a cita a ficha b (índices em `fichas`); tipo 0 em vez desta, 1 autuar também, 2 referência. */
+  citacoes: [number, number, number][];
   /** Seções da parte geral: âncora e título ("8.2. Remoção do Veículo"). */
   secoes: [string, string][];
 }
@@ -37,7 +38,7 @@ export function GET() {
     fichas: fichas.map((f) => [f.codigo, f.tipificacaoResumida, f.amparoLegal, f.gravidade, f.rotuloArtigo, f.tema]),
     palavras,
     ocorrencias: palavras.map((p) => porPalavra.get(p)!),
-    citacoes: citacoes().map(([a, b]) => [indice.get(a)!, indice.get(b)!]),
+    citacoes: citacoesTipadas().map(({ de, para, tipo }) => [indice.get(de)!, indice.get(para)!, TIPOS_LIGACAO.indexOf(tipo)]),
     secoes: SECOES.map((s) => [s.id, s.numero ? `${s.numero}. ${s.titulo}` : s.titulo]),
   };
   return Response.json(corpo);

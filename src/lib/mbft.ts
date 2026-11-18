@@ -2,6 +2,7 @@ import 'server-only';
 import dados from '../../docs/normas/mbft/mbft.json';
 import temas from '../../docs/normas/mbft/temas.json';
 import { rotuloArtigo } from './rotulos';
+import { PRIORIDADE_LIGACAO, type TipoLigacao } from './noGrafo';
 
 /** Ficha de fiscalização do MBFT, com os campos como estão no PDF (ver docs/normas/mbft/README.md). */
 export interface Ficha {
@@ -186,7 +187,7 @@ export function categoriasDe(f: Ficha): Categorias {
  *   precedida pela lavratura do auto no enquadramento...");
  * - `referencia`: demais citações (definições, informações complementares, quando autuar).
  */
-export type TipoLigacao = 'emVez' | 'tambem' | 'referencia';
+export type { TipoLigacao } from './noGrafo';
 
 export interface ItemLigado {
   tipo: TipoLigacao;
@@ -238,4 +239,19 @@ export function ligacoesDaFicha(codigo: string): {
     if (itens.length) recebidas.push({ origem: f, itens });
   }
   return { saidas, recebidas };
+}
+
+/**
+ * Citações com o sentido: para cada par (a cita b), o tipo mais forte entre os itens de a que
+ * citam b ("autuar também" > "em vez desta" > "referência"). Citações fora dos itens ligados
+ * (ex.: tipificação, medida) contam como referência.
+ */
+export function citacoesTipadas(): { de: string; para: string; tipo: TipoLigacao }[] {
+  return ARESTAS.map(([de, para]) => {
+    const tipos = (ITENS_LIGADOS.get(de) ?? [])
+      .filter((i) => i.destinos.some((d) => d.codigo === para))
+      .map((i) => i.tipo);
+    const tipo = tipos.sort((x, y) => PRIORIDADE_LIGACAO[y] - PRIORIDADE_LIGACAO[x])[0] ?? 'referencia';
+    return { de, para, tipo };
+  });
 }

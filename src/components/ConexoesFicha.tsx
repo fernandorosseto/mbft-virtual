@@ -1,6 +1,6 @@
 import { GrafoVivo } from './GrafoVivo';
-import { tamanhoDoNo, type NoGrafo } from '@/lib/noGrafo';
-import { citacoes, conexoes, obterFicha, type Ficha } from '@/lib/mbft';
+import { juntarArestas, tamanhoDoNo, type Motivo, type NoGrafo } from '@/lib/noGrafo';
+import { citacoesTipadas, conexoes, ligacoesDaFicha, obterFicha, type Ficha } from '@/lib/mbft';
 import { posicionarComAltura } from '@/lib/grafo';
 import styles from './ConexoesFicha.module.css';
 import { LigacoesFicha } from './LigacoesFicha';
@@ -18,15 +18,23 @@ export function ConexoesFicha({ ficha }: { ficha: Ficha }) {
 
   const ids = [ficha.codigo, ...new Set([...cita, ...citadaPor].map((f) => f.codigo))];
   const presentes = new Set(ids);
-  // Também as citações entre os vizinhos, como no grafo local do Obsidian
-  const arestas = citacoes().filter(([a, b]) => presentes.has(a) && presentes.has(b));
+  // Motivos (item do PDF) só nas ligações da própria ficha, para a página continuar leve
+  const { saidas, recebidas } = ligacoesDaFicha(ficha.codigo);
+  const motivos: Motivo[] = [
+    ...saidas.flatMap((i) => i.destinos.map((d) => ({ de: ficha.codigo, para: d.codigo, item: i.item }))),
+    ...recebidas.flatMap((r) => r.itens.map((i) => ({ de: r.origem.codigo, para: ficha.codigo, item: i.item }))),
+  ];
+  // Também as citações entre os vizinhos, como no grafo local do Obsidian; ida e volta numa linha
+  const arestas = juntarArestas(citacoesTipadas(), presentes, motivos);
+  const pares = arestas.map((a): [string, string] => [a.a, a.b]);
 
   return (
     <section className={styles.conexoes} aria-labelledby="conexoes">
       <h2 id="conexoes">Conexões</h2>
       <p className={styles.legenda}>
-        Fichas ligadas a esta por citação de código. A linha amarela corre de quem cita para a ficha citada.
-        Arraste as bolinhas; toque para abrir a ficha. Zoom pelos botões, com Ctrl + roda ou em tela cheia.
+        Fichas ligadas a esta por citação de código. A seta aponta para a ficha indicada: vermelha, autuar lá em vez
+        daqui; verde, autuar também; cinza tracejada, referência. Toque na linha para ver o motivo; arraste as
+        bolinhas; toque nelas para abrir a ficha.
       </p>
       {FORMATOS.map((formato) => {
         const base = ids.map((id) => {
@@ -42,7 +50,7 @@ export function ConexoesFicha({ ficha }: { ficha: Ficha }) {
           };
         });
         const tamanhos = new Map(base.map((b) => [b.id, tamanhoDoNo(b)]));
-        const { pos, altura } = posicionarComAltura(ids, arestas, {
+        const { pos, altura } = posicionarComAltura(ids, pares, {
           largura: formato.largura,
           minimo: formato.minimo,
           maximo: formato.maximo,

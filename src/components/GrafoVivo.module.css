@@ -2,6 +2,11 @@
   position: relative;
 }
 
+/* Grafo e botões de zoom (a legenda fica acima, fora) */
+.palco {
+  position: relative;
+}
+
 .grafo {
   display: block;
   width: 100%;
@@ -25,25 +30,186 @@
 
 /* ---- ligações ---- */
 
+/* Cor por sentido: vermelho = autuar lá em vez daqui (quando não autuar); verde = autuar também;
+   cinza tracejado = referência. A seta aponta para a ficha indicada. */
 .aresta {
-  stroke: #cbd5e1;
-  stroke-width: 1;
+  stroke-width: 1.2;
+  opacity: 0.5;
   transition: opacity 0.2s;
-  /* Ao aparecer, a linha se desenha de quem cita para a ficha citada (depois fica contínua,
-     mesmo que as bolinhas se mexam) */
+  /* Ao aparecer, a linha se desenha (depois fica contínua, mesmo que as bolinhas se mexam) */
   animation: desenhar 0.9s ease-out var(--atraso, 0ms) backwards;
 }
 
+.l_emVez {
+  stroke: #ef4444;
+}
+
+.l_tambem {
+  stroke: #16a34a;
+}
+
+.l_referencia {
+  stroke: #94a3b8;
+  stroke-dasharray: 4 3;
+}
+
 .arestaAtiva {
-  stroke: var(--sign);
-  stroke-width: 2;
+  opacity: 1;
+  stroke-width: 2.2;
   /* Tracejado correndo no sentido da citação */
-  stroke-dasharray: 6 5;
+  stroke-dasharray: 7 4;
   animation: fluir 0.8s linear infinite;
 }
 
 .arestaApagada {
-  opacity: 0.25;
+  opacity: 0.12;
+}
+
+.alvoLigacao {
+  stroke: transparent;
+  stroke-width: 14;
+  cursor: pointer;
+  pointer-events: stroke;
+}
+
+.ligacao:hover .aresta {
+  opacity: 1;
+  stroke-width: 2.2;
+}
+
+.ponta {
+  stroke: none;
+}
+
+.p_emVez {
+  fill: #ef4444;
+}
+
+.p_tambem {
+  fill: #16a34a;
+}
+
+.p_referencia {
+  fill: #94a3b8;
+}
+
+/* ---- legenda com filtro ---- */
+
+.legendaLigacoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.tipoLigacao {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 18px;
+  background: var(--asphalt-2);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.tipoLigacao[aria-pressed='false'] {
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+
+.amostra {
+  stroke-width: 2;
+}
+
+.qtdLigacoes {
+  font-family: var(--f-num);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ---- cartão da ligação ---- */
+
+.cartaoLigacao {
+  position: relative;
+  margin-top: 8px;
+  padding: 12px 44px 12px 14px;
+  background: var(--asphalt-2);
+  border: 1px solid var(--sign);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fecharCartao {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 44px;
+  height: 44px;
+  font-size: 22px;
+  color: var(--muted);
+}
+
+.sentidoTopo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  font-family: var(--f-num);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.sentidoTopo a {
+  color: var(--paint);
+}
+
+.seloLigacao {
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.s_emVez {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.s_tambem {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.s_referencia {
+  background: #f1f5f9;
+  color: var(--muted);
+}
+
+.motivo {
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--paint);
+  overflow-wrap: anywhere;
+}
+
+.telaCheia .legendaLigacoes {
+  padding: 8px 64px 0 12px;
+  margin: 0;
+}
+
+.telaCheia .cartaoLigacao {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: calc(12px + env(safe-area-inset-bottom));
+  max-height: 40vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.25);
 }
 
 @keyframes desenhar {
@@ -200,6 +366,13 @@
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
+.telaCheia .palco {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 .telaCheia .grafo {
   flex: 1;
   min-height: 0;
@@ -210,7 +383,7 @@
 }
 
 .telaCheia .controles {
-  top: calc(56px + env(safe-area-inset-top));
+  top: 8px;
 }
 
 .barraTelaCheia {
