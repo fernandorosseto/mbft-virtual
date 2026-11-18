@@ -5,10 +5,10 @@ import { posicionarComAltura } from '@/lib/grafo';
 import styles from './ConexoesFicha.module.css';
 import { LigacoesFicha } from './LigacoesFicha';
 
-/** Duas versões do mesmo grafo: larga no computador, estreita no celular (rótulos legíveis nos dois). */
+/** Duas disposições do mesmo grafo: larga no computador, estreita no celular (rótulos legíveis nos dois). */
 const FORMATOS = [
-  { largura: 680, minimo: 320, maximo: 720, classe: styles.pc },
-  { largura: 360, minimo: 360, maximo: 1100, classe: styles.celular },
+  { largura: 680, minimo: 320, maximo: 720 },
+  { largura: 360, minimo: 360, maximo: 1100 },
 ];
 
 /** Grafo local da ficha (estilo Obsidian) e as ligações pelo sentido (LigacoesFicha). */
@@ -36,7 +36,7 @@ export function ConexoesFicha({ ficha }: { ficha: Ficha }) {
         daqui; verde, autuar também; cinza tracejada, referência. Toque na linha para ver o motivo; arraste as
         bolinhas; toque nelas para abrir a ficha.
       </p>
-      {FORMATOS.map((formato) => {
+      {(() => {
         const base = ids.map((id) => {
           const f = obterFicha(id)!;
           return {
@@ -50,26 +50,26 @@ export function ConexoesFicha({ ficha }: { ficha: Ficha }) {
           };
         });
         const tamanhos = new Map(base.map((b) => [b.id, tamanhoDoNo(b)]));
-        const { pos, altura } = posicionarComAltura(ids, pares, {
-          largura: formato.largura,
-          minimo: formato.minimo,
-          maximo: formato.maximo,
-          centro: ficha.codigo,
-          tamanhos,
-        });
-        const nos: NoGrafo[] = base.map((b) => ({ ...b, x: pos.get(b.id)!.x, y: pos.get(b.id)!.y }));
+        const [pc, cel] = FORMATOS.map((formato) =>
+          posicionarComAltura(ids, pares, { ...formato, centro: ficha.codigo, tamanhos }),
+        );
+        const arred = (v: number) => Math.round(v * 10) / 10;
+        const nos: NoGrafo[] = base.map((b) => ({ ...b, x: arred(pc.pos.get(b.id)!.x), y: arred(pc.pos.get(b.id)!.y) }));
         return (
           <GrafoVivo
-            key={formato.largura}
             nos={nos}
             arestas={arestas}
-            largura={formato.largura}
-            altura={altura}
+            largura={FORMATOS[0].largura}
+            altura={pc.altura}
+            celular={{
+              largura: FORMATOS[1].largura,
+              altura: cel.altura,
+              xy: ids.flatMap((id) => [arred(cel.pos.get(id)!.x), arred(cel.pos.get(id)!.y)]),
+            }}
             rotulo={`Grafo de conexões da ficha ${ficha.codigo}`}
-            className={formato.classe}
           />
         );
-      })}
+      })()}
 
       <LigacoesFicha ficha={ficha} />
     </section>

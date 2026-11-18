@@ -19,17 +19,3 @@
   color: var(--muted);
   font-size: 14px;
 }
-
-.celular {
-  display: none !important;
-}
-
-@media (max-width: 860px) {
-  .pc {
-    display: none !important;
-  }
-
-  .celular {
-    display: block !important;
-  }
-}

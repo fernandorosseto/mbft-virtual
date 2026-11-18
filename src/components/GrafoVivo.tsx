@@ -26,6 +26,7 @@ import {
   type TipoLigacao,
 } from '@/lib/noGrafo';
 import { linhasDoTema } from '@/lib/rotulos';
+import { QUERY_CELULAR, useMediaQuery } from '@/lib/useMediaQuery';
 import styles from './GrafoVivo.module.css';
 
 const COR: Record<string, string> = {
@@ -77,10 +78,11 @@ interface Simulacao {
  * com links. Posições e câmera são atualizadas direto no DOM (sem re-render a cada quadro).
  */
 export function GrafoVivo({
-  nos,
+  nos: nosPc,
   arestas,
-  largura,
-  altura,
+  largura: larguraPc,
+  altura: alturaPc,
+  celular: versaoCelular,
   rotulo,
   selecionado,
   onSelecionar,
@@ -90,12 +92,27 @@ export function GrafoVivo({
   arestas: ArestaGrafo[];
   largura: number;
   altura: number;
+  /**
+   * Outra disposição para o celular (quadro estreito): posições x, y em sequência, na ordem de
+   * `nos`. Assim o grafo vai uma vez só na página, com as duas disposições.
+   */
+  celular?: { largura: number; altura: number; xy: number[] };
   rotulo: string;
   selecionado?: string | null;
   onSelecionar?: (id: string) => void;
   className?: string;
 }) {
   const router = useRouter();
+  const noCelular = useMediaQuery(QUERY_CELULAR) && !!versaoCelular;
+  const largura = noCelular ? versaoCelular!.largura : larguraPc;
+  const altura = noCelular ? versaoCelular!.altura : alturaPc;
+  const nos = useMemo(
+    () =>
+      noCelular && versaoCelular
+        ? nosPc.map((n, i) => ({ ...n, x: versaoCelular.xy[2 * i], y: versaoCelular.xy[2 * i + 1] }))
+        : nosPc,
+    [noCelular, versaoCelular, nosPc],
+  );
   const svg = useRef<SVGSVGElement>(null);
   const camada = useRef<SVGGElement>(null);
   const elNos = useRef(new Map<string, SVGGElement>());
@@ -732,12 +749,12 @@ const FRASE: Record<TipoLigacao, (de: string, para: string) => string> = {
   referencia: (de, para) => `${de} cita ${para}`,
 };
 
-/** Texto do balão da linha: sentido(s) e, quando houver, o item do PDF. */
+/** Texto do balão da linha: sentido(s); o item do PDF fica no cartão (não repete o texto na página). */
 function descreverLigacao(ar: ArestaGrafo, a: NoGrafo, b: NoGrafo): string {
   const partes: string[] = [];
   if (ar.ab) partes.push(FRASE[ar.ab](a.id, b.id));
   if (ar.ba) partes.push(FRASE[ar.ba](b.id, a.id));
-  for (const m of ar.motivos ?? []) partes.push(`${m.de}: ${m.item}`);
+  if (ar.motivos?.length) partes.push('Toque para ver o motivo.');
   return partes.join('\n');
 }
 
