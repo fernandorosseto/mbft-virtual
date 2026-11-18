@@ -22,7 +22,8 @@ import { URL_MBFT_OFICIAL } from '@/lib/site';
 import styles from './ficha.module.css';
 
 interface Props {
-  params: { codigo: string };
+  // Next 15: os parâmetros da rota chegam como Promise
+  params: Promise<{ codigo: string }>;
 }
 
 export const dynamicParams = false;
@@ -31,8 +32,8 @@ export function generateStaticParams() {
   return todasAsFichas().map((f) => ({ codigo: f.codigo }));
 }
 
-export function generateMetadata({ params }: Props): Metadata {
-  const f = obterFicha(params.codigo);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const f = obterFicha((await params).codigo);
   if (!f) return {};
   return metadataDe({
     titulo: `${f.codigo} · ${f.tipificacaoResumida} | MBFT Virtual`,
@@ -57,8 +58,8 @@ function quadro(f: Ficha): [string, string][] {
   return linhas;
 }
 
-export default function PaginaFicha({ params }: Props) {
-  const f = obterFicha(params.codigo);
+export default async function PaginaFicha({ params }: Props) {
+  const f = obterFicha((await params).codigo);
   if (!f) notFound();
   const { anterior, seguinte } = vizinhas(f.codigo);
   const ligadas = conexoes(f.codigo);

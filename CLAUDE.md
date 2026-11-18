@@ -79,6 +79,13 @@ src/lib/metadados.ts         metadataDe({ titulo, descricao, caminho })
 
 Em produção, defina `NEXT_PUBLIC_SITE_URL`.
 
+## Segurança e hospedagem
+
+- Next.js 15 e React 19. `npm audit --omit=dev` deve ficar em 0: o PostCSS embutido no Next é forçado para uma versão corrigida (`overrides` no `package.json`). Ao atualizar o Next, rodar o audit de novo e remover o override se ele não for mais preciso.
+- Tudo é gerado no build (páginas, `/busca.json`, `/sw.js`, manifesto): o servidor só entrega arquivos; não há banco, formulário, login nem dados de quem usa. Preferências ficam no navegador de cada um.
+- Cabeçalhos em `next.config.mjs`: CSP só com recursos do próprio site (`'unsafe-inline'` em scripts e estilos é exigido pelo Next e pelo React numa página estática), `frame-ancestors 'none'`, `X-Frame-Options`, `nosniff`, `Referrer-Policy`, `Permissions-Policy`, HSTS e `Cross-Origin-Opener-Policy`. Recurso de fora (fonte, script, imagem) precisa entrar na CSP.
+- Next 15: `params` das páginas chega como Promise (`await params`).
+
 ## Regras
 
 - Rodapé obrigatório: "Conteúdo informativo. Não substitui o texto publicado no Diário Oficial da União."
