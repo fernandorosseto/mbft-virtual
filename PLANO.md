@@ -8,7 +8,7 @@ Consulta ao MBFT (Res. CONTRAN nº 985/2022) para agentes de fiscalização de t
 
 1. **Ficha** (`/fichas/[codigo]`, feita): cabeçalho com código, tipificação resumida, amparo legal, gravidade, penalidade, medida administrativa, infrator, competência, pontuação, constatação e crime; depois quando autuar, quando não autuar, definições e procedimentos, exemplos de observações e informações complementares. Link para a página do PDF oficial.
 2. **Busca** (feita, sobre código, tipificação resumida e amparo legal) por código (ex.: 672-61), artigo do CTB (ex.: 230, XVI) ou palavra, rodando no navegador sobre um índice leve.
-3. **Lista** das fichas agrupadas por artigo do CTB (feita, na página inicial); faltam os filtros (gravidade, infrator, competência).
+3. **Lista** das fichas agrupadas por artigo do CTB (feita, na página inicial); filtros feitos (gravidade, infrator, competência).
 4. **Parte geral** do manual (feita: `/parte-geral`).
 5. **Amparo legal** com o texto do artigo do CTB (feito: seção "Texto do CTB" na ficha).
 
@@ -34,3 +34,4 @@ Consulta ao MBFT (Res. CONTRAN nº 985/2022) para agentes de fiscalização de t
 | 18/11/2026 | Visualização em grafo, estilo Obsidian: modo mapa na busca (encontradas + ligadas por citação) e conexões em cada ficha (grafo local + listas cita / é citada por) | as fichas se citam muito ("utilizar 565-70"); o grafo mostra o tema inteiro e os enquadramentos vizinhos. Desenho próprio em SVG, sem bibliotecas; na ficha, gerado no build |
 | 18/11/2026 | Duas buscas no topo da ficha: "Buscar nesta ficha" (marca e conta as ocorrências, anda entre elas) e "Ir para outra ficha ou tema" (sugestões de fichas e seções da parte geral) | fichas longas: o agente procura um termo dentro dela sem o Ctrl+F do celular; e troca de ficha sem voltar ao catálogo |
 | 18/11/2026 | Ficha mostra o texto do CTB do amparo legal: caput, dispositivo citado (marcado) e a sanção que vale para ele; o artigo inteiro fica recolhido | o agente confere a letra da lei sem sair da ficha; em artigos longos (art. 230), a sanção certa é o primeiro bloco "Infração / Penalidade / Medida" depois do inciso |
+| 18/11/2026 | Filtros no catálogo: gravidade, infrator, competência e constatação (sem abordagem / mediante abordagem / vide procedimentos), valendo para lista, busca e mapa | o PDF escreve o mesmo valor de vários jeitos (18 formas de competência); os filtros usam categorias agrupadas, e a ficha continua com o texto original. Constatação entrou por ser decisiva em campo |

@@ -13,7 +13,129 @@
   background: var(--asphalt);
 }
 
+.linhaBusca {
+  display: flex;
+  gap: 8px;
+}
+
+.botaoFiltros {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 14px;
+  background: var(--asphalt-2);
+  border: 1px solid var(--asphalt-3);
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.botaoFiltros[aria-expanded='true'] {
+  border-color: var(--paint);
+}
+
+.qtdFiltros {
+  display: grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 11px;
+  background: var(--sign);
+  font-family: var(--f-num);
+  font-size: 12px;
+}
+
+.painel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--asphalt-2);
+  border: 1px solid var(--asphalt-3);
+  border-radius: 10px;
+}
+
+.painel fieldset {
+  border: none;
+}
+
+.painel legend {
+  font-family: var(--f-display);
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.opcao {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 20px;
+  background: var(--asphalt);
+  font-size: 14px;
+}
+
+.opcao[aria-pressed='true'] {
+  background: var(--paint);
+  border-color: var(--paint);
+  color: #fff;
+}
+
+.painelRodape {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+}
+
+.limparFiltros {
+  min-height: 40px;
+  padding: 0 8px;
+  color: var(--sign-text);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.fecharPainel {
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 8px;
+  background: var(--sign);
+  font-weight: 600;
+}
+
+.ativos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.ativo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 18px;
+  background: var(--paint);
+  color: #fff;
+  font-size: 13px;
+}
+
 .busca {
+  flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -181,5 +303,20 @@
   .amparo {
     grid-column: 2;
     white-space: normal;
+  }
+}
+
+@media (max-width: 480px) {
+  /* No celular estreito, o botão de filtros fica só com o ícone e o número */
+  .textoFiltros {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .botaoFiltros {
+    padding: 0 12px;
   }
 }

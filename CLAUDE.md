@@ -34,14 +34,14 @@ Rode `typecheck`, `lint` e `build` antes de cada commit.
 
 | Rota | Conteúdo |
 |---|---|
-| `/` | catálogo: fichas agrupadas por artigo do CTB, com busca no título e no texto completo e modo mapa (`?q=` e `?ver=mapa` no endereço) |
+| `/` | catálogo: fichas agrupadas por artigo do CTB, com busca no título e no texto completo, filtros (gravidade, infrator, competência, constatação) e modo mapa (`?q=`, `?g=`, `?i=`, `?c=`, `?a=`, `?ver=mapa` no endereço) |
 | `/fichas/[codigo]` | ficha completa (ex.: `/fichas/552-50`), gerada no build para as 411 fichas; no topo, "Buscar nesta ficha" e "Ir para outra ficha ou tema" |
 | `/busca.json` | índice gerado no build (fichas, palavras do texto completo, citações, seções da parte geral); o navegador só baixa ao buscar (~80 KB compactado) |
 | `/parte-geral` | Parte Geral do manual numa página, com sumário (fixo ao lado no PC, recolhível no celular) e âncoras por seção (`#8-2`, `#infracoes-concorrentes`) |
 
 ```
-src/lib/mbft.ts              lê docs/normas/mbft/mbft.json no build (server-only): Ficha, obterFicha, fichasPorArtigo, vizinhas, textoCompleto, citacoes (a cita b quando o texto de a traz o código de b), conexoes
-src/components/Catalogo.tsx  lista e busca (cliente): primeiro título/código/amparo; com o índice, também o texto completo (resultados separados). Códigos, números e romanos casam a palavra inteira; o resto, pelo começo (src/lib/texto.ts)
+src/lib/mbft.ts              lê docs/normas/mbft/mbft.json no build (server-only): Ficha, obterFicha, fichasPorArtigo, vizinhas, textoCompleto, citacoes (a cita b quando o texto de a traz o código de b), conexoes, categoriasDe (valores do PDF agrupados para os filtros: infrator em 4, competência por órgão citado, constatação em 3)
+src/components/Catalogo.tsx  lista, busca e filtros (cliente; opções em OU dentro do grupo, E entre grupos; valem para lista, busca e mapa): primeiro título/código/amparo; com o índice, também o texto completo (resultados separados). Códigos, números e romanos casam a palavra inteira; o resto, pelo começo (src/lib/texto.ts)
 src/lib/busca.ts             busca comum ao catálogo e à ficha: termosDe, buscarFichas (título/amparo, depois texto), buscarSecoes, carregarIndice (baixa /busca.json uma vez)
 src/components/BuscaNaFicha.tsx busca dentro da ficha, como o "Localizar" do navegador: marca as ocorrências com a CSS Custom Highlight API (sem mexer no HTML; sem suporte, seleciona a atual), sem diferenciar acentos; Enter/Shift+Enter andam; barra fixa no pé com ↑ ↓ ×. Fica de fora o que tem `data-fora-da-busca` e os rótulos do grafo
 src/components/IrPara.tsx    campo com sugestões: seções da parte geral que casam com o título primeiro, depois fichas; setas e Enter; "Ver todos os resultados no catálogo" (/?q=)

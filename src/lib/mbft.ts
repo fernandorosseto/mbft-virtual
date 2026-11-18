@@ -134,3 +134,34 @@ export function conexoes(codigo: string): { cita: Ficha[]; citadaPor: Ficha[] } 
     citadaPor: FICHAS.filter((f) => citadaPor.has(f.codigo)),
   };
 }
+
+/** Categorias para os filtros do catálogo. O PDF escreve o mesmo valor de vários jeitos. */
+export interface Categorias {
+  gravidade: string;
+  infrator: string;
+  /** Órgãos citados na competência: Municipal, Estadual, Rodoviário. */
+  competencia: string[];
+  constatacao: string;
+}
+
+export function categoriasDe(f: Ficha): Categorias {
+  const inf = f.infrator.toLowerCase();
+  const infrator = inf.includes('pessoa')
+    ? 'Pessoa física ou jurídica'
+    : inf.includes('embarcador') || inf.includes('transportador')
+      ? 'Embarcador ou transportador'
+      : inf.includes('propriet')
+        ? 'Proprietário'
+        : 'Condutor';
+  const comp = f.competencia.toLowerCase();
+  const competencia = (['Municipal', 'Estadual', 'Rodoviário'] as const).filter((o) =>
+    comp.includes(o.toLowerCase()),
+  );
+  const cons = f.constatacao.toLowerCase();
+  const constatacao = cons.includes('sem abordagem')
+    ? 'Sem abordagem'
+    : cons.includes('mediante')
+      ? 'Mediante abordagem'
+      : 'Vide procedimentos';
+  return { gravidade: f.gravidade, infrator, competencia, constatacao };
+}

@@ -1,5 +1,5 @@
 import { Catalogo, type GrupoCatalogo } from '@/components/Catalogo';
-import { fichasPorArtigo, todasAsFichas } from '@/lib/mbft';
+import { categoriasDe, fichasPorArtigo, todasAsFichas } from '@/lib/mbft';
 import styles from './page.module.css';
 
 export default function Inicio() {
@@ -9,7 +9,7 @@ export default function Inicio() {
       codigo: f.codigo,
       resumo: f.tipificacaoResumida,
       amparo: f.amparoLegal,
-      gravidade: f.gravidade,
+      ...categoriasDe(f),
     })),
   }));
 
