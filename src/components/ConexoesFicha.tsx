@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { DesenhoGrafo, tamanhoDoNo, type NoDesenho } from './DesenhoGrafo';
+import { GrafoVivo } from './GrafoVivo';
+import { tamanhoDoNo, type NoGrafo } from '@/lib/noGrafo';
 import { citacoes, conexoes, obterFicha, type Ficha } from '@/lib/mbft';
 import { posicionarComAltura } from '@/lib/grafo';
 import styles from './ConexoesFicha.module.css';
@@ -26,7 +27,7 @@ export function ConexoesFicha({ ficha }: { ficha: Ficha }) {
       <h2 id="conexoes">Conexões</h2>
       <p className={styles.legenda}>
         Fichas ligadas a esta por citação de código. A linha amarela corre de quem cita para a ficha citada.
-        Toque numa bolinha para abrir a ficha.
+        Arraste as bolinhas; toque para abrir a ficha. Zoom pelos botões, com Ctrl + roda ou em tela cheia.
       </p>
       {FORMATOS.map((formato) => {
         const base = ids.map((id) => {
@@ -36,7 +37,7 @@ export function ConexoesFicha({ ficha }: { ficha: Ficha }) {
             artigo: f.rotuloArtigo,
             tema: f.tema,
             gravidade: f.gravidade,
-            papel: (id === ficha.codigo ? 'centro' : 'principal') as NoDesenho['papel'],
+            papel: (id === ficha.codigo ? 'centro' : 'principal') as NoGrafo['papel'],
             titulo: `${f.codigo} · ${f.rotuloArtigo} · ${f.tipificacaoResumida}`,
             href: id === ficha.codigo ? undefined : `/fichas/${id}`,
           };
@@ -49,9 +50,9 @@ export function ConexoesFicha({ ficha }: { ficha: Ficha }) {
           centro: ficha.codigo,
           tamanhos,
         });
-        const nos: NoDesenho[] = base.map((b) => ({ ...b, x: pos.get(b.id)!.x, y: pos.get(b.id)!.y }));
+        const nos: NoGrafo[] = base.map((b) => ({ ...b, x: pos.get(b.id)!.x, y: pos.get(b.id)!.y }));
         return (
-          <DesenhoGrafo
+          <GrafoVivo
             key={formato.largura}
             nos={nos}
             arestas={arestas}

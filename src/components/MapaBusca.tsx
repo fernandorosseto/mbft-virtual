@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import { DesenhoGrafo, tamanhoDoNo, type NoDesenho } from './DesenhoGrafo';
+import { GrafoVivo } from './GrafoVivo';
+import { tamanhoDoNo, type NoGrafo } from '@/lib/noGrafo';
 import { Ref, RefOutra } from './Ref';
 import type { IndiceBusca } from '@/app/busca.json/route';
 import { posicionarComAltura } from '@/lib/grafo';
@@ -51,7 +52,7 @@ export function MapaBusca({ indice, principais }: { indice: IndiceBusca; princip
         artigo: f[4],
         tema: f[5],
         gravidade: f[3],
-        papel: (noMapa.has(id) ? 'principal' : 'vizinho') as NoDesenho['papel'],
+        papel: (noMapa.has(id) ? 'principal' : 'vizinho') as NoGrafo['papel'],
         titulo: `${f[0]} · ${f[4]} · ${f[1]}`,
       };
     });
@@ -62,7 +63,7 @@ export function MapaBusca({ indice, principais }: { indice: IndiceBusca; princip
       maximo: celular ? 1400 : 1000,
       tamanhos,
     });
-    const nos: NoDesenho[] = base.map((b) => ({ ...b, x: pos.get(b.id)!.x, y: pos.get(b.id)!.y }));
+    const nos: NoGrafo[] = base.map((b) => ({ ...b, x: pos.get(b.id)!.x, y: pos.get(b.id)!.y }));
     return { nos, arestas, altura, cortados: principais.length - principal.length, vizinhos: vizinhos.length };
   }, [indice, principais, porCodigo, largura, celular]);
 
@@ -73,7 +74,7 @@ export function MapaBusca({ indice, principais }: { indice: IndiceBusca; princip
 
   return (
     <div className={styles.mapa}>
-      <DesenhoGrafo
+      <GrafoVivo
         nos={grafo.nos}
         arestas={grafo.arestas}
         largura={largura}
@@ -107,7 +108,7 @@ export function MapaBusca({ indice, principais }: { indice: IndiceBusca; princip
       ) : (
         <p className={styles.legenda}>
           Bolinhas maiores: fichas encontradas. Menores: fichas ligadas a elas por citação de código ({grafo.vizinhos}).
-          Cor: gravidade. A linha amarela corre de quem cita para a ficha citada. Toque numa bolinha para ver a ficha.
+          Cor: gravidade. A linha amarela corre de quem cita para a ficha citada. Arraste as bolinhas; toque para ver a ficha. Zoom pelos botões, com Ctrl + roda ou em tela cheia.
           {grafo.cortados > 0 && ` O mapa mostra as primeiras ${MAX_PRINCIPAIS} fichas encontradas.`}
         </p>
       )}
