@@ -1,0 +1,52 @@
+.cabecalho {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 52px;
+  padding: 0 max(16px, env(safe-area-inset-left));
+  background: var(--asphalt-2);
+  border-bottom: 1px solid var(--asphalt-3);
+}
+
+.marca {
+  font-family: var(--f-display);
+  font-size: 22px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  border-left: 5px solid var(--sign);
+  padding-left: 10px;
+  white-space: nowrap;
+}
+
+.subtitulo {
+  color: var(--muted);
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 860px) {
+  .subtitulo {
+    display: none;
+  }
+}
+
+.rodape {
+  margin-top: auto;
+  padding: 20px 16px calc(20px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--asphalt-3);
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.rodape a {
+  color: var(--sign-text);
+  font-weight: 600;
+}

@@ -1,0 +1,151 @@
+.catalogo {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.barraBusca {
+  position: sticky;
+  top: 52px;
+  z-index: 10;
+  margin: 0 -16px;
+  padding: 10px 16px 6px;
+  background: var(--asphalt);
+}
+
+.busca {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  padding: 0 6px 0 14px;
+  background: var(--asphalt-2);
+  border: 1px solid var(--asphalt-3);
+  border-radius: 10px;
+  color: var(--muted);
+}
+
+.busca:focus-within {
+  border-color: var(--sign);
+  box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.25);
+}
+
+.busca input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: none;
+  font: inherit;
+  font-size: 16px;
+  color: var(--paint);
+}
+
+.busca input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.limpar {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  color: var(--muted);
+}
+
+.contagem {
+  margin-top: 6px;
+  color: var(--muted);
+  font-family: var(--f-num);
+  font-size: 12px;
+}
+
+.grupo h2 {
+  font-family: var(--f-display);
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.lista {
+  list-style: none;
+  background: var(--asphalt-2);
+  border: 1px solid var(--asphalt-3);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.lista li + li {
+  border-top: 1px solid #e2e8f0;
+}
+
+.linha {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px 14px;
+  text-decoration: none;
+}
+
+.linha:hover {
+  background: #fefce8;
+}
+
+.codigo {
+  font-family: var(--f-num);
+  font-size: 14px;
+  font-weight: 600;
+  padding-left: 8px;
+  border-left: 4px solid var(--asphalt-3);
+}
+
+.gravissima {
+  border-left-color: #dc2626;
+}
+
+.grave {
+  border-left-color: #ea580c;
+}
+
+.media {
+  border-left-color: #eab308;
+}
+
+.leve {
+  border-left-color: #16a34a;
+}
+
+.resumo {
+  line-height: 1.35;
+}
+
+.amparo {
+  color: var(--muted);
+  font-family: var(--f-num);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.vazio {
+  color: var(--muted);
+  padding: 24px 0;
+  text-align: center;
+}
+
+@media (max-width: 860px) {
+  .linha {
+    grid-template-columns: auto 1fr;
+    row-gap: 2px;
+  }
+
+  .amparo {
+    grid-column: 2;
+    white-space: normal;
+  }
+}

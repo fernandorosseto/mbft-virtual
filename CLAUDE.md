@@ -30,12 +30,24 @@ Rode `typecheck`, `lint` e `build` antes de cada commit.
 
 ## Estrutura
 
+| Rota | Conteúdo |
+|---|---|
+| `/` | catálogo: fichas agrupadas por artigo do CTB, com busca (`?q=` no endereço) |
+| `/fichas/[codigo]` | ficha completa (ex.: `/fichas/552-50`), gerada no build para as 411 fichas |
+
 ```
-src/app/            layout, página inicial, not-found, robots, sitemap, tokens em globals.css
-src/lib/site.ts     URL_SITE, NOME_SITE, URL_MBFT_OFICIAL
-src/lib/metadados.ts  metadataDe({ titulo, descricao, caminho })
-src/lib/useMediaQuery.ts
+src/lib/mbft.ts              lê docs/normas/mbft/mbft.json no build (server-only): Ficha, obterFicha, fichasPorArtigo, vizinhas
+src/components/Catalogo.tsx  único componente de cliente: lista e busca (códigos, números e romanos casam a palavra inteira; o resto, pelo começo)
+src/components/TextoMbft.tsx texto da ficha com códigos citados (ex.: 565-70) virando link; dividirItem separa número e subitens (1.1.)
+src/components/Gravidade.tsx selo da natureza da infração
+src/components/Casco.tsx     cabeçalho e rodapé (no layout)
+src/lib/site.ts              URL_SITE, NOME_SITE, URL_MBFT_OFICIAL
+src/lib/metadados.ts         metadataDe({ titulo, descricao, caminho })
 ```
+
+- A ficha mostra os campos como estão no PDF: quadro (tipificação, amparo legal, penalidade, medida administrativa, infrator, competência, pontuação, constatação, crime), quando autuar / quando não autuar lado a lado no PC, definições e procedimentos, exemplos do campo de observações, informações complementares, link para a página do PDF oficial (`#page=N`) e fichas anterior e seguinte na ordem do manual.
+- A ficha 542-81 aparece duas vezes no PDF (págs. 190 e 192), com o mesmo conteúdo: fica uma só.
+- Gravidade por cor: gravíssima vermelho, grave laranja, média amarelo, leve verde.
 
 Em produção, defina `NEXT_PUBLIC_SITE_URL`.
 

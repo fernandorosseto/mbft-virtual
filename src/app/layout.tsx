@@ -4,6 +4,7 @@ import './globals.css';
 import { URL_SITE } from '@/lib/site';
 import { metadataDe } from '@/lib/metadados';
 import { Analytics } from '@vercel/analytics/next';
+import { Cabecalho, Rodape } from '@/components/Casco';
 
 const barlowCondensed = Barlow_Condensed({
   subsets: ['latin'],
@@ -72,7 +73,9 @@ export default function RootLayout({
       className={`${barlowCondensed.variable} ${barlow.variable} ${sourceSerif.variable} ${ibmPlexMono.variable}`}
     >
       <body>
+        <Cabecalho />
         {children}
+        <Rodape />
         {/* Vercel Web Analytics: visitas por página, sem cookies */}
         <Analytics />
       </body>

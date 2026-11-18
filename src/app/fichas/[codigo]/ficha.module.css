@@ -1,0 +1,228 @@
+.pagina {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 16px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.trilha {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.trilha a {
+  color: var(--sign-text);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 10px 0;
+}
+
+.topo h1 {
+  font-family: var(--f-display);
+  font-size: clamp(26px, 4.5vw, 38px);
+  line-height: 1.12;
+}
+
+.linhaCodigo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.codigo {
+  font-family: var(--f-num);
+  font-size: 22px;
+  font-weight: 600;
+  padding: 0 10px;
+  border-radius: 6px;
+  background: var(--paint);
+  color: #fff;
+}
+
+/* Quadro com os dados do enquadramento */
+.quadro {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  /* As linhas entre os campos são o fundo aparecendo no espaço de 1 px */
+  background: #e2e8f0;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.quadro > div {
+  padding: 10px 14px;
+  background: var(--asphalt-2);
+}
+
+.quadro .largo {
+  grid-column: 1 / -1;
+}
+
+.quadro dt {
+  font-family: var(--f-display);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+
+.quadro dd {
+  line-height: 1.4;
+}
+
+/* Colunas de itens */
+.autuar {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+.coluna {
+  background: var(--asphalt-2);
+  border: 1px solid var(--asphalt-3);
+  border-radius: 10px;
+  padding: 14px 16px 16px;
+}
+
+.coluna h2 {
+  font-family: var(--f-display);
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.sim {
+  border-top: 4px solid var(--ok);
+}
+
+.sim h2 {
+  color: var(--ok);
+}
+
+.nao {
+  border-top: 4px solid var(--bad);
+}
+
+.nao h2 {
+  color: var(--bad);
+}
+
+.coluna ol {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.coluna li {
+  display: flex;
+  gap: 10px;
+}
+
+.coluna li p {
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.numero {
+  flex: none;
+  min-width: 22px;
+  font-family: var(--f-num);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 22px;
+  color: var(--muted);
+}
+
+.coluna .subitens {
+  margin-top: 8px;
+  padding-left: 4px;
+  gap: 6px;
+}
+
+.subitens .numero {
+  min-width: 34px;
+}
+
+.semConteudo {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.fonte {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.fonte a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--sign-text);
+  font-weight: 600;
+}
+
+.vizinhas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.vizinhas a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 10px 14px;
+  background: var(--asphalt-2);
+  border: 1px solid var(--asphalt-3);
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.vizinhas a:hover {
+  border-color: var(--sign);
+}
+
+.vizinhas b {
+  font-family: var(--f-num);
+  font-weight: 600;
+}
+
+.seguinte {
+  justify-content: flex-end;
+  text-align: right;
+  grid-column: 2;
+}
+
+@media (max-width: 860px) {
+  .quadro {
+    grid-template-columns: 1fr;
+  }
+
+  .autuar {
+    grid-template-columns: 1fr;
+  }
+
+  .vizinhas {
+    grid-template-columns: 1fr;
+  }
+
+  .seguinte {
+    grid-column: 1;
+  }
+}
