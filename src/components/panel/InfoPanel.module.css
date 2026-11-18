@@ -1,0 +1,688 @@
+.panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(440px, 100%);
+  background: var(--asphalt-2);
+  border-left: 1px solid var(--asphalt-3);
+  transform: translateX(102%);
+  /* A largura também anima: ao voltar ao padrão (clique no carro, clique duplo na alça) */
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  z-index: 25;
+  box-shadow: -15px 0 35px rgba(15, 23, 42, 0.12);
+}
+
+.panel.open {
+  transform: translateX(0);
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 20px 14px;
+  border-bottom: 1px solid var(--asphalt-3);
+  background: var(--asphalt-2);
+  flex-shrink: 0;
+}
+
+.eyebrow {
+  font-size: 11.5px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 28px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  color: var(--paint);
+}
+
+.closeBtn {
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--asphalt);
+  border: 1px solid var(--asphalt-3);
+  color: var(--paint);
+  transition: background 0.15s ease, transform 0.1s ease;
+  flex: none;
+}
+
+.closeBtn:hover {
+  background: #e2e8f0;
+}
+
+.closeBtn:active {
+  transform: scale(0.95);
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding-bottom: calc(36px + env(safe-area-inset-bottom, 0px));
+}
+
+.sectionTitle {
+  margin: 0 0 8px;
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: 17px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--sign-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.text {
+  margin: 0;
+  line-height: 1.55;
+  color: #334155;
+  font-size: 14.5px;
+}
+
+/* Card métrica de destaque */
+.bigCard {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 14px;
+  align-items: center;
+  background: #f8fafc;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 8px;
+  padding: 14px 16px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.bigNumber {
+  font-family: var(--f-num);
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 1;
+  color: var(--sign-text);
+  grid-row: span 2;
+}
+
+.bigLabel {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--paint);
+}
+
+.bigSublabel {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+/* Caixa de destaque para Concursos */
+.examBox {
+  background: #fefce8;
+  border: 1px solid #fde047;
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.examTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--f-display);
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--sign-text);
+}
+
+.examList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.examItem {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #334155;
+  padding-left: 14px;
+  position: relative;
+}
+
+.examItem::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--sign-text);
+}
+
+/* Regras Pode / Não Pode */
+.rulesList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rulesItem {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 8px;
+  line-height: 1.45;
+  font-size: 14px;
+  color: #334155;
+}
+
+.ruleMarkerOk {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ok);
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.ruleMarkerBad {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bad);
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.siblingTabIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Penalidades */
+.penaltyGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--asphalt-3);
+  border: 1px solid var(--asphalt-3);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.penaltyCell {
+  background: #f8fafc;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: center;
+}
+
+.penaltyCell small {
+  font-size: 10.5px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.penaltyCell b {
+  font-family: var(--f-num);
+  font-size: 13.5px;
+  color: var(--paint);
+}
+
+.penaltyDetail {
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+/* Citação jurídica */
+.lawQuote {
+  margin: 0;
+  white-space: pre-line;
+  border-left: 3px solid var(--sign);
+  padding: 8px 12px 8px 14px;
+  font-family: var(--f-law);
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: #1e293b;
+  background: #f8fafc;
+  border-radius: 0 6px 6px 0;
+  border: 1px solid #e2e8f0;
+  border-left: 3px solid var(--sign);
+}
+
+.lawCite {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--f-body);
+  font-style: normal;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* Fontes e links */
+.sourcesList {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.sourcesList a {
+  color: var(--paint);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.sourcesList a:hover {
+  color: var(--sign-text);
+}
+
+.disclaimer {
+  font-size: 11.5px;
+  color: var(--muted);
+  border-top: 1px solid var(--asphalt-3);
+  padding-top: 14px;
+  line-height: 1.45;
+}
+
+/* Barra Fixa de Abas Rápidas no Painel (Segmented Control) */
+.tabsHeaderWrapper {
+  padding: 10px 20px 12px;
+  background: var(--asphalt-2);
+  border-bottom: 1px solid var(--asphalt-3);
+  flex-shrink: 0;
+}
+
+.siblingTabsBar {
+  display: flex;
+  gap: 6px;
+  background: #f1f5f9;
+  border: 1px solid var(--asphalt-3);
+  padding: 4px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.siblingTabBtn {
+  flex: 1;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--f-body);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.18s ease;
+  box-sizing: border-box;
+}
+
+.siblingTabBtn:hover {
+  background: #e2e8f0;
+  color: var(--paint);
+}
+
+.siblingTabBtn.activeTab {
+  background: #ffffff;
+  color: var(--sign-text);
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+  border: 1px solid #ca8a04;
+  font-weight: 700;
+}
+
+.siblingTabText {
+  white-space: normal;
+  line-height: 1.25;
+}
+
+/* Responsividade Mobile (Bottom Sheet) */
+@media (max-width: 860px) {
+  /* Painel inferior arrastável: a altura vem do usePainelArrastavel (style inline) */
+  .panel {
+    top: auto;
+    width: 100%;
+    height: 0;
+    border-left: 0;
+    border-top: 1px solid var(--asphalt-3);
+    border-radius: 16px 16px 0 0;
+    transform: none;
+    transition: height 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow: 0 -12px 30px rgba(15, 23, 42, 0.14);
+    overflow: hidden;
+  }
+
+  .panel.open {
+    transform: none;
+  }
+
+  .panel.arrastando {
+    transition: none;
+  }
+
+  .zonaArrasto {
+    touch-action: none;
+    flex-shrink: 0;
+  }
+
+  /* No nível baixo só aparece o começo: o resto fica para quando o painel for puxado */
+  .nivelBaixo .body {
+    overflow: hidden;
+  }
+
+  .penaltyGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .head {
+    padding: 2px 16px 12px;
+  }
+
+  .tabsHeaderWrapper {
+    padding: 8px 16px 10px;
+  }
+
+  .body {
+    padding: 16px;
+  }
+}
+
+/* Valores longos ("Sem mínimo", "10 cm / Ø 4 cm") não cabem no tamanho do número grande */
+.bigNumberLongo {
+  font-size: 30px;
+  line-height: 1.1;
+}
+
+/* ---------- Navegação por rotas (etapa 3) ---------- */
+.voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  margin-bottom: 4px;
+  color: var(--sign-text);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.voltar:hover {
+  text-decoration: underline;
+}
+
+.lead {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--paint);
+}
+
+.listaZonas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.itemZona {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 10px;
+  background: #ffffff;
+  color: var(--paint);
+  text-decoration: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.itemZona:hover {
+  background: #fefce8;
+  border-color: #ca8a04;
+}
+
+.itemZona:focus-visible {
+  outline: 3px solid var(--sign);
+  outline-offset: 2px;
+}
+
+.statusDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.itemZonaTexto {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.itemZonaTexto b {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.itemZonaTexto small {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.itemZonaResumo {
+  font-family: var(--f-num);
+  font-size: 12px;
+  padding: 3px 7px;
+  border-radius: 6px;
+  border: 1px solid var(--asphalt-3);
+  background: var(--asphalt);
+  white-space: nowrap;
+}
+
+.examSubtitulo,
+.subtituloLei {
+  margin: 14px 0 6px;
+  font-family: var(--f-display);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--paint);
+}
+
+.lawQuote + .lawQuote {
+  margin-top: 10px;
+}
+
+.lawContexto {
+  color: var(--muted);
+}
+
+.lawQuoteRevogada {
+  border-left-color: var(--asphalt-3);
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: rgba(71, 85, 105, 0.5);
+}
+
+.lawQuoteRevogada .lawCite {
+  text-decoration: none;
+  display: block;
+}
+
+.blocoInfracao + .blocoInfracao {
+  margin-top: 14px;
+}
+
+.listaSituacoes {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--paint);
+}
+
+.listaSituacoes small {
+  color: var(--muted);
+}
+
+/* ---------- Alça do painel inferior (celular) ---------- */
+.zonaArrasto {
+  display: flex;
+  flex-direction: column;
+}
+
+.alca {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  background: var(--asphalt-2);
+  cursor: grab;
+  flex-shrink: 0;
+}
+
+.alca span {
+  width: 44px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--asphalt-3);
+}
+
+.alca:focus-visible {
+  outline: 3px solid var(--sign);
+  outline-offset: -3px;
+}
+
+@media (max-width: 860px) {
+  .alca {
+    display: flex;
+  }
+}
+
+/* Abas da aula do assunto (Resumo · Teoria · Lei · Questões) */
+.abasAula .siblingTabBtn {
+  padding: 8px 4px;
+  gap: 4px;
+}
+
+.contagemAba {
+  display: inline-block;
+  margin-left: 5px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--asphalt-3);
+  color: var(--paint);
+  font-family: var(--f-num);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.activeTab .contagemAba {
+  background: var(--sign);
+}
+
+.abasAula .siblingTabText {
+  white-space: nowrap;
+}
+
+/* Desktop: alça na borda esquerda para ajustar a largura do painel */
+.alcaLargura {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -6px;
+  width: 12px;
+  cursor: col-resize;
+  z-index: 3;
+  touch-action: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alcaLargura span {
+  width: 4px;
+  height: 44px;
+  border-radius: 999px;
+  background: var(--asphalt-3);
+  transition: background-color 0.15s ease, height 0.15s ease;
+}
+
+.alcaLargura:hover span,
+.alcaLargura:focus-visible span,
+.alcaLarguraAtiva span {
+  height: 72px;
+  background: var(--sign);
+}
+
+.alcaLargura:focus-visible {
+  outline: none;
+}
+
+/* Durante o arrasto o painel acompanha o ponteiro sem atraso */
+.panel:has(.alcaLarguraAtiva) {
+  transition: none;
+}
+
+@media (max-width: 860px) {
+  .alcaLargura {
+    display: none;
+  }
+}

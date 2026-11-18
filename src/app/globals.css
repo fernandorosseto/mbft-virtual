@@ -1,0 +1,71 @@
+:root {
+  --asphalt: #f1f5f9;      /* fundo geral claro */
+  --asphalt-2: #ffffff;    /* superfícies de painéis, sidebar e cards */
+  --asphalt-3: #cbd5e1;    /* bordas, divisores e controles */
+  --paint: #0f172a;        /* texto principal escuro de alto contraste */
+  --muted: #475569;        /* texto secundário */
+  --sign: #eab308;         /* amarelo trânsito vivo para destaques/botões */
+  --sign-text: #854d0e;    /* amarelo escuro para textos/badges sobre fundo claro */
+  --ok: #15803d;           /* verde aprovado */
+  --bad: #dc2626;          /* vermelho infração */
+
+  --f-display: var(--font-barlow-condensed, 'Barlow Condensed', 'Arial Narrow', sans-serif);
+  --f-body: var(--font-barlow, 'Barlow', system-ui, sans-serif);
+  --f-law: var(--font-source-serif, 'Source Serif 4', Georgia, serif);
+  --f-num: var(--font-ibm-plex-mono, 'IBM Plex Mono', ui-monospace, monospace);
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background-color: var(--asphalt);
+  color: var(--paint);
+  font-family: var(--f-body);
+  font-size: 15px;
+  line-height: 1.5;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+:focus-visible {
+  outline: 2px solid var(--sign);
+  outline-offset: 2px;
+}
+
+/* Scrollbar estilizada para o Tema Claro */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

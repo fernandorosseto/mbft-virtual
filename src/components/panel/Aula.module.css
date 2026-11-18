@@ -1,0 +1,508 @@
+/* Aula do assunto: teoria, itens visuais, conexões, revisão, questões e página da resolução */
+
+.teoria {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.topico {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.topicoTitulo {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--f-display);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--paint);
+}
+
+.topicoNumero {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--sign);
+  color: var(--paint);
+  font-family: var(--f-num);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.topicoItens {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: #334155;
+}
+
+/* Quadros (tabela, linha do tempo, simulador) */
+.quadro {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.quadroTitulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--f-display);
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sign-text);
+}
+
+.quadroNota {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.tabelaRolagem {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  line-height: 1.4;
+  background: #ffffff;
+}
+
+.tabela th,
+.tabela td {
+  padding: 8px 10px;
+  border: 1px solid var(--asphalt-3);
+  text-align: left;
+  vertical-align: top;
+}
+
+.tabela thead th {
+  background: var(--paint);
+  color: #ffffff;
+  font-family: var(--f-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.tabela tbody th {
+  background: #f1f5f9;
+  font-weight: 600;
+  color: var(--paint);
+  min-width: 110px;
+}
+
+.linhaTempo {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-left: 3px solid var(--sign);
+  padding-left: 14px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #334155;
+}
+
+.linhaTempo li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.linhaData {
+  font-family: var(--f-num);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--sign-text);
+}
+
+/* Simulador do VC */
+.calcLinha {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--paint);
+}
+
+.calcCampo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--f-num);
+}
+
+.calcCampo input {
+  width: 92px;
+  min-height: 44px;
+  padding: 0 10px;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 8px;
+  font: inherit;
+  font-size: 16px;
+  text-align: right;
+  background: #ffffff;
+}
+
+.calcCampo input:focus {
+  outline: 2px solid var(--sign);
+  outline-offset: 1px;
+}
+
+.calcResultado {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid var(--asphalt-3);
+  font-size: 14px;
+}
+
+.calcConta {
+  font-family: var(--f-num);
+}
+
+.calcIrregular {
+  font-weight: 700;
+  color: var(--bad);
+}
+
+.calcRegular {
+  font-weight: 700;
+  color: var(--ok);
+}
+
+/* Conexões */
+.conexoes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.conexoes li {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 8px;
+  background: #ffffff;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #334155;
+}
+
+.conexoes b {
+  color: var(--paint);
+}
+
+.conexoes small {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Revisão rápida */
+.revisao ol {
+  margin: 0;
+  padding: 12px 14px 12px 34px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 8px;
+  background: #fefce8;
+  border: 1px solid #fde047;
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--paint);
+}
+
+/* Questões */
+.questoes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.placar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.placar div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 4px;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.placar small {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.placar b {
+  font-family: var(--f-num);
+  font-size: 18px;
+  color: var(--paint);
+}
+
+.placar b.placarOk {
+  color: var(--ok);
+}
+
+.placar b.placarErro {
+  color: var(--bad);
+}
+
+.listaQuestoes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.questao {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.questaoCerta {
+  border-color: #86efac;
+}
+
+.questaoErrada {
+  border-color: #fca5a5;
+}
+
+.enunciado {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--paint);
+}
+
+.numeroQuestao {
+  font-family: var(--f-num);
+  font-weight: 600;
+  color: var(--sign-text);
+}
+
+.opcoes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.opcao {
+  min-height: 44px;
+  border-radius: 8px;
+  border: 1px solid var(--asphalt-3);
+  background: #f8fafc;
+  font-family: var(--f-display);
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--paint);
+}
+
+.opcao:not(:disabled):hover {
+  border-color: #ca8a04;
+  background: #fefce8;
+}
+
+.opcao:disabled {
+  cursor: default;
+  opacity: 0.55;
+}
+
+.opcao.opcaoGabarito {
+  opacity: 1;
+  border-color: var(--ok);
+  background: #dcfce7;
+  color: var(--ok);
+}
+
+.opcao.opcaoMarcada:not(.opcaoGabarito) {
+  opacity: 1;
+  border-color: var(--bad);
+  background: #fee2e2;
+  color: var(--bad);
+}
+
+.comentario {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--asphalt-3);
+}
+
+.comentario small {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.resultadoOk,
+.resultadoErro {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.resultadoOk {
+  color: var(--ok);
+}
+
+.resultadoErro {
+  color: var(--bad);
+}
+
+.refazer {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--asphalt-3);
+  background: #ffffff;
+  font-weight: 600;
+  color: var(--paint);
+}
+
+/* Página da resolução */
+.fichaTecnica {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.fichaTecnica div {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 10px;
+  padding: 9px 12px;
+  background: #ffffff;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+
+.fichaTecnica div + div {
+  border-top: 1px solid var(--asphalt-3);
+}
+
+.fichaTecnica dt {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.fichaTecnica dd {
+  margin: 0;
+  color: var(--paint);
+}
+
+.mapaRotulo {
+  flex-shrink: 0;
+  min-width: 72px;
+  font-family: var(--f-num);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--sign-text);
+}
+
+.mapaSemLink {
+  background: #f8fafc;
+  cursor: default;
+}
+
+.mapaSemLink:hover {
+  background: #f8fafc;
+  border-color: var(--asphalt-3);
+}
+
+/* Link da ficha para a aula do assunto */
+.linkAula {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #ca8a04;
+  background: #fefce8;
+  color: var(--sign-text);
+  font-weight: 700;
+  text-decoration: none;
+  min-height: 48px;
+}
+
+.linkAula span {
+  flex: 1;
+}
+
+@media (max-width: 860px) {
+  .fichaTecnica div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .placar b {
+    font-size: 16px;
+  }
+}

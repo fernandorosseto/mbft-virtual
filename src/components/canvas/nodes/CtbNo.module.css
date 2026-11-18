@@ -1,0 +1,97 @@
+.ctbNo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.ctbLinhas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.ctbLinhas path {
+  fill: none;
+  stroke: var(--sign);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.pontoParaBrisa {
+  fill: var(--sign);
+  stroke: #0f172a;
+  stroke-width: 1.5;
+}
+
+.ctbBtn {
+  position: absolute;
+  height: 52px;
+  padding: 0 20px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--paint);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+  font-family: var(--f-body);
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ctbBtn:hover,
+.ctbFilhoAtivo {
+  background: var(--sign);
+  color: #0f172a;
+  border-color: #ca8a04;
+  box-shadow: 0 12px 28px rgba(234, 179, 8, 0.35);
+}
+
+.ctbBtn:focus-visible {
+  outline: 3px solid var(--sign);
+  outline-offset: 3px;
+}
+
+.ctbFilho {
+  min-width: 220px;
+  width: max-content;
+  will-change: transform;
+  z-index: 2;
+}
+
+.ctbBadge {
+  font-family: var(--f-num);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 6px;
+  border-radius: 6px;
+  border: 1px solid var(--asphalt-3);
+  background: var(--asphalt);
+  color: var(--paint);
+}
+
+/* Celular: botões estreitos em duas colunas (largura vinda de geometria.CW_COMPACTO) */
+.ctbFilhoCompacto {
+  min-width: 0;
+  padding: 0 10px;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.ctbFilhoCompacto .ctbBadge {
+  font-size: 11px;
+  padding: 3px 5px;
+}
