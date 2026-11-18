@@ -1,0 +1,59 @@
+.semRede {
+  position: sticky;
+  top: 52px;
+  z-index: 19;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: var(--paint);
+  color: #fff;
+  font-size: 13px;
+  text-align: center;
+}
+
+.painel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 14px;
+  margin-bottom: 12px;
+}
+
+.texto {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+}
+
+.botao {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 8px;
+  background: var(--asphalt-2);
+  color: var(--paint);
+  font-weight: 600;
+}
+
+.botao:disabled {
+  opacity: 0.5;
+}
+
+.barra {
+  width: 160px;
+  height: 8px;
+  accent-color: var(--sign);
+}
+
+.nota {
+  flex-basis: 100%;
+  font-size: 12px;
+  color: var(--muted);
+}

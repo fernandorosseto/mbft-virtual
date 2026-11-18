@@ -37,6 +37,8 @@ Rode `typecheck`, `lint` e `build` antes de cada commit.
 | `/` | catálogo: fichas agrupadas por artigo do CTB, com busca no título e no texto completo, filtros (gravidade, infrator, competência, constatação) e modo mapa (`?q=`, `?g=`, `?i=`, `?c=`, `?a=`, `?ver=mapa` no endereço) |
 | `/fichas/[codigo]` | ficha completa (ex.: `/fichas/552-50`), gerada no build para as 411 fichas; no topo, "Buscar nesta ficha" e "Ir para outra ficha ou tema" |
 | `/busca.json` | índice gerado no build (fichas, palavras do texto completo, citações, seções da parte geral); o navegador só baixa ao buscar (~80 KB compactado) |
+| `/sw.js` | service worker do uso sem internet (gerado no build, sem bibliotecas): `/_next/static` cache primeiro; páginas rede primeiro com cópia salva (sem cópia: `/offline`); `/busca.json` cópia e atualização em segundo plano; pedidos RSC só rede (se falhar, o Next recarrega a página e ela sai do cache); "salvar-todas" baixa as fichas e os arquivos delas. Cache único `mbft-v1`, não apagado a cada versão |
+| `/offline`, `/manifest.webmanifest` | página para página não salva sem internet; manifesto do site instalável (ícones em `public/icones/`, gerados do `icon.svg`) |
 | `/parte-geral` | Parte Geral do manual numa página, com sumário (fixo ao lado no PC, recolhível no celular) e âncoras por seção (`#8-2`, `#infracoes-concorrentes`) |
 
 ```
@@ -55,6 +57,7 @@ src/components/AmparoCtb.tsx seção "Texto do CTB" da ficha (#ctb): trecho com 
 src/lib/parteGeral.ts        lê docs/normas/mbft/parte-geral.json (server-only): SECOES, secoesDaMedida (medida administrativa da ficha → seção 8.x)
 src/components/Gravidade.tsx selo da natureza da infração
 src/components/Casco.tsx     cabeçalho e rodapé (no layout)
+src/components/UsoOffline.tsx registra o service worker (só em produção), mostra no rodapé quantas fichas estão salvas e o botão "Salvar todas" (~5 MB de download, ~40 MB no aparelho); AvisoSemRede: faixa abaixo do cabeçalho quando a conexão cai
 src/lib/site.ts              URL_SITE, NOME_SITE, URL_MBFT_OFICIAL
 src/lib/metadados.ts         metadataDe({ titulo, descricao, caminho })
 ```

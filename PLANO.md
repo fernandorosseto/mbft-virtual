@@ -14,7 +14,6 @@ Consulta ao MBFT (Res. CONTRAN nº 985/2022) para agentes de fiscalização de t
 
 ## 3. Decisões em aberto
 
-- Uso offline (site instalável, PWA).
 - Cobrança ou acesso gratuito.
 - Domínio.
 - Figuras e tabelas das informações complementares (o extrator não as captura).
@@ -35,3 +34,4 @@ Consulta ao MBFT (Res. CONTRAN nº 985/2022) para agentes de fiscalização de t
 | 18/11/2026 | Duas buscas no topo da ficha: "Buscar nesta ficha" (marca e conta as ocorrências, anda entre elas) e "Ir para outra ficha ou tema" (sugestões de fichas e seções da parte geral) | fichas longas: o agente procura um termo dentro dela sem o Ctrl+F do celular; e troca de ficha sem voltar ao catálogo |
 | 18/11/2026 | Ficha mostra o texto do CTB do amparo legal: caput, dispositivo citado (marcado) e a sanção que vale para ele; o artigo inteiro fica recolhido | o agente confere a letra da lei sem sair da ficha; em artigos longos (art. 230), a sanção certa é o primeiro bloco "Infração / Penalidade / Medida" depois do inciso |
 | 18/11/2026 | Filtros no catálogo: gravidade, infrator, competência e constatação (sem abordagem / mediante abordagem / vide procedimentos), valendo para lista, busca e mapa | o PDF escreve o mesmo valor de vários jeitos (18 formas de competência); os filtros usam categorias agrupadas, e a ficha continua com o texto original. Constatação entrou por ser decisiva em campo |
+| 18/11/2026 | Uso sem internet: service worker próprio; páginas visitadas ficam salvas sozinhas; "Salvar todas" (411 fichas e parte geral) só quando a pessoa pede; site instalável; aviso quando a conexão cai | o agente consulta em campo, às vezes sem sinal; baixar tudo custa ~5 MB e ~40 MB no aparelho, então não é automático |

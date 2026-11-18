@@ -44,6 +44,8 @@ export const metadata: Metadata = {
       'Consulta rápida às fichas de fiscalização do MBFT (Res. CONTRAN nº 985/2022): enquadramento, quando autuar, quando não autuar e procedimentos, no celular e no computador.',
     caminho: '/',
   }),
+  icons: { apple: '/icones/apple-touch-icon.png' },
+  appleWebApp: { capable: true, title: 'MBFT', statusBarStyle: 'default' },
   keywords: [
     'MBFT',
     'Manual Brasileiro de Fiscalização de Trânsito',
