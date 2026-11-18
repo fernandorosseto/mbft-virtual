@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { IndiceBusca } from '@/app/busca.json/route';
 import { buscarNoTexto, carregarIndice as baixarIndice, casaTodos, palavrasDoTitulo, termosDe } from '@/lib/busca';
 import { MapaBusca } from './MapaBusca';
+import { Ref, RefOutra } from './Ref';
 import styles from './Catalogo.module.css';
 
 export interface ItemCatalogo {
@@ -16,6 +17,9 @@ export interface ItemCatalogo {
   infrator: string;
   competencia: string[];
   constatacao: string;
+  /** Rótulo pelo artigo ("Art. 230, XVI"). */
+  artigo: string;
+  tema: string;
 }
 
 export interface GrupoCatalogo {
@@ -335,9 +339,13 @@ function Linha({ item }: { item: ItemCatalogo }) {
   return (
     <li>
       <Link href={`/fichas/${item.codigo}`} className={styles.linha}>
-        <span className={`${styles.codigo} ${COR[item.gravidade] ?? ''}`}>{item.codigo}</span>
+        <span className={`${styles.codigo} ${COR[item.gravidade] ?? ''}`}>
+          <Ref codigo={item.codigo} artigo={item.artigo} />
+        </span>
         <span className={styles.resumo}>{item.resumo}</span>
-        <span className={styles.amparo}>{item.amparo.replace(/\.$/, '')}</span>
+        <span className={styles.amparo}>
+          <RefOutra codigo={item.codigo} artigo={item.artigo} />
+        </span>
       </Link>
     </li>
   );

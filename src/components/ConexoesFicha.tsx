@@ -1,13 +1,14 @@
 import Link from 'next/link';
-import { DesenhoGrafo, type NoDesenho } from './DesenhoGrafo';
+import { DesenhoGrafo, tamanhoDoNo, type NoDesenho } from './DesenhoGrafo';
 import { citacoes, conexoes, obterFicha, type Ficha } from '@/lib/mbft';
-import { posicionar } from '@/lib/grafo';
+import { posicionarComAltura } from '@/lib/grafo';
 import styles from './ConexoesFicha.module.css';
+import { Ref } from './Ref';
 
-/** Duas versões do mesmo grafo: larga no computador, alta no celular (rótulos legíveis nos dois). */
+/** Duas versões do mesmo grafo: larga no computador, estreita no celular (rótulos legíveis nos dois). */
 const FORMATOS = [
-  { largura: 680, altura: 360, classe: styles.pc },
-  { largura: 360, altura: 400, classe: styles.celular },
+  { largura: 680, minimo: 320, maximo: 720, classe: styles.pc },
+  { largura: 360, minimo: 360, maximo: 1100, classe: styles.celular },
 ];
 
 /** Grafo local da ficha (estilo Obsidian) e as listas de fichas que ela cita e que a citam. */
@@ -24,29 +25,38 @@ export function ConexoesFicha({ ficha }: { ficha: Ficha }) {
     <section className={styles.conexoes} aria-labelledby="conexoes">
       <h2 id="conexoes">Conexões</h2>
       <p className={styles.legenda}>
-        Fichas ligadas a esta por citação de código. Toque numa bolinha para abrir a ficha.
+        Fichas ligadas a esta por citação de código. A linha amarela corre de quem cita para a ficha citada.
+        Toque numa bolinha para abrir a ficha.
       </p>
       {FORMATOS.map((formato) => {
-        const pos = posicionar(ids, arestas, { ...formato, centro: ficha.codigo });
-        const nos: NoDesenho[] = ids.map((id) => {
+        const base = ids.map((id) => {
           const f = obterFicha(id)!;
           return {
             id,
-            x: pos.get(id)!.x,
-            y: pos.get(id)!.y,
+            artigo: f.rotuloArtigo,
+            tema: f.tema,
             gravidade: f.gravidade,
-            papel: id === ficha.codigo ? 'centro' : 'principal',
-            titulo: `${f.codigo} · ${f.tipificacaoResumida}`,
+            papel: (id === ficha.codigo ? 'centro' : 'principal') as NoDesenho['papel'],
+            titulo: `${f.codigo} · ${f.rotuloArtigo} · ${f.tipificacaoResumida}`,
             href: id === ficha.codigo ? undefined : `/fichas/${id}`,
           };
         });
+        const tamanhos = new Map(base.map((b) => [b.id, tamanhoDoNo(b)]));
+        const { pos, altura } = posicionarComAltura(ids, arestas, {
+          largura: formato.largura,
+          minimo: formato.minimo,
+          maximo: formato.maximo,
+          centro: ficha.codigo,
+          tamanhos,
+        });
+        const nos: NoDesenho[] = base.map((b) => ({ ...b, x: pos.get(b.id)!.x, y: pos.get(b.id)!.y }));
         return (
           <DesenhoGrafo
             key={formato.largura}
             nos={nos}
             arestas={arestas}
             largura={formato.largura}
-            altura={formato.altura}
+            altura={altura}
             rotulo={`Grafo de conexões da ficha ${ficha.codigo}`}
             className={formato.classe}
           />
@@ -72,7 +82,10 @@ function Lista({ titulo, fichas }: { titulo: string; fichas: Ficha[] }) {
           {fichas.map((f) => (
             <li key={f.codigo}>
               <Link href={`/fichas/${f.codigo}`}>
-                <b>{f.codigo}</b> {f.tipificacaoResumida}
+                <b>
+                  <Ref codigo={f.codigo} artigo={f.rotuloArtigo} />
+                </b>{' '}
+                {f.tipificacaoResumida}
               </Link>
             </li>
           ))}

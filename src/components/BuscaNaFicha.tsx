@@ -2,6 +2,7 @@
 
 import { ChevronDown, ChevronUp, TextSearch, X } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
+import { QUERY_CELULAR, useMediaQuery } from '@/lib/useMediaQuery';
 import styles from './BarraFicha.module.css';
 
 const MARCA = 'busca-ficha';
@@ -44,6 +45,7 @@ const temDestaque = () => typeof CSS !== 'undefined' && 'highlights' in CSS;
  * Highlight, sem mexer no HTML), conta e anda entre elas. Sem suporte ao destaque, seleciona a atual.
  */
 export function BuscaNaFicha({ alvo }: { alvo: string }) {
+  const celular = useMediaQuery(QUERY_CELULAR);
   const [consulta, setConsulta] = useState('');
   const [trechos, setTrechos] = useState<Range[]>([]);
   const [atual, setAtual] = useState(0);
@@ -101,7 +103,7 @@ export function BuscaNaFicha({ alvo }: { alvo: string }) {
           enterKeyHint="next"
           autoComplete="off"
           spellCheck={false}
-          placeholder="Buscar nesta ficha"
+          placeholder={celular ? 'Nesta ficha' : 'Buscar nesta ficha'}
           aria-label="Buscar nesta ficha"
           value={consulta}
           onChange={(e) => setConsulta(e.target.value)}

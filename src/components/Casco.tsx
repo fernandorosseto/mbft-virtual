@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { URL_MBFT_OFICIAL } from '@/lib/site';
 import { todasAsFichas } from '@/lib/mbft';
 import styles from './Casco.module.css';
+import { Preferencias } from './Preferencias';
 import { AvisoSemRede, UsoOffline } from './UsoOffline';
 
 export function Cabecalho() {
@@ -9,13 +10,14 @@ export function Cabecalho() {
     <>
     <header className={styles.cabecalho}>
       <Link href="/" className={styles.marca}>
-        MBFT Virtual
+        MBFT<span className={styles.marcaResto}> Virtual</span>
       </Link>
       <span className={styles.subtitulo}>Manual Brasileiro de Fiscalização de Trânsito</span>
       <nav className={styles.menu} aria-label="Seções">
         <Link href="/">Fichas</Link>
         <Link href="/parte-geral">Parte geral</Link>
       </nav>
+      <Preferencias />
     </header>
     <AvisoSemRede />
     </>

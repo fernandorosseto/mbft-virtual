@@ -6,11 +6,14 @@ import { BookOpen, CornerDownLeft, Search, X } from 'lucide-react';
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import type { IndiceBusca } from '@/app/busca.json/route';
 import { buscarFichas, buscarSecoes, carregarIndice } from '@/lib/busca';
+import { QUERY_CELULAR, useMediaQuery } from '@/lib/useMediaQuery';
 import styles from './BarraFicha.module.css';
+import { Ref, RefOutra } from './Ref';
 
 interface Sugestao {
   href: string;
   codigo?: string;
+  artigo?: string;
   titulo: string;
   detalhe: string;
   secao?: boolean;
@@ -21,6 +24,7 @@ const MAX = 8;
 /** Campo "ir para": sugere fichas e seções da parte geral enquanto digita. */
 export function IrPara({ atual }: { atual?: string }) {
   const router = useRouter();
+  const celular = useMediaQuery(QUERY_CELULAR);
   const lista = useId();
   const [consulta, setConsulta] = useState('');
   const [indice, setIndice] = useState<IndiceBusca | null>(null);
@@ -51,11 +55,12 @@ export function IrPara({ atual }: { atual?: string }) {
       .map((i) => indice.fichas[i])
       .filter(([codigo]) => codigo !== atual)
       .slice(0, MAX - secoes.length)
-      .map(([codigo, resumo, amparo]) => ({
+      .map(([codigo, resumo, , , artigo]) => ({
         href: `/fichas/${codigo}`,
         codigo,
+        artigo,
         titulo: resumo,
-        detalhe: amparo.replace(/\.$/, ''),
+        detalhe: '',
       }));
     return [...secoes, ...fichas];
   }, [indice, consulta, atual]);
@@ -76,7 +81,7 @@ export function IrPara({ atual }: { atual?: string }) {
           enterKeyHint="go"
           autoComplete="off"
           spellCheck={false}
-          placeholder="Ir para outra ficha ou tema"
+          placeholder={celular ? 'Outra ficha' : 'Ir para outra ficha ou tema'}
           aria-label="Ir para outra ficha ou tema"
           role="combobox"
           aria-expanded={aberto && consulta.trim() !== ''}
@@ -135,10 +140,14 @@ export function IrPara({ atual }: { atual?: string }) {
                     {s.secao ? (
                       <BookOpen aria-hidden size={16} className={styles.iconeSecao} />
                     ) : (
-                      <b>{s.codigo}</b>
+                      <b>
+                        <Ref codigo={s.codigo ?? ''} artigo={s.artigo ?? ''} />
+                      </b>
                     )}
                     <span className={styles.sugestaoTitulo}>{s.titulo}</span>
-                    <span className={styles.sugestaoDetalhe}>{s.detalhe}</span>
+                    <span className={styles.sugestaoDetalhe}>
+                      {s.secao ? s.detalhe : <RefOutra codigo={s.codigo ?? ''} artigo={s.artigo ?? ''} />}
+                    </span>
                   </Link>
                 </li>
               ))}

@@ -6,8 +6,8 @@ import { normalizar } from '@/lib/texto';
 export const dynamic = 'force-static';
 
 export interface IndiceBusca {
-  /** Fichas na ordem do manual: código, tipificação resumida, amparo legal, gravidade. */
-  fichas: [string, string, string, string][];
+  /** Fichas na ordem do manual: código, tipificação resumida, amparo legal, gravidade, rótulo do artigo, tema. */
+  fichas: [string, string, string, string, string, string][];
   /** Palavras (normalizadas) do texto completo das fichas, em ordem alfabética. */
   palavras: string[];
   /** Para cada palavra, as fichas (índices em `fichas`) que a contêm. */
@@ -34,7 +34,7 @@ export function GET() {
   });
   const palavras = Array.from(porPalavra.keys()).sort();
   const corpo: IndiceBusca = {
-    fichas: fichas.map((f) => [f.codigo, f.tipificacaoResumida, f.amparoLegal, f.gravidade]),
+    fichas: fichas.map((f) => [f.codigo, f.tipificacaoResumida, f.amparoLegal, f.gravidade, f.rotuloArtigo, f.tema]),
     palavras,
     ocorrencias: palavras.map((p) => porPalavra.get(p)!),
     citacoes: citacoes().map(([a, b]) => [indice.get(a)!, indice.get(b)!]),

@@ -5,6 +5,7 @@ import { URL_SITE } from '@/lib/site';
 import { metadataDe } from '@/lib/metadados';
 import { Analytics } from '@vercel/analytics/next';
 import { Cabecalho, Rodape } from '@/components/Casco';
+import { SCRIPT_PREFERENCIAS } from '@/components/Preferencias';
 
 const barlowCondensed = Barlow_Condensed({
   subsets: ['latin'],
@@ -72,8 +73,13 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
+      suppressHydrationWarning
       className={`${barlowCondensed.variable} ${barlow.variable} ${sourceSerif.variable} ${ibmPlexMono.variable}`}
     >
+      <head>
+        {/* Preferências de leitura antes da primeira pintura (código/artigo e tamanho do texto) */}
+        <script dangerouslySetInnerHTML={{ __html: SCRIPT_PREFERENCIAS }} />
+      </head>
       <body>
         <Cabecalho />
         {children}

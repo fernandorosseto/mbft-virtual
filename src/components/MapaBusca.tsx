@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import { DesenhoGrafo, type NoDesenho } from './DesenhoGrafo';
+import { DesenhoGrafo, tamanhoDoNo, type NoDesenho } from './DesenhoGrafo';
+import { Ref, RefOutra } from './Ref';
 import type { IndiceBusca } from '@/app/busca.json/route';
-import { posicionar } from '@/lib/grafo';
+import { posicionarComAltura } from '@/lib/grafo';
 import { QUERY_CELULAR, useMediaQuery } from '@/lib/useMediaQuery';
 import styles from './MapaBusca.module.css';
 
@@ -21,7 +22,6 @@ export function MapaBusca({ indice, principais }: { indice: IndiceBusca; princip
   const celular = useMediaQuery(QUERY_CELULAR);
   const [selecionado, setSelecionado] = useState<string | null>(null);
   const largura = celular ? 360 : 900;
-  const altura = celular ? 460 : 520;
 
   const porCodigo = useMemo(() => new Map(indice.fichas.map((f, i) => [f[0], i])), [indice]);
 
@@ -44,20 +44,27 @@ export function MapaBusca({ indice, principais }: { indice: IndiceBusca; princip
     const ids = [...principal, ...vizinhos];
     const presentes = new Set(ids);
     const arestas = todas.filter(([a, b]) => presentes.has(a) && presentes.has(b));
-    const pos = posicionar(ids, arestas, { largura, altura });
-    const nos: NoDesenho[] = ids.map((id) => {
+    const base = ids.map((id) => {
       const f = indice.fichas[porCodigo.get(id)!];
       return {
         id,
-        x: pos.get(id)!.x,
-        y: pos.get(id)!.y,
+        artigo: f[4],
+        tema: f[5],
         gravidade: f[3],
-        papel: noMapa.has(id) ? 'principal' : 'vizinho',
-        titulo: `${f[0]} · ${f[1]}`,
+        papel: (noMapa.has(id) ? 'principal' : 'vizinho') as NoDesenho['papel'],
+        titulo: `${f[0]} · ${f[4]} · ${f[1]}`,
       };
     });
-    return { nos, arestas, cortados: principais.length - principal.length, vizinhos: vizinhos.length };
-  }, [indice, principais, porCodigo, largura, altura]);
+    const tamanhos = new Map(base.map((b) => [b.id, tamanhoDoNo(b)]));
+    const { pos, altura } = posicionarComAltura(ids, arestas, {
+      largura,
+      minimo: celular ? 420 : 460,
+      maximo: celular ? 1400 : 1000,
+      tamanhos,
+    });
+    const nos: NoDesenho[] = base.map((b) => ({ ...b, x: pos.get(b.id)!.x, y: pos.get(b.id)!.y }));
+    return { nos, arestas, altura, cortados: principais.length - principal.length, vizinhos: vizinhos.length };
+  }, [indice, principais, porCodigo, largura, celular]);
 
   const escolhida = selecionado != null ? indice.fichas[porCodigo.get(selecionado)!] : null;
   const ligadas = selecionado
@@ -70,7 +77,7 @@ export function MapaBusca({ indice, principais }: { indice: IndiceBusca; princip
         nos={grafo.nos}
         arestas={grafo.arestas}
         largura={largura}
-        altura={altura}
+        altura={grafo.altura}
         selecionado={selecionado}
         onSelecionar={(id) => setSelecionado((atual) => (atual === id ? null : id))}
         rotulo="Mapa das fichas encontradas e das fichas ligadas a elas por citação"
@@ -79,9 +86,13 @@ export function MapaBusca({ indice, principais }: { indice: IndiceBusca; princip
       {escolhida ? (
         <div className={styles.cartao}>
           <div className={styles.cartaoTopo}>
-            <b>{escolhida[0]}</b>
+            <b>
+              <Ref codigo={escolhida[0]} artigo={escolhida[4]} />
+            </b>
             <span>{escolhida[3]}</span>
-            <span className={styles.amparo}>{escolhida[2].replace(/\.$/, '')}</span>
+            <span className={styles.amparo}>
+              <RefOutra codigo={escolhida[0]} artigo={escolhida[4]} />
+            </span>
           </div>
           <p>{escolhida[1]}</p>
           <div className={styles.cartaoRodape}>
@@ -96,7 +107,7 @@ export function MapaBusca({ indice, principais }: { indice: IndiceBusca; princip
       ) : (
         <p className={styles.legenda}>
           Bolinhas maiores: fichas encontradas. Menores: fichas ligadas a elas por citação de código ({grafo.vizinhos}).
-          Cor: gravidade. Toque numa bolinha para ver a ficha.
+          Cor: gravidade. A linha amarela corre de quem cita para a ficha citada. Toque numa bolinha para ver a ficha.
           {grafo.cortados > 0 && ` O mapa mostra as primeiras ${MAX_PRINCIPAIS} fichas encontradas.`}
         </p>
       )}

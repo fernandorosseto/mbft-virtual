@@ -6,6 +6,8 @@ import { AmparoCtb } from '@/components/AmparoCtb';
 import { BuscaNaFicha } from '@/components/BuscaNaFicha';
 import { ConexoesFicha } from '@/components/ConexoesFicha';
 import { IrPara } from '@/components/IrPara';
+import { Ref, RefOutra } from '@/components/Ref';
+import { ResolucoesCitadas } from '@/components/ResolucoesCitadas';
 import barra from '@/components/BarraFicha.module.css';
 import { Gravidade } from '@/components/Gravidade';
 import { TextoMbft, dividirItem } from '@/components/TextoMbft';
@@ -71,8 +73,13 @@ export default function PaginaFicha({ params }: Props) {
 
       <header className={styles.topo}>
         <div className={styles.linhaCodigo}>
-          <span className={styles.codigo}>{f.codigo}</span>
+          <span className={styles.codigo}>
+            <Ref codigo={f.codigo} artigo={f.rotuloArtigo} />
+          </span>
           <Gravidade valor={f.gravidade} />
+          <span className={styles.outraRef}>
+            <RefOutra codigo={`Ficha ${f.codigo}`} artigo={f.rotuloArtigo} />
+          </span>
         </div>
         <h1>{f.tipificacaoResumida}</h1>
       </header>
@@ -111,8 +118,6 @@ export default function PaginaFicha({ params }: Props) {
         ))}
       </dl>
 
-      <AmparoCtb amparo={f.amparoLegal} />
-
       <div className={styles.autuar}>
         <Coluna atual={f.codigo} titulo="Quando autuar" itens={f.quandoAutuar} tom="sim" />
         <Coluna atual={f.codigo} titulo="Quando não autuar" itens={f.quandoNaoAutuar} tom="nao" />
@@ -122,6 +127,8 @@ export default function PaginaFicha({ params }: Props) {
       <Coluna atual={f.codigo} titulo="Informações complementares" itens={f.informacoesComplementares} />
 
       <ConexoesFicha ficha={f} />
+      <ResolucoesCitadas ficha={f} />
+      <AmparoCtb amparo={f.amparoLegal} />
 
       <p className={styles.fonte}>
         Figuras e tabelas da ficha estão no PDF oficial.{' '}
@@ -135,7 +142,10 @@ export default function PaginaFicha({ params }: Props) {
           <Link href={`/fichas/${anterior.codigo}`} className={styles.anterior}>
             <ArrowLeft aria-hidden size={18} />
             <span>
-              <b>{anterior.codigo}</b> {anterior.tipificacaoResumida}
+              <b>
+                <Ref codigo={anterior.codigo} artigo={anterior.rotuloArtigo} />
+              </b>{' '}
+              {anterior.tipificacaoResumida}
             </span>
           </Link>
         ) : (
@@ -144,7 +154,10 @@ export default function PaginaFicha({ params }: Props) {
         {seguinte && (
           <Link href={`/fichas/${seguinte.codigo}`} className={styles.seguinte}>
             <span>
-              <b>{seguinte.codigo}</b> {seguinte.tipificacaoResumida}
+              <b>
+                <Ref codigo={seguinte.codigo} artigo={seguinte.rotuloArtigo} />
+              </b>{' '}
+              {seguinte.tipificacaoResumida}
             </span>
             <ArrowRight aria-hidden size={18} />
           </Link>

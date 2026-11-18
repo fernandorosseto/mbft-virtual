@@ -110,3 +110,19 @@ button {
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/* Guiar por código da ficha (padrão) ou por artigo do CTB: os dois rótulos são desenhados e
+   só um aparece, conforme data-ref no <html> (Preferencias). Vale também dentro de SVG. */
+html:not([data-ref='artigo']) .so-artigo,
+html[data-ref='artigo'] .so-codigo {
+  display: none;
+}
+
+/* Tamanho do texto: amplia o conteúdo (não o cabeçalho), como o zoom do navegador */
+html[data-fonte='1'] main {
+  zoom: 1.15;
+}
+
+html[data-fonte='2'] main {
+  zoom: 1.3;
+}

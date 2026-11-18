@@ -10,6 +10,8 @@ export default function Inicio() {
       resumo: f.tipificacaoResumida,
       amparo: f.amparoLegal,
       ...categoriasDe(f),
+      artigo: f.rotuloArtigo,
+      tema: f.tema,
     })),
   }));
 

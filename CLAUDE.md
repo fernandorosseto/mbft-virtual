@@ -28,7 +28,8 @@ Rode `typecheck`, `lint` e `build` antes de cada commit.
 - `mbft/mbft.json`: o MBFT convertido (parte geral por página e as 412 fichas, com os campos do PDF); `mbft/mbft.txt`: texto corrido para conferência. Formato e limitações em `docs/normas/mbft/README.md`; gerado por `tools/normas/mbft/extrair_mbft.py`.
 - `ctb.txt`: CTB vigente, extraído de `ctb-planalto.html` (página compilada do Planalto salva pelo navegador) por `tools/normas/extrair-ctb.py`, descartando redações revogadas. Serve para mostrar o artigo citado no amparo legal.
 - `ctb-artigos.json`: os 100 artigos do CTB citados nas fichas, em blocos (caput, inciso, alínea, parágrafo, sanção), gerado do `ctb.txt` por `tools/normas/extrair_artigos_ctb.py` (junta linhas quebradas, "Art." e "§" soltos).
-- `contran-indice.json`: índice das resoluções do CONTRAN no DOU (nº 700 em diante), de `tools/normas/dou/coletar.py`. Serve para ligar as resoluções citadas nas fichas.
+- `contran-indice.json`: índice das resoluções do CONTRAN no DOU (nº 700 em diante), de `tools/normas/dou/coletar.py`. Liga as resoluções citadas nas fichas ao DOU (seção "Resoluções citadas").
+- `mbft/temas.json`: uma ou duas palavras de tema por ficha, escritas à mão com palavras da tipificação resumida, para os rótulos dos grafos (não substituem o texto da ficha).
 
 ## Estrutura
 
@@ -49,20 +50,25 @@ src/components/BuscaNaFicha.tsx busca dentro da ficha, como o "Localizar" do nav
 src/components/IrPara.tsx    campo com sugestões: seções da parte geral que casam com o título primeiro, depois fichas; setas e Enter; "Ver todos os resultados no catálogo" (/?q=)
 src/components/MapaBusca.tsx mapa da busca (cliente), estilo grafo do Obsidian: fichas encontradas (maiores) e fichas ligadas a elas por citação (menores, até 40 ou 20 se a busca trouxe 15+); tocar mostra um cartão com link
 src/components/ConexoesFicha.tsx grafo local da ficha, desenhado no build (SVG com links, sem JavaScript), em versão larga e alta, e as listas "cita" / "é citada por"
-src/components/DesenhoGrafo.tsx SVG de grafo já posicionado (cor = gravidade); serve ao servidor e ao cliente
-src/lib/grafo.ts             disposição por forças, determinística, sem bibliotecas: partes pequenas soltas vão para uma faixa; no fim afasta nós até caber o rótulo
+src/components/DesenhoGrafo.tsx SVG de grafo já posicionado (cor = gravidade; rótulo: código ou artigo + tema): bolinhas surgem e linhas se desenham ao aparecer; as linhas do nó em destaque correm de quem cita para a citada (sem animação com prefers-reduced-motion); tamanhoDoNo dá o espaço de cada rótulo; serve ao servidor e ao cliente
+src/lib/grafo.ts             disposição por forças, determinística, sem bibliotecas: partes pequenas soltas vão para uma faixa; no fim afasta nós até caber o rótulo de cada um; posicionarComAltura aumenta a altura enquanto houver rótulos encostados (limitada pelo número de nós)
 src/components/TextoMbft.tsx texto da ficha com códigos citados (ex.: 565-70) virando link; dividirItem separa número e subitens (1.1.)
 src/lib/ctb.ts               lê ctb-artigos.json (server-only): referenciasDe (amparo → artigo, inciso, alínea, §), trechosDoAmparo (caput + dispositivo citado + a primeira sanção depois dele; artigo inteiro à parte)
 src/components/AmparoCtb.tsx seção "Texto do CTB" da ficha (#ctb): trecho com o citado marcado, "[...]" nos saltos, artigo inteiro recolhido, notas de redação discretas
 src/lib/parteGeral.ts        lê docs/normas/mbft/parte-geral.json (server-only): SECOES, secoesDaMedida (medida administrativa da ficha → seção 8.x)
 src/components/Gravidade.tsx selo da natureza da infração
 src/components/Casco.tsx     cabeçalho e rodapé (no layout)
+src/components/Preferencias.tsx preferências de leitura (guardadas no navegador e aplicadas no <head> antes da pintura): guiar por código da ficha ou artigo do CTB (`data-ref` no <html>; no PC à vista, no celular no painel "Aa") e tamanho do texto (`data-fonte` 1/2: zoom 1,15/1,3 no <main>)
+src/components/Ref.tsx       Ref / RefOutra: desenham código e artigo; as classes globais so-codigo / so-artigo mostram só um (vale em SVG). Usar em todo lugar que identifica uma ficha
+src/lib/rotulos.ts           rotuloArtigo (amparo → "Art. 230, XVI"), linhasDoTema (até 2 linhas de ~14 caracteres)
+src/lib/resolucoes.ts        resoluções citadas no texto da ficha ("nº 882/2021", "nº 764, de 20 de dezembro de 2018"; Contran, DNIT, ANTT...), com link do DOU quando o índice tem o mesmo número e ano
+src/components/ResolucoesCitadas.tsx seção da ficha com essas resoluções
 src/components/UsoOffline.tsx registra o service worker (só em produção), mostra no rodapé quantas fichas estão salvas e o botão "Salvar todas" (~5 MB de download, ~40 MB no aparelho); AvisoSemRede: faixa abaixo do cabeçalho quando a conexão cai
 src/lib/site.ts              URL_SITE, NOME_SITE, URL_MBFT_OFICIAL
 src/lib/metadados.ts         metadataDe({ titulo, descricao, caminho })
 ```
 
-- A ficha mostra os campos como estão no PDF: quadro (tipificação, amparo legal, penalidade, medida administrativa, infrator, competência, pontuação, constatação, crime), quando autuar / quando não autuar lado a lado no PC, definições e procedimentos, exemplos do campo de observações, informações complementares, link para a página do PDF oficial (`#page=N`) e fichas anterior e seguinte na ordem do manual.
+- A ficha mostra, nesta ordem: buscas (nesta ficha / outra ficha, na mesma linha também no celular), código e artigo, quadro (tipificação, amparo legal, penalidade, medida administrativa, infrator, competência, pontuação, constatação, crime), quando autuar / quando não autuar lado a lado no PC, definições e procedimentos, exemplos do campo de observações, informações complementares, conexões, resoluções citadas, texto do CTB, link para a página do PDF oficial (`#page=N`) e fichas anterior e seguinte na ordem do manual.
 - Citações: 1.704 entre as 411 fichas (só 18 isoladas). São a base do mapa da busca e das conexões da ficha.
 - Na ficha, a medida administrativa ganha links para a seção da parte geral (retenção 8.1, remoção 8.2 etc.).
 - A ficha 542-81 aparece duas vezes no PDF (págs. 190 e 192), com o mesmo conteúdo: fica uma só.

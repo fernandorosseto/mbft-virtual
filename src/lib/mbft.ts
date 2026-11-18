@@ -1,5 +1,7 @@
 import 'server-only';
 import dados from '../../docs/normas/mbft/mbft.json';
+import temas from '../../docs/normas/mbft/temas.json';
+import { rotuloArtigo } from './rotulos';
 
 /** Ficha de fiscalização do MBFT, com os campos como estão no PDF (ver docs/normas/mbft/README.md). */
 export interface Ficha {
@@ -26,6 +28,10 @@ export interface Ficha {
   paginasRepetidas: number[];
   /** Artigo do CTB que agrupa a ficha (ex.: '181', '165-A'). */
   artigo: string;
+  /** Rótulo pelo artigo, para o modo "guiar por artigo" (ex.: 'Art. 230, XVI'). */
+  rotuloArtigo: string;
+  /** Uma ou duas palavras da tipificação que resumem o tema (docs/normas/mbft/temas.json). */
+  tema: string;
 }
 
 export interface GrupoArtigo {
@@ -47,14 +53,20 @@ function ordemArtigo(a: string): number {
 
 const FICHAS: Ficha[] = (() => {
   const porCodigo = new Map<string, Ficha>();
-  for (const bruta of dados.fichas as Omit<Ficha, 'artigo' | 'paginasRepetidas'>[]) {
+  for (const bruta of dados.fichas as Omit<Ficha, 'artigo' | 'paginasRepetidas' | 'rotuloArtigo' | 'tema'>[]) {
     const existente = porCodigo.get(bruta.codigo);
     // O PDF repete a ficha 542-81 (págs. 190 e 192) com o mesmo conteúdo: fica uma só
     if (existente) {
       existente.paginasRepetidas.push(bruta.pagina);
       continue;
     }
-    porCodigo.set(bruta.codigo, { ...bruta, artigo: artigoDe(bruta.amparoLegal), paginasRepetidas: [] });
+    porCodigo.set(bruta.codigo, {
+      ...bruta,
+      artigo: artigoDe(bruta.amparoLegal),
+      rotuloArtigo: rotuloArtigo(bruta.amparoLegal),
+      tema: (temas.temas as Record<string, string>)[bruta.codigo] ?? '',
+      paginasRepetidas: [],
+    });
   }
   return Array.from(porCodigo.values()).sort((a, b) => a.pagina - b.pagina);
 })();

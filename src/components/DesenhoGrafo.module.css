@@ -14,17 +14,54 @@
 .aresta {
   stroke: #cbd5e1;
   stroke-width: 1;
+  /* Ao aparecer, a linha se desenha de quem cita para a ficha citada */
+  stroke-dasharray: var(--comprimento);
+  stroke-dashoffset: 0;
+  animation: desenhar 0.9s ease-out var(--atraso, 0ms) backwards;
 }
 
 .arestaAtiva {
   stroke: var(--sign);
-  stroke-width: 1.8;
+  stroke-width: 2;
+  /* Tracejado correndo no sentido da citação */
+  stroke-dasharray: 6 5;
+  animation: fluir 0.8s linear infinite;
+}
+
+@keyframes desenhar {
+  from {
+    stroke-dashoffset: var(--comprimento);
+  }
+}
+
+@keyframes fluir {
+  to {
+    stroke-dashoffset: -11;
+  }
 }
 
 .no {
   cursor: pointer;
   outline: none;
-  transition: opacity 0.15s;
+  transition: opacity 0.2s;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: surgir 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.3) var(--atraso, 0ms) backwards;
+}
+
+@keyframes surgir {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aresta,
+  .arestaAtiva,
+  .no {
+    animation: none;
+  }
 }
 
 .alvo {
@@ -67,10 +104,26 @@
   fill: var(--muted);
 }
 
+.tema,
+.temaVizinho {
+  font-family: var(--f-body);
+  font-size: 11px;
+  fill: var(--muted);
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
 .vizinho {
   opacity: 0.75;
 }
 
 .apagado {
   opacity: 0.18;
+}
+
+.temaVizinho {
+  font-size: 10px;
 }

@@ -58,7 +58,18 @@
     padding: 0 8px;
   }
 
+  .cabecalho {
+    gap: 6px;
+  }
+
   .subtitulo {
+    display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  /* Celular estreito: só "MBFT" na marca, para caber o menu e as preferências */
+  .marcaResto {
     display: none;
   }
 }

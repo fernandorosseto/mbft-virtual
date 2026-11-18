@@ -36,6 +36,12 @@
   margin-bottom: 6px;
 }
 
+.outraRef {
+  font-family: var(--f-num);
+  font-size: 13px;
+  color: var(--muted);
+}
+
 .codigo {
   font-family: var(--f-num);
   font-size: 22px;

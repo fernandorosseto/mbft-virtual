@@ -8,12 +8,22 @@ export interface Ponto {
   y: number;
 }
 
+/** Espaço que cada nó ocupa com o rótulo embaixo: largura e altura (a partir da bolinha). */
+export interface Tamanho {
+  l: number;
+  a: number;
+}
+
 interface Opcoes {
   largura: number;
   altura: number;
   centro?: string;
   iteracoes?: number;
+  /** Tamanho de cada nó; sem ele, um rótulo de código (44 × 32). */
+  tamanhos?: Map<string, Tamanho>;
 }
+
+const PADRAO: Tamanho = { l: 44, a: 32 };
 
 /**
  * Grafo com partes soltas: as partes maiores ocupam quase todo o quadro e as pequenas ficam numa faixa
@@ -45,7 +55,7 @@ export function posicionar(ids: string[], arestas: [string, string][], opcoes: O
   soltas.forEach((parte, i) => {
     const ox = fx + (i % colunas) * cl;
     const oy = fy + Math.floor(i / colunas) * ca;
-    const local = parte.length === 1 ? new Map([[parte[0], { x: cl / 2, y: ca / 2 - 6 }]]) : dispor(parte, arestas, { ...opcoes, largura: cl, altura: ca, centro: undefined });
+    const local = parte.length === 1 ? new Map([[parte[0], { x: cl / 2, y: Math.min(ca / 2, 18) }]]) : dispor(parte, arestas, { ...opcoes, largura: cl, altura: ca, centro: undefined });
     for (const [id, p] of local) pos.set(id, { x: ox + p.x, y: oy + p.y });
   });
   return pos;
@@ -85,8 +95,9 @@ function componentes(ids: string[], arestas: [string, string][]): string[][] {
 function dispor(
   ids: string[],
   arestas: [string, string][],
-  { largura, altura, centro, iteracoes = 300 }: Opcoes,
+  { largura, altura, centro, iteracoes = 300, tamanhos }: Opcoes,
 ): Map<string, Ponto> {
+  const tam = (id: string) => tamanhos?.get(id) ?? PADRAO;
   const n = ids.length;
   const pos = new Map<string, Ponto>();
   if (!n) return pos;
@@ -171,22 +182,24 @@ function dispor(
     p.y = oy + (p.y - y0) * escala;
   }
 
-  // Afasta bolinhas coladas: cada uma precisa de um retângulo do tamanho do rótulo (código de
-  // 6 caracteres embaixo), então a distância mínima é elíptica, maior na horizontal
-  const [minX, minY] = [44, 32];
-  const margemX = Math.min(26, largura / 2);
-  for (let passo = 0; passo < 120; passo++) {
+  // Afasta nós colados: cada um precisa do retângulo do seu rótulo (embaixo da bolinha), então a
+  // distância mínima é elíptica, com as medidas somadas dos dois nós
+  for (let passo = 0; passo < 500; passo++) {
     let mexeu = false;
     for (let i = 0; i < n; i++) {
       for (let j = i + 1; j < n; j++) {
         const pi = pos.get(ids[i])!;
         const pj = pos.get(ids[j])!;
+        const ti = tam(ids[i]);
+        const tj = tam(ids[j]);
+        const minX = (ti.l + tj.l) / 2;
+        const minY = (ti.a + tj.a) / 2;
         const nx = (pj.x - pi.x) / minX;
         const ny = (pj.y - pi.y) / minY;
         const d = Math.hypot(nx, ny);
         if (d >= 1) continue;
         mexeu = true;
-        const empurrao = (1 - d) / 2 + 0.01;
+        const empurrao = (1 - d) * 0.6 + 0.01;
         const ux = d > 0.001 ? nx / d : 1;
         const uy = d > 0.001 ? ny / d : 0;
         // O centro fica parado; o outro nó leva o empurrão inteiro
@@ -198,12 +211,68 @@ function dispor(
         pj.y += uy * empurrao * minY * fj;
       }
     }
-    for (const p of pos.values()) {
-      // Na horizontal, meia largura de rótulo de folga para o código não cortar na borda
-      p.x = Math.min(largura - margemX, Math.max(margemX, p.x));
-      p.y = Math.min(altura - margem, Math.max(margem / 2, p.y));
+    for (const id of ids) {
+      const p = pos.get(id)!;
+      const t = tam(id);
+      // Rótulo inteiro dentro do quadro: meia largura nos lados, altura do rótulo embaixo
+      const mx = Math.min(t.l / 2 + 2, largura / 2);
+      p.x = Math.min(largura - mx, Math.max(mx, p.x));
+      p.y = Math.min(altura - Math.min(t.a - 8, altura / 2), Math.max(16, p.y));
     }
     if (!mexeu) break;
   }
   return pos;
+}
+
+/** Menor distância entre nós, em unidades de "rótulo encostado no outro" (1 = encostado). */
+function folgaMinima(pos: Map<string, Ponto>, tamanhos: Map<string, Tamanho> | undefined): number {
+  const ids = Array.from(pos.keys());
+  let minimo = Infinity;
+  for (let i = 0; i < ids.length; i++) {
+    for (let j = i + 1; j < ids.length; j++) {
+      const ti = tamanhos?.get(ids[i]) ?? PADRAO;
+      const tj = tamanhos?.get(ids[j]) ?? PADRAO;
+      const p = pos.get(ids[i])!;
+      const q = pos.get(ids[j])!;
+      minimo = Math.min(minimo, Math.hypot((p.x - q.x) / ((ti.l + tj.l) / 2), (p.y - q.y) / ((ti.a + tj.a) / 2)));
+    }
+  }
+  return minimo;
+}
+
+/**
+ * Posiciona e escolhe a altura: começa pela estimativa da área dos rótulos e, se ainda houver
+ * rótulos encostados, aumenta a altura (até `maximo`) e refaz.
+ */
+export function posicionarComAltura(
+  ids: string[],
+  arestas: [string, string][],
+  opcoes: Omit<Opcoes, 'altura'> & { minimo: number; maximo: number },
+): { pos: Map<string, Ponto>; altura: number } {
+  const { minimo, ...resto } = opcoes;
+  // Grafo pequeno não cresce muito: mais altura não resolve rótulo largo demais para a largura
+  const maximo = Math.min(opcoes.maximo, minimo + ids.length * 70);
+  const area = ids.reduce((s, id) => {
+    const t = resto.tamanhos?.get(id) ?? PADRAO;
+    return s + t.l * t.a;
+  }, 0);
+  let altura = alturaPara(resto.largura, area, minimo, maximo);
+  let melhor = { pos: posicionar(ids, arestas, { ...resto, altura }), altura };
+  let folga = folgaMinima(melhor.pos, resto.tamanhos);
+  for (let tentativa = 0; tentativa < 3 && altura < maximo && folga < 0.97; tentativa++) {
+    altura = Math.min(maximo, Math.round(altura * 1.3));
+    const pos = posicionar(ids, arestas, { ...resto, altura });
+    const nova = folgaMinima(pos, resto.tamanhos);
+    // Só troca se melhorar de verdade
+    if (nova > folga + 0.03) {
+      melhor = { pos, altura };
+      folga = nova;
+    }
+  }
+  return melhor;
+}
+
+/** Altura do quadro para caber `area` (soma das áreas dos rótulos) com folga, entre um mínimo e um máximo. */
+export function alturaPara(largura: number, area: number, minimo: number, maximo: number): number {
+  return Math.round(Math.min(maximo, Math.max(minimo, (area * 2.4) / largura)));
 }

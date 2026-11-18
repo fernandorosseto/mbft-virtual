@@ -1,4 +1,5 @@
 .barra {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
@@ -182,8 +183,26 @@
 }
 
 @media (max-width: 860px) {
+  /* No celular, as duas buscas dividem a linha; as sugestões ocupam a largura toda da barra */
   .barra {
-    grid-template-columns: 1fr;
     gap: 8px;
+  }
+
+  .campo {
+    gap: 6px;
+    padding-left: 10px;
+  }
+
+  .irPara {
+    position: static;
+  }
+
+  /* A contagem aparece na barra fixa do pé */
+  .contagem {
+    display: none;
+  }
+
+  .botao {
+    width: 36px;
   }
 }
