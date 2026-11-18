@@ -9,6 +9,10 @@ export function Cabecalho() {
         MBFT Virtual
       </Link>
       <span className={styles.subtitulo}>Manual Brasileiro de Fiscalização de Trânsito</span>
+      <nav className={styles.menu} aria-label="Seções">
+        <Link href="/">Fichas</Link>
+        <Link href="/parte-geral">Parte geral</Link>
+      </nav>
     </header>
   );
 }

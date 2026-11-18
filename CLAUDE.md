@@ -24,6 +24,7 @@ Rode `typecheck`, `lint` e `build` antes de cada commit.
 ## Fontes (`docs/normas/`)
 
 - `MBVT20222.pdf`: PDF oficial do MBFT.
+- `mbft/parte-geral.json`: a Parte Geral (págs. 5 a 30) em seções e blocos (parágrafo, item com marcador, sigla), gerada do `mbft.txt` por `tools/normas/mbft/extrair_parte_geral.py`, que reconhece os títulos pelo sumário do manual. O texto por página do `mbft.json` não serve para isso: o pdfplumber cola palavras nas linhas justificadas.
 - `mbft/mbft.json`: o MBFT convertido (parte geral por página e as 412 fichas, com os campos do PDF); `mbft/mbft.txt`: texto corrido para conferência. Formato e limitações em `docs/normas/mbft/README.md`; gerado por `tools/normas/mbft/extrair_mbft.py`.
 - `ctb.txt`: CTB vigente, extraído de `ctb-planalto.html` (página compilada do Planalto salva pelo navegador) por `tools/normas/extrair-ctb.py`, descartando redações revogadas. Serve para mostrar o artigo citado no amparo legal.
 - `contran-indice.json`: índice das resoluções do CONTRAN no DOU (nº 700 em diante), de `tools/normas/dou/coletar.py`. Serve para ligar as resoluções citadas nas fichas.
@@ -34,11 +35,13 @@ Rode `typecheck`, `lint` e `build` antes de cada commit.
 |---|---|
 | `/` | catálogo: fichas agrupadas por artigo do CTB, com busca (`?q=` no endereço) |
 | `/fichas/[codigo]` | ficha completa (ex.: `/fichas/552-50`), gerada no build para as 411 fichas |
+| `/parte-geral` | Parte Geral do manual numa página, com sumário (fixo ao lado no PC, recolhível no celular) e âncoras por seção (`#8-2`, `#infracoes-concorrentes`) |
 
 ```
 src/lib/mbft.ts              lê docs/normas/mbft/mbft.json no build (server-only): Ficha, obterFicha, fichasPorArtigo, vizinhas
 src/components/Catalogo.tsx  único componente de cliente: lista e busca (códigos, números e romanos casam a palavra inteira; o resto, pelo começo)
 src/components/TextoMbft.tsx texto da ficha com códigos citados (ex.: 565-70) virando link; dividirItem separa número e subitens (1.1.)
+src/lib/parteGeral.ts        lê docs/normas/mbft/parte-geral.json (server-only): SECOES, secoesDaMedida (medida administrativa da ficha → seção 8.x)
 src/components/Gravidade.tsx selo da natureza da infração
 src/components/Casco.tsx     cabeçalho e rodapé (no layout)
 src/lib/site.ts              URL_SITE, NOME_SITE, URL_MBFT_OFICIAL
@@ -46,6 +49,7 @@ src/lib/metadados.ts         metadataDe({ titulo, descricao, caminho })
 ```
 
 - A ficha mostra os campos como estão no PDF: quadro (tipificação, amparo legal, penalidade, medida administrativa, infrator, competência, pontuação, constatação, crime), quando autuar / quando não autuar lado a lado no PC, definições e procedimentos, exemplos do campo de observações, informações complementares, link para a página do PDF oficial (`#page=N`) e fichas anterior e seguinte na ordem do manual.
+- Na ficha, a medida administrativa ganha links para a seção da parte geral (retenção 8.1, remoção 8.2 etc.).
 - A ficha 542-81 aparece duas vezes no PDF (págs. 190 e 192), com o mesmo conteúdo: fica uma só.
 - Gravidade por cor: gravíssima vermelho, grave laranja, média amarelo, leve verde.
 

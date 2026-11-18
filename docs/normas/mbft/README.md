@@ -5,6 +5,7 @@ Manual Brasileiro de Fiscalização de Trânsito (MBFT), anexo da Resolução CO
 | Arquivo | Conteúdo |
 |---|---|
 | `mbft.json` | metadados, parte geral (texto por página, págs. 1 a 31) e as 412 fichas de fiscalização |
+| `parte-geral.json` | Parte Geral (págs. 5 a 30) em seções (títulos do sumário) e blocos: parágrafo, item com marcador, sigla; gerada do `mbft.txt` |
 | `mbft.txt` | texto corrido do PDF (`pdftotext -layout`), para conferir citações literais |
 
 ## Ficha
@@ -43,6 +44,7 @@ Manual Brasileiro de Fiscalização de Trânsito (MBFT), anexo da Resolução CO
 ```bash
 pip install pdfplumber   # e poppler-utils (pdftotext)
 python3 tools/normas/mbft/extrair_mbft.py docs/normas/MBVT20222.pdf docs/normas/mbft
+python3 tools/normas/mbft/extrair_parte_geral.py docs/normas/mbft/mbft.txt docs/normas/mbft/parte-geral.json
 ```
 
 Extração automática: em caso de divergência, vale o texto publicado.

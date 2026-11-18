@@ -1,0 +1,231 @@
+.pagina {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 16px 16px 48px;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+
+/* Sumário fixo ao lado no computador */
+.lateral {
+  position: sticky;
+  top: 68px;
+  max-height: calc(100dvh - 84px);
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+.sumarioTitulo {
+  font-family: var(--f-display);
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.sumarioLista {
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.sumarioLista a {
+  display: block;
+  padding: 5px 8px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.sumarioLista a:hover {
+  background: #fef9c3;
+}
+
+.sumarioLista .sub a {
+  padding-left: 20px;
+  color: var(--muted);
+}
+
+.sumarioCelular {
+  display: none;
+}
+
+.texto {
+  max-width: 72ch;
+}
+
+.trilha {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.trilha a {
+  color: var(--sign-text);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 10px 0;
+}
+
+.texto h1 {
+  font-family: var(--f-display);
+  font-size: clamp(28px, 5vw, 40px);
+  line-height: 1.1;
+}
+
+.intro {
+  color: var(--muted);
+  margin: 6px 0 8px;
+}
+
+.secao {
+  scroll-margin-top: 64px;
+  padding-top: 20px;
+}
+
+.secao h2 {
+  font-family: var(--f-display);
+  font-size: 26px;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.15;
+  padding-top: 16px;
+  border-top: 3px solid var(--sign);
+  margin-bottom: 10px;
+}
+
+.secao h3 {
+  font-family: var(--f-display);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.numero {
+  font-family: var(--f-num);
+  font-size: 0.8em;
+  color: var(--sign-text);
+}
+
+.paragrafo,
+.itens li p {
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.paragrafo + .paragrafo,
+.itens + .paragrafo,
+.paragrafo + .itens,
+.siglas + .paragrafo {
+  margin-top: 10px;
+}
+
+.itens {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 8px;
+}
+
+.itens li {
+  display: flex;
+  gap: 10px;
+}
+
+.marcador {
+  flex: none;
+  min-width: 30px;
+  font-family: var(--f-num);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 26px;
+  color: var(--sign-text);
+}
+
+.siglas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1px;
+  background: #e2e8f0;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.siglas > div {
+  display: flex;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--asphalt-2);
+}
+
+.siglas dt {
+  flex: none;
+  min-width: 72px;
+  font-family: var(--f-num);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 22px;
+}
+
+.siglas dd {
+  line-height: 1.4;
+}
+
+.pdf {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 860px) {
+  .pagina {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lateral {
+    display: none;
+  }
+
+  /* No celular, o sumário fica recolhido no topo */
+  .sumarioCelular {
+    display: block;
+    margin-top: 8px;
+    background: var(--asphalt-2);
+    border: 1px solid var(--asphalt-3);
+    border-radius: 10px;
+  }
+
+  .sumarioCelular summary {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    font-family: var(--f-display);
+    font-size: 17px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .sumarioCelular .sumarioLista {
+    padding: 0 6px 10px;
+    font-size: 15px;
+  }
+
+  .sumarioCelular .sumarioLista a {
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
+}

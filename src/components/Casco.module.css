@@ -31,7 +31,33 @@
   text-overflow: ellipsis;
 }
 
+.menu {
+  margin-left: auto;
+  display: flex;
+  gap: 4px;
+}
+
+.menu a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.menu a:hover {
+  background: #fef9c3;
+}
+
 @media (max-width: 860px) {
+  .menu a {
+    padding: 0 8px;
+  }
+
   .subtitulo {
     display: none;
   }

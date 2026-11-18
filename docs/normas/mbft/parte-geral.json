@@ -1,0 +1,1518 @@
+{
+ "titulo": "Manual Brasileiro de Fiscalização de Trânsito (MBFT): Parte Geral",
+ "fonte": "docs/normas/mbft/mbft.txt (pdftotext -layout de MBVT20222.pdf), págs. 5 a 30",
+ "aviso": "Extração automática do PDF oficial. Em caso de divergência, vale o texto publicado.",
+ "secoes": [
+  {
+   "id": "1",
+   "numero": "1",
+   "titulo": "APRESENTAÇÃO",
+   "nivel": 1,
+   "pagina": 5,
+   "blocos": []
+  },
+  {
+   "id": "1-1",
+   "numero": "1.1",
+   "titulo": "A Segurança Viária e o Manual Brasileiro de Fiscalização de Trânsito (MBFT)",
+   "nivel": 2,
+   "pagina": 5,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "Nas sociedades modernas, o trânsito ocupa um espaço fundamental, permitindo que todos possam trabalhar, estudar, ter seu lazer e desempenhar as demais atividades cotidianas. O trânsito, entendido como “a utilização das vias por pessoas, veículos e animais, isolados ou em grupos, conduzidos ou não, para fins de circulação, parada, estacionamento e operação de carga ou descarga” é mais que o mero partilhamento de vias públicas, trata-se de um exercício cotidiano de cidadania.",
+     "pagina": 5
+    },
+    {
+     "tipo": "p",
+     "texto": "Desta forma a Segurança Viária (o trânsito em condições seguras) se torna um bem comum a ser buscado por todos os agentes governamentais e pela sociedade civil organizada na intenção não apenas de preservar vidas, mas de disciplinar o comportamento coletivo no trânsito para que a sociedade possa funcionar a contento e o país possa alcançar o desenvolvimento social e econômico.",
+     "pagina": 5
+    },
+    {
+     "tipo": "p",
+     "texto": "A Segurança Viária só pode ser alcançada por meio de três pilares complementares: a Educação, a Engenharia e o Esforço Legal.",
+     "pagina": 5
+    },
+    {
+     "tipo": "p",
+     "texto": "Em um país com dimensões continentais como o nosso, no qual temos órgãos de trânsito e rodoviários em todas as esferas administrativas (federal, estadual, distrital e municipal) que atuam na fiscalização de trânsito, é salutar que haja um entendimento uniforme sobre a aplicação da legislação. A uniformização na aplicação da lei trará segurança jurídica para o trabalho dos órgãos de trânsito e para os administrados, contribuindo para que a legislação possa cumprir a sua finalidade.",
+     "pagina": 5
+    },
+    {
+     "tipo": "p",
+     "texto": "Uma outra dificuldade encontrada tanto pelos agentes fiscalizadores quanto pelos motoristas de veículos e demais atores do trânsito é que a legislação de trânsito é, dada a sua própria natureza, relativamente extensa e, considerando que ela deve acompanhar a dinâmica de evolução social e tecnológica, ela sofreu diversas alterações relevantes nos últimos anos.",
+     "pagina": 5
+    },
+    {
+     "tipo": "p",
+     "texto": "Vale dizer que o Brasil têm se engajado em ações de Segurança Viária dentro dos acordos internacionais contraídos no âmbito da Segunda Década de Ação Global para a Segurança Viária 2020-2030, a qual pretende diminuir pela metade os índices de acidentes, mortos e feridos no trânsito.",
+     "pagina": 5
+    },
+    {
+     "tipo": "p",
+     "texto": "Dentro deste esforço, o Brasil instituiu, por meio da Lei nº 13.614, de 11 de janeiro de 2018 , o Pnatrans - Plano Nacional de Redução de Mortes e Lesões no Trânsito, com ações voltadas para atingir o cumprimento das metas pelos órgãos do SNT. No âmbito do Pnatrans, dentre os pilares previstos, temos o Pilar 6 - Normatização e Fiscalização.",
+     "pagina": 6
+    },
+    {
+     "tipo": "p",
+     "texto": "Deste modo, visando dar efetividade ao Pilar 6 - Normatização e Fiscalização, o Conselho Nacional de Trânsito (Contran) apresenta a nova versão do Manual Brasileiro de Fiscalização de Trânsito, tendo em vista a necessidade de uma aplicação uniforme da legislação por parte dos órgãos do Sistema Nacional de Trânsito (SNT) e, ao mesmo tempo, deixar claras as mudanças pelas quais a nossa legislação vem passando.",
+     "pagina": 6
+    },
+    {
+     "tipo": "p",
+     "texto": "Este Manual foi fruto de meses de trabalho incansável de um Grupo de Trabalho constituído especialmente para esta finalidade e composto por estudiosos da área do trânsito, com vasta experiência no assunto, irmanados pelo objetivo de tornar a aplicação da legislação de trânsito um tema de fácil compreensão.",
+     "pagina": 6
+    },
+    {
+     "tipo": "p",
+     "texto": "Por fim, novas fontes de energia e avanços tecnológicos extraordinários (como os carros autônomos) já começam a despontar e o seu devir provocará, a seu tempo, mudanças inexoráveis na legislação para que se alcance a Segurança Viária. Sabe-se que este é um trabalho contínuo, destinado a nunca se esgotar ou se completar, mas o Contran estará vigilante e pronto para quando o futuro chegar.",
+     "pagina": 6
+    }
+   ]
+  },
+  {
+   "id": "1-2",
+   "numero": "1.2",
+   "titulo": "MBFT - Divisão e Modo de Utilização",
+   "nivel": 2,
+   "pagina": 6,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "O MBFT contempla os procedimentos gerais a serem observados pelas autoridades de trânsito, seus agentes e órgãos de julgamento de 1ª e 2ª instâncias. Está estruturado em fichas de fiscalização, classificadas por código de enquadramento da infração e seu respectivo desdobramento.",
+     "pagina": 6
+    },
+    {
+     "tipo": "p",
+     "texto": "A interpretação das normas contidas no MBFT, bem como dos conceitos e definições, representa a posição oficial sobre a aplicação da legislação de trânsito tanto por parte da Senatran, quanto pelo Contran, tendo efeitos vinculantes para todos os órgãos do SNT.",
+     "pagina": 6
+    },
+    {
+     "tipo": "p",
+     "texto": "O referido Manual está dividido em duas partes:",
+     "pagina": 7
+    },
+    {
+     "tipo": "item",
+     "marcador": "a)",
+     "texto": "A Parte Geral, onde são apresentadas normas, conceitos e definições que são aplicáveis a todo o conjunto normativo e;",
+     "pagina": 7
+    },
+    {
+     "tipo": "item",
+     "marcador": "b)",
+     "texto": "As fichas de fiscalização de cada uma das infrações de trânsito.",
+     "pagina": 7
+    },
+    {
+     "tipo": "p",
+     "texto": "As fichas são compostas dos campos, abaixo descritos, destinados ao detalhamento das infrações com seus respectivos amparos legais e procedimentos, e indica(m):",
+     "pagina": 7
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Tipificação Resumida – a conduta infracional de acordo com Portaria do Órgão Máximo Executivo de Trânsito da União.",
+     "pagina": 7
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Código do Enquadramento – o código da infração e seu desdobramento.",
+     "pagina": 7
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Amparo Legal – o dispositivo legal do Código de Trânsito Brasileiro (CTB).",
+     "pagina": 7
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Tipificação do Enquadramento - a conduta infracional de acordo com o CTB.",
+     "pagina": 7
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Gravidade – a classificação da infração de acordo com a sua gravidade.",
+     "pagina": 7
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Penalidade – a(s) sanção(ões) aplicável(eis) à conduta infracional.",
+     "pagina": 7
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Medida Administrativa – o procedimento aplicável à conduta infracional.",
+     "pagina": 7
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Infrator – o responsável pelo cometimento da infração.",
+     "pagina": 7
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Competência – o órgão ou entidade do Sistema Nacional de Trânsito com competência para autuar.",
+     "pagina": 7
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Pontuação – o número de pontos a serem imputados ao infrator.",
+     "pagina": 7
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Constatação da Infração – se a abordagem é ou não necessária para a constatação da infração.",
+     "pagina": 7
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Pode Configurar Crime de Trânsito – a previsão de eventual ilícito criminal, limitando-se aos tipos penais previstos no Capítulo XIX do CTB.",
+     "pagina": 7
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Quando Autuar – possível(eis) situação(ões) que configura(m) a infração tipificada na respectiva ficha.",
+     "pagina": 7
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Quando NÃO Autuar – possível(eis) situação(ões) que não configura(m) a infração tipificada na respectiva ficha ou remete a outros enquadramentos.",
+     "pagina": 7
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Definições e Procedimentos – dispositivos legais, estabelece definições e procedimentos específicos.",
+     "pagina": 7
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Exemplos do Campo de ‘Observações’ do AIT - de forma meramente exemplificativa e não obrigatória, informações a serem registradas no campo ‘observações’ do auto de infração de trânsito, com o objetivo de especificar a conduta observada e/ou adicionar outras informações relevantes.",
+     "pagina": 8
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Informações Complementares – situações específicas, normas aplicáveis, necessidade de sinalização para configurar a infração e ilustrações que representam as infrações constantes das respectivas fichas.",
+     "pagina": 8
+    }
+   ]
+  },
+  {
+   "id": "2",
+   "numero": "2",
+   "titulo": "LISTA DE ABREVIATURAS E SIGLAS",
+   "nivel": 1,
+   "pagina": 9,
+   "blocos": [
+    {
+     "tipo": "sigla",
+     "marcador": "ABNT",
+     "texto": "Associação Brasileira de Normas Técnicas",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "ACC",
+     "texto": "Autorização para Conduzir Ciclomotor",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "AE",
+     "texto": "Autorização Especial",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "AET",
+     "texto": "Autorização Especial de Trânsito",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "AIT",
+     "texto": "Auto de Infração de Trânsito",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "ANTT",
+     "texto": "Agência Nacional de Transportes Terrestres",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "CLA",
+     "texto": "Certificado de Licenciamento Anual",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "CMT",
+     "texto": "Capacidade Máxima de Tração",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "CNH",
+     "texto": "Carteira Nacional de Habilitação",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "CNH-e",
+     "texto": "Carteira Nacional de Habilitação Eletrônica",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "Conama",
+     "texto": "Conselho Nacional do Meio Ambiente",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "Contran",
+     "texto": "Conselho Nacional de Trânsito",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "CP",
+     "texto": "Código Penal",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "CRLV-e",
+     "texto": "Certificado de Registro e Licenciamento de Veículo em meio digital",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "CRV",
+     "texto": "Certificado de Registro de Veículo",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "CSV",
+     "texto": "Certificado de Segurança Veicular",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "CTB",
+     "texto": "Código de Trânsito Brasileiro",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "CTV",
+     "texto": "Combinação para Transporte de Veículos",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "CVC",
+     "texto": "Combinação de Veículos de Cargas",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "FTP",
+     "texto": "Faixa de Travessia de Pedestre",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "GLP",
+     "texto": "Gás Liquefeito de Petróleo",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "GNV",
+     "texto": "Gás Natural Veicular",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "Inmetro",
+     "texto": "Instituto Nacional de Metrologia, Qualidade e Tecnologia",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "IPVA",
+     "texto": "Imposto sobre Propriedade de Veículos Automotores",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "ITL",
+     "texto": "Instituição Técnica Licenciada",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "ITV",
+     "texto": "Inspeção Técnica Veicular",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "NBR",
+     "texto": "Normas Técnicas Brasileiras",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "PBT",
+     "texto": "Peso Bruto Total",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "PBTC",
+     "texto": "Peso Bruto Total Combinado",
+     "pagina": 9
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "Pnatrans",
+     "texto": "Plano Nacional de Redução de Mortes e Lesões no Trânsito",
+     "pagina": 10
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "PIV",
+     "texto": "Placa de Identificação Veicular",
+     "pagina": 10
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "PPD",
+     "texto": "Permissão para Dirigir",
+     "pagina": 10
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "Renach",
+     "texto": "Registro Nacional de Carteiras de Habilitação",
+     "pagina": 10
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "Renainf",
+     "texto": "Registro Nacional de Infrações de Trânsito",
+     "pagina": 10
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "Renavam",
+     "texto": "Registro Nacional de Veículos Automotores",
+     "pagina": 10
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "Res.",
+     "texto": "Resolução",
+     "pagina": 10
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "Senatran",
+     "texto": "Secretaria Nacional de Trânsito",
+     "pagina": 10
+    },
+    {
+     "tipo": "sigla",
+     "marcador": "SNT",
+     "texto": "Sistema Nacional de Trânsito",
+     "pagina": 10
+    }
+   ]
+  },
+  {
+   "id": "3",
+   "numero": "3",
+   "titulo": "INTRODUÇÃO",
+   "nivel": 1,
+   "pagina": 11,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "A fiscalização de trânsito, parte integrante do esforço legal, conjugada às ações de operação de trânsito, de engenharia de tráfego e de educação para o trânsito, é uma ferramenta de suma importância na busca de convivência pacífica entre usuários das vias.",
+     "pagina": 11
+    },
+    {
+     "tipo": "p",
+     "texto": "As ações de fiscalização influenciam diretamente na segurança viária e fluidez do trânsito, contribuindo para a efetiva mudança de comportamento dos usuários das vias, e de forma específica, dos infratores, por meio de ações preventivas, aplicação de medidas administrativas e imposição de sanções, propiciando a eficácia da norma jurídica.",
+     "pagina": 11
+    },
+    {
+     "tipo": "p",
+     "texto": "Nesse contexto, o papel dos órgãos e entidades do SNT é desenvolver atividades voltadas à melhoria da qualidade de vida da população, atuando como facilitador da mobilidade sustentável, norteando-se, dentre outros, pelos princípios constitucionais da legalidade, impessoalidade, moralidade, publicidade e eficiência.",
+     "pagina": 11
+    },
+    {
+     "tipo": "p",
+     "texto": "Desta forma, o presente Manual tem como objetivos uniformizar procedimentos e orientar a autoridade de trânsito e seus agentes nas ações de fiscalização.",
+     "pagina": 11
+    }
+   ]
+  },
+  {
+   "id": "4",
+   "numero": "4",
+   "titulo": "AGENTE DA AUTORIDADE DE TRÂNSITO",
+   "nivel": 1,
+   "pagina": 12,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "O agente da autoridade de trânsito, competente para realizar a fiscalização, deve se enquadrar em uma das seguintes categorias, com atuação isolada ou cumulativa, não bastando mera designação mediante portaria ou outro ato administrativo:",
+     "pagina": 12
+    },
+    {
+     "tipo": "item",
+     "marcador": "I -",
+     "texto": "agentes de trânsito dos órgãos ou entidades executivos de trânsito ou rodoviário;",
+     "pagina": 12
+    },
+    {
+     "tipo": "item",
+     "marcador": "II -",
+     "texto": "policiais rodoviários federais;",
+     "pagina": 12
+    },
+    {
+     "tipo": "item",
+     "marcador": "III -",
+     "texto": "policiais militares do serviço ativo, quando firmado convênio para esta finalidade, de acordo com o inciso III do art. 23 do CTB;",
+     "pagina": 12
+    },
+    {
+     "tipo": "item",
+     "marcador": "IV -",
+     "texto": "guardas municipais, na conformidade do inciso VI do art. 5º da Lei nº 13.022, de 8 de agosto de 2014; e",
+     "pagina": 12
+    },
+    {
+     "tipo": "item",
+     "marcador": "V -",
+     "texto": "agentes dos órgãos policiais da Câmara dos Deputados e do Senado Federal, quando firmado convênio com o órgão ou entidade de trânsito com circunscrição sobre a via, de acordo com o art. 25-A do CTB.",
+     "pagina": 12
+    },
+    {
+     "tipo": "p",
+     "texto": "Para que possa exercer suas atribuições, o agente da autoridade de trânsito deverá estar devidamente uniformizado, conforme padrão da instituição, e no regular exercício de suas funções.",
+     "pagina": 12
+    },
+    {
+     "tipo": "p",
+     "texto": "Todo veículo utilizado na fiscalização de trânsito deverá estar caracterizado na forma definida pelo órgão ou entidade.",
+     "pagina": 12
+    },
+    {
+     "tipo": "p",
+     "texto": "O agente da autoridade de trânsito, ao constatar o cometimento da infração, lavrará o respectivo auto e adotará as medidas administrativas e penais cabíveis, conforme previsão legal correspondente à conduta infracional.",
+     "pagina": 12
+    },
+    {
+     "tipo": "p",
+     "texto": "O agente da autoridade de trânsito deve priorizar suas ações no sentido de coibir a prática das infrações de trânsito, devendo tratar a todos com urbanidade e respeito, sem, contudo, omitir-se das providências que a lei lhe determina.",
+     "pagina": 12
+    }
+   ]
+  },
+  {
+   "id": "5",
+   "numero": "5",
+   "titulo": "INFRAÇÃO DE TRÂNSITO",
+   "nivel": 1,
+   "pagina": 13,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "Constitui infração de trânsito a inobservância a qualquer preceito do Código de Trânsito Brasileiro (CTB) ou da legislação complementar.",
+     "pagina": 13
+    },
+    {
+     "tipo": "p",
+     "texto": "O infrator está sujeito às penalidades e medidas administrativas previstas no CTB.",
+     "pagina": 13
+    },
+    {
+     "tipo": "p",
+     "texto": "As infrações classificam-se, de acordo com sua gravidade, em quatro categorias, computados, ainda, os seguintes números de pontos:",
+     "pagina": 13
+    },
+    {
+     "tipo": "item",
+     "marcador": "I -",
+     "texto": "infração de natureza gravíssima, 7 pontos;",
+     "pagina": 13
+    },
+    {
+     "tipo": "item",
+     "marcador": "II -",
+     "texto": "infração de natureza grave, 5 pontos;",
+     "pagina": 13
+    },
+    {
+     "tipo": "item",
+     "marcador": "III -",
+     "texto": "infração de natureza média, 4 pontos;",
+     "pagina": 13
+    },
+    {
+     "tipo": "item",
+     "marcador": "IV -",
+     "texto": "infração de natureza leve, 3 pontos.",
+     "pagina": 13
+    },
+    {
+     "tipo": "p",
+     "texto": "Não serão computados os pontos nas infrações:",
+     "pagina": 13
+    },
+    {
+     "tipo": "item",
+     "marcador": "a)",
+     "texto": "praticadas por passageiros usuários do serviço de transporte rodoviário de passageiros em viagens de longa distância transitando em rodovias com a utilização de ônibus, em linhas regulares intermunicipais, interestaduais, internacionais e aquelas em viagem de longa distância por fretamento e turismo ou de qualquer modalidade, excluídas as situações regulamentadas pelo Contran quanto ao uso do cinto de segurança conforme disposto no art. 65 do CTB;",
+     "pagina": 13
+    },
+    {
+     "tipo": "item",
+     "marcador": "b)",
+     "texto": "previstas no art. 162, inciso I, 221, nos incisos VII e XXI do art. 230 e nos arts. 232, 233, 233-A, 240 e 241 do CTB;",
+     "pagina": 13
+    },
+    {
+     "tipo": "item",
+     "marcador": "c)",
+     "texto": "puníveis de forma específica com suspensão do direito de dirigir; e",
+     "pagina": 13
+    },
+    {
+     "tipo": "item",
+     "marcador": "d)",
+     "texto": "relacionadas à pessoa física ou jurídica, expressamente mencionada no CTB.",
+     "pagina": 13
+    }
+   ]
+  },
+  {
+   "id": "6",
+   "numero": "6",
+   "titulo": "RESPONSABILIDADE PELA INFRAÇÃO",
+   "nivel": 1,
+   "pagina": 14,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "As penalidades serão impostas ao condutor, ao proprietário do veículo, ao embarcador e ao transportador, salvo os casos de descumprimento de obrigações e deveres impostos a pessoas físicas ou jurídicas expressamente mencionadas no CTB.",
+     "pagina": 14
+    }
+   ]
+  },
+  {
+   "id": "6-1",
+   "numero": "6.1",
+   "titulo": "Proprietário",
+   "nivel": 2,
+   "pagina": 14,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "Ao proprietário caberá sempre a responsabilidade pela infração referente à prévia regularização e preenchimento das formalidades e condições exigidas para o trânsito do veículo na via terrestre, conservação e inalterabilidade de suas características, componentes, agregados, habilitação legal e compatível de seus condutores, quando esta for exigida, e outras disposições que deva observar.",
+     "pagina": 14
+    }
+   ]
+  },
+  {
+   "id": "6-2",
+   "numero": "6.2",
+   "titulo": "Condutor",
+   "nivel": 2,
+   "pagina": 14,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "Ao condutor caberá a responsabilidade pelas infrações decorrentes de atos praticados na direção do veículo.",
+     "pagina": 14
+    }
+   ]
+  },
+  {
+   "id": "6-3",
+   "numero": "6.3",
+   "titulo": "Embarcador",
+   "nivel": 2,
+   "pagina": 14,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "O embarcador é responsável pela infração relativa ao transporte de carga com excesso de peso nos eixos ou no peso bruto total, quando simultaneamente for o único remetente da carga e o peso declarado na nota fiscal, fatura ou manifesto for inferior àquele aferido.",
+     "pagina": 14
+    }
+   ]
+  },
+  {
+   "id": "6-4",
+   "numero": "6.4",
+   "titulo": "Transportador",
+   "nivel": 2,
+   "pagina": 14,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "O transportador é o responsável pela infração relativa ao transporte de carga com excesso de peso nos eixos ou quando a carga proveniente de mais de um embarcador ultrapassar o peso bruto total.",
+     "pagina": 14
+    }
+   ]
+  },
+  {
+   "id": "6-5",
+   "numero": "6.5",
+   "titulo": "Responsabilidade Solidária",
+   "nivel": 2,
+   "pagina": 15,
+   "blocos": [
+    {
+     "tipo": "item",
+     "marcador": "I.",
+     "texto": "Aos proprietários e condutores de veículos serão impostas concomitantemente as penalidades, toda vez que houver responsabilidade solidária em infração dos preceitos que lhes couber observar, respondendo cada um de per si pela falta em comum que lhes for atribuída.",
+     "pagina": 15
+    },
+    {
+     "tipo": "item",
+     "marcador": "II.",
+     "texto": "O transportador e o embarcador são solidariamente responsáveis pela infração relativa ao excesso de peso bruto total, se o peso declarado na nota fiscal, fatura ou manifesto for superior ao limite legal.",
+     "pagina": 15
+    },
+    {
+     "tipo": "item",
+     "marcador": "III.",
+     "texto": "Pessoa Física ou Jurídica expressamente mencionada no CTB: A pessoa física ou jurídica é responsável por infração de trânsito, não vinculada a veículo ou à sua condução, expressamente mencionada no CTB, devendo ser atendida a regulamentação específica para a lavratura de Auto de Infração de Trânsito (AIT) e consequente sanção.",
+     "pagina": 15
+    }
+   ]
+  },
+  {
+   "id": "7",
+   "numero": "7",
+   "titulo": "AUTUAÇÃO",
+   "nivel": 1,
+   "pagina": 16,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "A autuação é ato administrativo, vinculado na forma da lei, da autoridade de trânsito ou seus agentes quando da constatação do cometimento de infração de trânsito, devendo ser formalizado por meio da lavratura do Auto de Infração de Trânsito (AIT).",
+     "pagina": 16
+    },
+    {
+     "tipo": "p",
+     "texto": "Para fins do contido no § 3º do art. 280 e no § 6º-A do art. 282, ambos do CTB, considera-se em flagrante quem está cometendo a infração de trânsito ou acaba de cometê-la, com ou sem abordagem.",
+     "pagina": 16
+    },
+    {
+     "tipo": "p",
+     "texto": "O AIT é peça informativa que dá início ao processo administrativo e subsidia a autoridade de trânsito para aplicação das penalidades, devendo ser preenchido de acordo com as disposições contidas no artigo 280 do CTB e demais normas regulamentares, com o registro do fato que fundamentou sua lavratura.",
+     "pagina": 16
+    },
+    {
+     "tipo": "p",
+     "texto": "Quando a configuração de uma infração depender da existência de sinalização específica, esta deverá revelar-se suficiente e corretamente implantada de forma legível e visível. Caso contrário, o agente não deverá lavrar o AIT, comunicando à autoridade de trânsito com circunscrição sobre a via a irregularidade observada.",
+     "pagina": 16
+    },
+    {
+     "tipo": "p",
+     "texto": "É vedada a lavratura do AIT por solicitação de terceiros, excetuando-se o caso em que o órgão ou entidade de trânsito realiza operação de fiscalização de trânsito, em que um agente de trânsito constate a infração e a informe a outro agente que esteja na operação, devendo tal informação constar do campo observações do AIT.",
+     "pagina": 16
+    },
+    {
+     "tipo": "p",
+     "texto": "No atendimento de sinistros de trânsito, lavrar-se-á o AIT quando houver constatação de infração de trânsito, em que o agente da autoridade de trânsito tiver elementos de convicção suficientes, que caracterizam a conduta infracional, como, por exemplo, de condutor não habilitado ou sob influência de álcool, ou, ainda, de veículo não licenciado ou em mau estado de conservação. Todavia, o fato circunstancial terá que se revestir de toda a materialidade relativa à infração efetivamente cometida e não de mera presunção subjetiva do agente.",
+     "pagina": 16
+    },
+    {
+     "tipo": "p",
+     "texto": "O campo de Observações do AIT:",
+     "pagina": 16
+    },
+    {
+     "tipo": "item",
+     "marcador": "a)",
+     "texto": "poderá ser preenchido, consignando informações com o objetivo de especificar a conduta constatada e/ou adicionar outras informações relevantes, conforme exemplos constantes nas fichas de fiscalização;",
+     "pagina": 16
+    },
+    {
+     "tipo": "item",
+     "marcador": "b)",
+     "texto": "deverá ser preenchido, de forma obrigatória, nas infrações cuja ficha de fiscalização preveja de forma expressa, que é necessária alguma informação para caracterizar a infração, a exemplo do art. 169 do CTB (dirigir sem atenção e sem os cuidados indispensáveis à segurança).",
+     "pagina": 17
+    },
+    {
+     "tipo": "p",
+     "texto": "As informações referentes à caracterização da infração devem constar em todas as vias do AIT.",
+     "pagina": 17
+    },
+    {
+     "tipo": "p",
+     "texto": "O AIT, quando lavrado em suporte físico, não poderá conter rasuras, emendas, uso de corretivos, ou qualquer tipo de adulteração.",
+     "pagina": 17
+    },
+    {
+     "tipo": "p",
+     "texto": "O agente da autoridade só poderá registrar uma infração por auto e, no caso da constatação de infrações simultâneas em que os códigos infracionais possuam a mesma raiz (os três primeiros dígitos), considerar-se-á apenas uma infração.",
+     "pagina": 17
+    },
+    {
+     "tipo": "p",
+     "texto": "Exemplo: condutor e passageiro sem usar o cinto de segurança, lavrar somente o auto de infração com o código 518-51 e descrever no campo “Observações” a situação constatada (condutor e passageiro sem usar o cinto de segurança).",
+     "pagina": 17
+    },
+    {
+     "tipo": "p",
+     "texto": "Também deverá ser registrado em um único AIT diversas condutas que caracterizam a mesma infração.",
+     "pagina": 17
+    },
+    {
+     "tipo": "p",
+     "texto": "Exemplo: falta de roda sobressalente e falta de dispositivo de sinalização luminosa ou refletora de emergência (triângulo), lavrar somente o auto de infração com o código 663-71 e descrever no campo ‘Observações’ os equipamentos faltantes (o veículo não possuía a roda sobressalente e o triângulo).",
+     "pagina": 17
+    },
+    {
+     "tipo": "p",
+     "texto": "Será lavrado somente um AIT quando o veículo estiver estacionado irregularmente e não for aplicada a medida administrativa de remoção, independentemente do tempo em que permaneça no local, desde que não seja movimentado nesse período.",
+     "pagina": 17
+    },
+    {
+     "tipo": "p",
+     "texto": "As infrações simultâneas podem ser concorrentes ou concomitantes:",
+     "pagina": 17
+    }
+   ]
+  },
+  {
+   "id": "infracoes-concorrentes",
+   "numero": null,
+   "titulo": "Infrações Concorrentes",
+   "nivel": 2,
+   "pagina": 17,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "São aquelas em que o cometimento de uma infração implica necessariamente o cometimento de outra.",
+     "pagina": 17
+    },
+    {
+     "tipo": "p",
+     "texto": "Nesses casos, será lavrado um único AIT.",
+     "pagina": 17
+    },
+    {
+     "tipo": "p",
+     "texto": "Exemplos de infrações concorrentes:",
+     "pagina": 17
+    },
+    {
+     "tipo": "p",
+     "texto": "Exemplo 1: ultrapassar pelo acostamento (art. 202), implica necessariamente a prática da infração de transitar com o veículo pelo acostamento (art. 193). Neste caso, autuar apenas no art. 202.",
+     "pagina": 18
+    },
+    {
+     "tipo": "p",
+     "texto": "Exemplo 2: veículo novo, sem registro (art. 230, V) e sem ambas as placas (art. 230, IV). Neste caso, autuar apenas no art. 230, V.",
+     "pagina": 18
+    },
+    {
+     "tipo": "p",
+     "texto": "Exemplo 3: passageiro excedente em veículo (art. 231, VII) e sem usar o cinto de segurança (art.167). Neste caso, autuar apenas no art. 231, VII.",
+     "pagina": 18
+    },
+    {
+     "tipo": "p",
+     "texto": "Observação: os exemplos de infrações concorrentes citados não esgotam as situações que implicam em infrações concorrentes.",
+     "pagina": 18
+    }
+   ]
+  },
+  {
+   "id": "infracoes-concomitantes",
+   "numero": null,
+   "titulo": "Infrações Concomitantes",
+   "nivel": 2,
+   "pagina": 18,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "São concomitantes aquelas infrações que ocorrem de maneira independente umas da outras.",
+     "pagina": 18
+    },
+    {
+     "tipo": "p",
+     "texto": "Nesses casos, será lavrado AIT para cada infração constatada, na forma dos arts. 266 e 280 do CTB.",
+     "pagina": 18
+    },
+    {
+     "tipo": "p",
+     "texto": "São exemplos de infrações concomitantes:",
+     "pagina": 18
+    },
+    {
+     "tipo": "p",
+     "texto": "Exemplo 1: Deixar de reduzir a velocidade do veículo de forma compatível com a segurança do trânsito ao ultrapassar ciclista (art. 220, XIII) e não manter a distância de 1,50m ao ultrapassar bicicleta (art. 201).",
+     "pagina": 18
+    },
+    {
+     "tipo": "p",
+     "texto": "Exemplo 2: condutor que não usa o cinto de segurança (art.167) e que está segurando telefone celular (art. 252, parágrafo único).",
+     "pagina": 18
+    },
+    {
+     "tipo": "p",
+     "texto": "Exemplo 3: veículo que avança o sinal vermelho do semáforo (art. 208) e que excede o limite de velocidade em menos de 20% (art. 218, I).",
+     "pagina": 18
+    },
+    {
+     "tipo": "p",
+     "texto": "Exemplo 4: veículo que está sem um equipamento obrigatório (art. 230, IX) e com outro equipamento obrigatório em desacordo (art. 230, X).",
+     "pagina": 18
+    },
+    {
+     "tipo": "p",
+     "texto": "Observação: os exemplos de infrações concomitantes citados não esgotam as situações que implicam em infrações concomitantes.",
+     "pagina": 18
+    },
+    {
+     "tipo": "p",
+     "texto": "A concomitância não ocorrerá, entretanto, em infrações que não podem ocorrer simultaneamente, conforme a tipificação de cada uma delas. Não é possível autuar um veículo, no mesmo local, dia e horário, por uma infração de estacionamento e outra de movimento (deixar de usar o cinto de segurança). Nesse caso, caberá apenas uma delas.",
+     "pagina": 18
+    },
+    {
+     "tipo": "p",
+     "texto": "Infrações que contenham, em seu tipo infracional, os verbos “conduzir”, “dirigir”, “transitar” e “circular” (e suas variações) implicam, necessariamente, que o veículo esteja em movimento.",
+     "pagina": 19
+    },
+    {
+     "tipo": "p",
+     "texto": "São exemplos de infrações que não podem ocorrer simultaneamente:",
+     "pagina": 19
+    },
+    {
+     "tipo": "p",
+     "texto": "Exemplo 1: veículo estacionado na esquina (art. 181, I) e com o licenciamento vencido (art. 230, V), sem que tenha sido constatada a condução do veículo. Neste caso, autuar apenas pela infração do art. 181, I.",
+     "pagina": 19
+    },
+    {
+     "tipo": "p",
+     "texto": "Exemplo 2: veículo estacionado em local proibido pela sinalização (art. 181, XVIII), e com o condutor sem utilizar o cinto de segurança (art.167), sem que tenha sido constatada a condução do veículo. Neste caso, autuar apenas pela infração no art. 181, XVIII.",
+     "pagina": 19
+    },
+    {
+     "tipo": "p",
+     "texto": "Observação: Os exemplos de infrações que não podem ocorrer simultaneamente citados não esgotam todas as situações previstas.",
+     "pagina": 19
+    }
+   ]
+  },
+  {
+   "id": "infracoes-continuadas",
+   "numero": null,
+   "titulo": "Infrações Continuadas",
+   "nivel": 2,
+   "pagina": 19,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "Caracterizam-se por uma conduta única, inalterada e ininterrupta, observada por mais de uma vez em momentos distintos e sequenciais.",
+     "pagina": 19
+    },
+    {
+     "tipo": "p",
+     "texto": "A abordagem do condutor faz cessar a infração continuada.",
+     "pagina": 19
+    },
+    {
+     "tipo": "p",
+     "texto": "Nesse caso, deverá ser lavrado um único AIT.",
+     "pagina": 19
+    },
+    {
+     "tipo": "p",
+     "texto": "São exemplos de infração continuada:",
+     "pagina": 19
+    },
+    {
+     "tipo": "p",
+     "texto": "Exemplo 1: condutor ou passageiro sem utilizar o cinto de segurança (art. 167);",
+     "pagina": 19
+    },
+    {
+     "tipo": "p",
+     "texto": "Exemplo 2: condutor ou passageiro de motocicleta flagrado sem utilizar o capacete (art. 244, I ou II);",
+     "pagina": 19
+    },
+    {
+     "tipo": "p",
+     "texto": "Exemplo 3: veículo estacionado em local proibido que não possa ser removido e permaneça estacionado no mesmo lugar.",
+     "pagina": 19
+    }
+   ]
+  },
+  {
+   "id": "infracoes-sucessivas",
+   "numero": null,
+   "titulo": "Infrações Sucessivas",
+   "nivel": 2,
+   "pagina": 20,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "Caracterizam-se pelo cometimento de repetidas condutas idênticas, ao longo de um percurso, de forma reiterada e intermitente.",
+     "pagina": 20
+    },
+    {
+     "tipo": "p",
+     "texto": "Nesses casos, será lavrado AIT para cada infração constatada, na forma dos arts. 266 e 280 do CTB.",
+     "pagina": 20
+    },
+    {
+     "tipo": "p",
+     "texto": "São exemplos de infrações sucessivas:",
+     "pagina": 20
+    },
+    {
+     "tipo": "p",
+     "texto": "Exemplo 1: duas ou mais ultrapassagens pela contramão onde houver marcação viária longitudinal de divisão de fluxos opostos do tipo linha dupla contínua ou simples contínua amarela (art. 203, V);",
+     "pagina": 20
+    },
+    {
+     "tipo": "p",
+     "texto": "Exemplo 2: dois ou mais excessos de velocidade superior à máxima permitida, flagradas por medidores de velocidade em pontos distintos, ao longo do percurso (art. 218, I, II ou III); e Exemplo 3: dois ou mais avanços de sinal vermelho do semáforo ou o de parada obrigatória (art. 208).",
+     "pagina": 20
+    },
+    {
+     "tipo": "p",
+     "texto": "Observação: os exemplos de infrações sucessivas citadas não esgotam as situações que implicam infrações sucessivas.",
+     "pagina": 20
+    },
+    {
+     "tipo": "p",
+     "texto": "O agente da autoridade de trânsito, sempre que possível, deverá abordar o condutor do veículo para constatar a infração, ressalvados os casos em que a infração poderá ser comprovada sem a abordagem. Para esse fim, o Manual estabelece as seguintes situações:",
+     "pagina": 20
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Caso 1: “possível sem abordagem” - significa que a infração pode ser constatada sem a abordagem do condutor, sendo desnecessária a justificativa no AIT quanto ao motivo de não ter sido abordado.",
+     "pagina": 20
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Caso 2: “mediante abordagem” – significa que a infração só pode ser constatada se houver a abordagem do condutor.",
+     "pagina": 20
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Caso 3: “vide procedimentos” – significa que há situações em que só é possível constatar a infração mediante abordagem, porém há outras situações em que é possível constatá-la sem abordagem.",
+     "pagina": 20
+    },
+    {
+     "tipo": "p",
+     "texto": "Tratando-se de combinação de veículos, deve ser observado o seguinte:",
+     "pagina": 20
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Caso 1: nas infrações de circulação, preferencialmente, deverá ser autuada a unidade tratora. Não sendo possível identificar a unidade tratora, deverá ser autuada a unidade tracionada, indicando-se no campo de observações do AIT que se tratava de uma combinação de veículos;",
+     "pagina": 20
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Caso 2: nas infrações relacionadas às condições da unidade (por exemplo: falta de licenciamento, falta de placa, lâmpadas queimadas ou mau estado de conservação), a autuação deverá ser feita em cada unidade irregular; e",
+     "pagina": 21
+    },
+    {
+     "tipo": "item",
+     "marcador": "●",
+     "texto": "Caso 3: nas infrações de estacionamento, autuar pela placa da unidade tratora. Somente autuar pela placa da unidade tracionada, se esta estiver desatrelada.",
+     "pagina": 21
+    }
+   ]
+  },
+  {
+   "id": "7-1",
+   "numero": "7.1",
+   "titulo": "Fiscalização de Veículos de Emergência por Equipamentos Eletrônicos",
+   "nivel": 2,
+   "pagina": 21,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "Não deverão ser processadas as imagens registradas por equipamentos medidores de velocidade do tipo fixo ou por sistemas automáticos não metrológicos, nas condutas de circulação, estacionamento e parada para os veículos elencados no inciso VII do artigo 29 do CTB, desde que estejam devidamente caracterizados externamente por pintura ou plotagem, que identifique o veículo de relance, na forma definida pelo próprio órgão.",
+     "pagina": 21
+    }
+   ]
+  },
+  {
+   "id": "8",
+   "numero": "8",
+   "titulo": "MEDIDAS ADMINISTRATIVAS",
+   "nivel": 1,
+   "pagina": 22,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "Medidas administrativas são providências de caráter complementar, exigidas para a regularização de situações infracionais, sendo, em grande parte, de aplicação momentânea, e têm como objetivo prioritário impedir a continuidade da prática infracional, garantindo a proteção à vida e à incolumidade física das pessoas e não se confundem com penalidades.",
+     "pagina": 22
+    },
+    {
+     "tipo": "p",
+     "texto": "Compete à autoridade de trânsito com circunscrição sobre a via e seus agentes aplicar as medidas administrativas, considerando a necessidade de segurança e fluidez do trânsito.",
+     "pagina": 22
+    },
+    {
+     "tipo": "p",
+     "texto": "A ausência de registro no AIT da medida administrativa adotada ou a impossibilidade de sua aplicação ou conclusão não invalidam a autuação pela infração de trânsito.",
+     "pagina": 22
+    },
+    {
+     "tipo": "p",
+     "texto": "A eventual invalidação, anulação ou arquivamento do AIT não prejudicará, necessariamente, a medida administrativa aplicada pelo agente da autoridade de trânsito.",
+     "pagina": 22
+    }
+   ]
+  },
+  {
+   "id": "8-1",
+   "numero": "8.1",
+   "titulo": "Retenção do Veículo",
+   "nivel": 2,
+   "pagina": 22,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "Consiste na imobilização do veículo, pelo tempo necessário, no local da abordagem ou em local que seja garantida a segurança viária, para sanar determinada irregularidade, aplicável nas infrações em que esteja prevista esta medida administrativa.",
+     "pagina": 22
+    },
+    {
+     "tipo": "p",
+     "texto": "Quando a irregularidade for sanada, o veículo será liberado tão logo seja regularizada a situação.",
+     "pagina": 22
+    },
+    {
+     "tipo": "p",
+     "texto": "Na impossibilidade de sanar a falha no local da infração, o veículo poderá ser retirado por condutor regularmente habilitado, desde que ofereça condições de segurança para circulação e esteja devidamente licenciado, assinalando-se ao condutor prazo razoável, não superior a 30 (trinta) dias, para sua regularização, mediante registro no Renavam.",
+     "pagina": 22
+    },
+    {
+     "tipo": "p",
+     "texto": "O recolhimento do CRLV-e se dará com o lançamento, pelo órgão responsável pela fiscalização, desta medida administrativa no cadastro do veículo junto ao Renavam.",
+     "pagina": 22
+    },
+    {
+     "tipo": "p",
+     "texto": "No prazo assinalado no recibo, o infrator deverá providenciar a solução da irregularidade do veículo e apresentá-lo no local indicado, onde, após comprovada a regularização, terá seu CRLV-e restituído.",
+     "pagina": 23
+    },
+    {
+     "tipo": "p",
+     "texto": "Caso o veículo seja flagrado, em circulação, fora do prazo estipulado no recibo de recolhimento, sem a devida regularização, deverá ser autuado pela respectiva irregularidade e recolhido ao depósito, nos termos do § 7º do art. 270 do CTB.",
+     "pagina": 23
+    },
+    {
+     "tipo": "p",
+     "texto": "No caso de não observância do prazo estabelecido para a regularização, a autoridade de trânsito deverá encaminhar o documento ao órgão ou entidade de trânsito de registro do veículo, sendo que, no caso de documento digital, deve ser comunicado o órgão executivo de trânsito da Unidade Federativa de registro do veículo, para inserção de restrição administrativa.",
+     "pagina": 23
+    },
+    {
+     "tipo": "p",
+     "texto": "Não efetuada a regularização no prazo concedido no momento da fiscalização, será feito registro de restrição administrativa no Renavam, pelo órgão ou entidade executivo de trânsito da Unidade Federativa de registro do veículo, que será retirada após comprovada a regularização.",
+     "pagina": 23
+    },
+    {
+     "tipo": "p",
+     "texto": "Quando se tratar de transporte coletivo conduzindo passageiros ou de veículo de carga transportando produto perigoso ou perecível, desde que o veículo ofereça condições de segurança para circulação em via pública, a retenção pode deixar de ser aplicada imediatamente. Não atendidas quaisquer das situações previstas, o veículo deverá ser removido ao depósito.",
+     "pagina": 23
+    }
+   ]
+  },
+  {
+   "id": "8-2",
+   "numero": "8.2",
+   "titulo": "Remoção do Veículo",
+   "nivel": 2,
+   "pagina": 23,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "A remoção do veículo tem por finalidade restabelecer as condições de segurança e fluidez da via ou garantir a boa ordem administrativa. Consiste em deslocar o veículo do local onde é verificada a infração para depósito fixado pela autoridade de trânsito com circunscrição sobre a via.",
+     "pagina": 23
+    },
+    {
+     "tipo": "p",
+     "texto": "Quando a irregularidade puder ser sanada no local onde for constatada a infração, o veículo será liberado tão logo seja regularizada a situação.",
+     "pagina": 23
+    },
+    {
+     "tipo": "p",
+     "texto": "Na impossibilidade de sanar a irregularidade no local da infração, desde que o veículo ofereça condições de segurança para circulação e esteja devidamente licenciado, poderá ser retirado por condutor regularmente habilitado, mediante recolhimento do CRLV-e.",
+     "pagina": 23
+    },
+    {
+     "tipo": "p",
+     "texto": "O recolhimento digital do CRLV-e será registrado em sistema informatizado, com ciência ao condutor.",
+     "pagina": 24
+    },
+    {
+     "tipo": "p",
+     "texto": "A ciência do recolhimento digital do CRLV-e dar-se-á por meio de recibo entregue ao condutor ou de lançamento dessa medida administrativa em campo próprio ou no de observações do AIT, assinalando-se prazo razoável, não superior a 15 (quinze) dias, para sua regularização.",
+     "pagina": 24
+    },
+    {
+     "tipo": "p",
+     "texto": "Não atendidas quaisquer das situações previstas anteriormente, o veículo deverá ser removido ao depósito.",
+     "pagina": 24
+    },
+    {
+     "tipo": "p",
+     "texto": "No prazo assinalado, o veículo regularizado deverá ser apresentado no local indicado, para ter a situação do CRLV-e restabelecida. Caso não seja efetuada a regularização no prazo concedido no momento da fiscalização, permanecerá a restrição no sistema, e o veículo será removido se flagrado em circulação.",
+     "pagina": 24
+    },
+    {
+     "tipo": "p",
+     "texto": "O veículo será removido ao depósito nos seguintes casos:",
+     "pagina": 24
+    },
+    {
+     "tipo": "item",
+     "marcador": "I.",
+     "texto": "quando a irregularidade não for sanada e não se apresentar o condutor regularmente habilitado e o veículo não reunir condições para transitar com segurança;",
+     "pagina": 24
+    },
+    {
+     "tipo": "item",
+     "marcador": "II.",
+     "texto": "quando o veículo não estiver devidamente registrado e licenciado;",
+     "pagina": 24
+    },
+    {
+     "tipo": "item",
+     "marcador": "III.",
+     "texto": "quando necessário à boa ordem administrativa.",
+     "pagina": 24
+    },
+    {
+     "tipo": "item",
+     "marcador": "IV.",
+     "texto": "O atendimento à boa ordem administrativa se dará nas infrações em que, embora a irregularidade possa ter cessado em razão da abordagem, seja necessário garantir que a conduta não será praticada novamente, tendo como objetivo prioritário a proteção à vida, à Segurança Viária e à incolumidade física da pessoa, em consonância com o § 1º do art. 269 do CTB.",
+     "pagina": 24
+    },
+    {
+     "tipo": "item",
+     "marcador": "V.",
+     "texto": "São exemplos de infrações que ensejam o recolhimento do veículo ao depósito, quando necessário à boa ordem administrativa: arts. 173; 174; 175; 210; 230, I; 231, VIII; 239; 253; e 253-A.",
+     "pagina": 24
+    },
+    {
+     "tipo": "p",
+     "texto": "O veículo em estado de abandono ou acidentado poderá ser removido para o depósito fixado pelo órgão ou entidade competente, componente do Sistema Nacional de Trânsito, independentemente da existência de infração à legislação de trânsito.",
+     "pagina": 25
+    },
+    {
+     "tipo": "p",
+     "texto": "Considera-se veículo em estado de abandono o veículo estacionado na via ou em estacionamento público, sem capacidade de locomoção por meios próprios e que, devido a seu estado de conservação e processo de deterioração, ofereça risco à saúde pública, à segurança pública ou ao meio ambiente, independentemente de encontrar-se estacionado em local permitido.",
+     "pagina": 25
+    },
+    {
+     "tipo": "p",
+     "texto": "A remoção do veículo acidentado será realizada quando não houver responsável pelo bem no local do acidente.",
+     "pagina": 25
+    },
+    {
+     "tipo": "p",
+     "texto": "A remoção deve ser feita por meio de veículo destinado para esse fim, a serviço do órgão de trânsito, ou, na falta deste, valendo-se da própria capacidade de movimentação do veículo a ser removido, desde que haja condições de segurança para o trânsito, de acordo com a regulamentação do órgão responsável pela remoção.",
+     "pagina": 25
+    },
+    {
+     "tipo": "p",
+     "texto": "Nas infrações de estacionamento em que se prevê a remoção do veículo, esta não será aplicada se o condutor, regularmente habilitado, retirar o veículo de onde se encontra irregularmente, desde que esteja devidamente licenciado e em condições de circulação, se a retirada do veículo do local ocorrer antes do início da operação de remoção, ou ainda, quando o agente avaliar que a operação de remoção trará ainda mais prejuízo à segurança e/ou fluidez da via.",
+     "pagina": 25
+    },
+    {
+     "tipo": "p",
+     "texto": "Considera-se iniciada a operação de remoção quando o veículo destinado para a remoção (guincho) se encontrar no local da infração e o responsável pelo guincho já tiver iniciado qualquer procedimento mecânico de guinchamento, tais como, destravamento do sistema de transmissão ou de frenagem, amarração de rodas, veículo sobre ao menos um dos patins, colocação de veículo na lança do guincho, ou, subida de veículo, ainda que parcial, na plataforma do guincho, entre outros.",
+     "pagina": 25
+    },
+    {
+     "tipo": "p",
+     "texto": "A restituição dos veículos removidos só ocorrerá após o pagamento das multas, taxas e despesas com remoção e estada, além de outros encargos previstos na legislação específica.",
+     "pagina": 25
+    }
+   ]
+  },
+  {
+   "id": "8-3",
+   "numero": "8.3",
+   "titulo": "Recolhimento do Documento de Habilitação",
+   "nivel": 2,
+   "pagina": 26,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "A medida administrativa de recolhimento do documento de habilitação é aplicada pela autoridade de trânsito quando da imposição da penalidade de suspensão do direito de dirigir ou de cassação da CNH/PPD, após o devido processo administrativo, com o objetivo de impedir a condução de veículos nas vias públicas enquanto perdurar a suspensão ou cassação.",
+     "pagina": 26
+    },
+    {
+     "tipo": "p",
+     "texto": "Quando o condutor possuir CNH/PPD em meio físico, a autoridade de trânsito notificará o condutor para que entregue a sua CNH.",
+     "pagina": 26
+    },
+    {
+     "tipo": "p",
+     "texto": "Quando o condutor possuir CNH/PPD em meio digital, a autoridade de trânsito colocará um bloqueio no aplicativo, indicando a existência da suspensão ou cassação.",
+     "pagina": 26
+    },
+    {
+     "tipo": "p",
+     "texto": "O agente da autoridade de trânsito somente aplicará a medida administrativa de recolhimento de documento de habilitação quando ele flagrar o cometimento das infrações previstas nos art. 162, II (Dirigir veículo com Carteira Nacional de Habilitação, Permissão para Dirigir ou Autorização para Conduzir Ciclomotor cassada ou com suspensão do direito de dirigir).",
+     "pagina": 26
+    },
+    {
+     "tipo": "p",
+     "texto": "No caso do art. 162, II, quando o documento de habilitação for apresentado em meio físico, o agente da autoridade de trânsito deve providenciar o seu recolhimento, mediante recibo, para que seja feito o encaminhamento para a autoridade de trânsito responsável pela aplicação da penalidade de suspensão ou cassação. Se o documento for apresentado em meio digital, o bloqueio já estará inserido no próprio sistema do Renach.",
+     "pagina": 26
+    },
+    {
+     "tipo": "p",
+     "texto": "Quando o agente detectar indícios de inautenticidade ou adulteração, o documento de habilitação apresentado deverá ser recolhido e encaminhado, juntamente com o condutor, para a Polícia Judiciária, nos termos do art. 272 do CTB.",
+     "pagina": 26
+    }
+   ]
+  },
+  {
+   "id": "8-4",
+   "numero": "8.4",
+   "titulo": "Recolhimento do Certificado de Licenciamento Anual (CLA/CRLV-e)",
+   "nivel": 2,
+   "pagina": 26,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "Consiste na inserção, em sistema informatizado, de restrição do documento que certifica o licenciamento do veículo, com o objetivo de garantir que o proprietário promova a regularização de uma infração constatada.",
+     "pagina": 26
+    },
+    {
+     "tipo": "p",
+     "texto": "Deve ser aplicado nas seguintes situações:",
+     "pagina": 26
+    },
+    {
+     "tipo": "item",
+     "marcador": "a)",
+     "texto": "quando não for possível sanar a irregularidade no local da infração, nos casos em que esteja prevista a medida administrativa de retenção ou de remoção do veículo e este tenha sido liberado nos termos do § 2º do art. 270 e § 9º- A do art. 271 do CTB.",
+     "pagina": 27
+    },
+    {
+     "tipo": "item",
+     "marcador": "b)",
+     "texto": "quando houver fundada suspeita quanto à inautenticidade ou adulteração, devendo ser encaminhado, juntamente com o condutor, para a Polícia Judiciária, nos termos do art. 274 do CTB.",
+     "pagina": 27
+    },
+    {
+     "tipo": "p",
+     "texto": "A ciência do recolhimento digital do CLA/CRLV-e dar-se-á por meio de recibo entregue ao condutor ou de lançamento dessa medida administrativa em campo próprio ou no de observações do AIT.",
+     "pagina": 27
+    }
+   ]
+  },
+  {
+   "id": "8-5",
+   "numero": "8.5",
+   "titulo": "Transbordo do Excesso de Carga",
+   "nivel": 2,
+   "pagina": 27,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "O transbordo do excesso de carga consiste na retirada ou remanejamento da carga de um veículo que exceda o limite de peso ou a capacidade máxima de tração, às expensas do proprietário, sem prejuízo da autuação cabível.",
+     "pagina": 27
+    },
+    {
+     "tipo": "p",
+     "texto": "A critério do agente, avaliados os riscos e as condições de segurança, poderá ser dispensado o remanejamento ou transbordo de produtos perigosos, produtos perecíveis, cargas vivas e passageiros.",
+     "pagina": 27
+    },
+    {
+     "tipo": "p",
+     "texto": "Nos casos em que não for dispensado o remanejamento ou transbordo da carga, o veículo deverá ser recolhido ao depósito.",
+     "pagina": 27
+    }
+   ]
+  },
+  {
+   "id": "8-6",
+   "numero": "8.6",
+   "titulo": "Recolhimento de Animais que se Encontrem Soltos nas Vias e na Faixa de Domínio das Vias de Circulação",
+   "nivel": 2,
+   "pagina": 27,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "Esta medida administrativa consiste no recolhimento de animais soltos nas vias ou nas faixas de domínio, com o objetivo de garantir a segurança dos usuários, evitando perigo potencial gerado à segurança do trânsito.",
+     "pagina": 27
+    },
+    {
+     "tipo": "p",
+     "texto": "O animal deverá ser recolhido para depósito fixado pelo órgão ou entidade de trânsito competente, ou, excepcionalmente, para instalações públicas ou privadas, dedicadas à guarda e preservação de animais.",
+     "pagina": 27
+    },
+    {
+     "tipo": "p",
+     "texto": "O recolhimento deixará de ocorrer se o responsável, presente no local, se dispuser a retirar o animal.",
+     "pagina": 28
+    }
+   ]
+  },
+  {
+   "id": "8-7",
+   "numero": "8.7",
+   "titulo": "Medidas Administrativas Inominadas",
+   "nivel": 2,
+   "pagina": 28,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "Além das medidas administrativas relacionadas no artigo 269, o CTB prevê medidas administrativas específicas para as infrações dos artigos 221 (apreensão das placas irregulares), 243 (recolhimento de placas e documentos), 245 (remoção de mercadoria e material), 255 (remoção de bicicleta) e 278 (retorno ao ponto de evasão).",
+     "pagina": 28
+    }
+   ]
+  },
+  {
+   "id": "9",
+   "numero": "9",
+   "titulo": "HABILITAÇÃO",
+   "nivel": 1,
+   "pagina": 29,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "Para a condução de veículos automotores é obrigatório o porte do documento de habilitação, apresentado no original e dentro da data de validade.",
+     "pagina": 29
+    },
+    {
+     "tipo": "p",
+     "texto": "O porte do documento de habilitação será dispensado quando, no momento da fiscalização, for possível ter acesso ao sistema informatizado para verificar se o condutor está habilitado.",
+     "pagina": 29
+    },
+    {
+     "tipo": "p",
+     "texto": "O documento de habilitação não pode estar plastificado para que sua autenticidade possa ser verificada.",
+     "pagina": 29
+    },
+    {
+     "tipo": "p",
+     "texto": "São documentos de habilitação:",
+     "pagina": 29
+    },
+    {
+     "tipo": "item",
+     "marcador": "I.",
+     "texto": "Autorização para Conduzir Ciclomotores (ACC) - habilita o condutor somente para conduzir ciclomotores e cicloelétricos;",
+     "pagina": 29
+    },
+    {
+     "tipo": "item",
+     "marcador": "II.",
+     "texto": "Permissão para Dirigir (PPD) - categorias A e B;",
+     "pagina": 29
+    },
+    {
+     "tipo": "item",
+     "marcador": "III.",
+     "texto": "Carteira Nacional de Habilitação (CNH) - categorias A, B, C, D e E;",
+     "pagina": 29
+    },
+    {
+     "tipo": "item",
+     "marcador": "IV.",
+     "texto": "Permissão Internacional para Dirigir (PID).",
+     "pagina": 29
+    }
+   ]
+  },
+  {
+   "id": "9-1",
+   "numero": "9.1",
+   "titulo": "Condutor Oriundo de País Estrangeiro",
+   "nivel": 2,
+   "pagina": 29,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "O condutor de veículo automotor, oriundo de país estrangeiro e nele habilitado, desde que penalmente imputável no Brasil, poderá dirigir no território nacional quando amparado por convenções ou acordos internacionais, ratificados e aprovados pela República Federativa do Brasil e, igualmente, pela adoção do Princípio da Reciprocidade, no prazo máximo de 180 (cento e oitenta) dias, respeitada a validade da habilitação de origem, conforme regulamentação de resolução do Contran.",
+     "pagina": 29
+    },
+    {
+     "tipo": "p",
+     "texto": "Nestas situações o agente deverá verificar se o país de origem da habilitação do condutor é signatário de convenções ou acordos internacionais, ratificados e aprovados pela República Federativa do Brasil. A informação encontra-se disponível em sítio eletrônico do Órgão Máximo Executivo da União.",
+     "pagina": 29
+    }
+   ]
+  },
+  {
+   "id": "10",
+   "numero": "10",
+   "titulo": "DISPOSIÇÕES FINAIS",
+   "nivel": 1,
+   "pagina": 30,
+   "blocos": [
+    {
+     "tipo": "p",
+     "texto": "O condutor de motocicleta, motoneta e ciclomotor, quando desmontado e empurrando o veículo nas vias públicas, não se equipara ao pedestre, exceto em caso de defeito, pane mecânica ou elétrica.",
+     "pagina": 30
+    },
+    {
+     "tipo": "p",
+     "texto": "O simples abandono de veículo em via pública, estacionado em local não proibido pela sinalização, não caracteriza infração de trânsito.",
+     "pagina": 30
+    },
+    {
+     "tipo": "p",
+     "texto": "Os órgãos e entidades executivos do SNT poderão celebrar convênio delegando as atividades previstas no CTB, com vistas à maior eficiência e à segurança para os usuários da via.",
+     "pagina": 30
+    },
+    {
+     "tipo": "p",
+     "texto": "Em razão de ser a legislação de trânsito dinâmica, e as normas que a regem estarem em constante mudança, alterações eventuais serão automaticamente recepcionadas, no que couber, por este Manual.",
+     "pagina": 30
+    }
+   ]
+  }
+ ]
+}

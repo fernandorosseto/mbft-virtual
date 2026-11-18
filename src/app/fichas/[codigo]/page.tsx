@@ -6,6 +6,7 @@ import { Gravidade } from '@/components/Gravidade';
 import { TextoMbft, dividirItem } from '@/components/TextoMbft';
 import { obterFicha, todasAsFichas, vizinhas, type Ficha } from '@/lib/mbft';
 import { metadataDe } from '@/lib/metadados';
+import { secoesDaMedida } from '@/lib/parteGeral';
 import { URL_MBFT_OFICIAL } from '@/lib/site';
 import styles from './ficha.module.css';
 
@@ -76,6 +77,17 @@ export default function PaginaFicha({ params }: Props) {
             <dt>{rotulo}</dt>
             <dd>
               <TextoMbft texto={valor} atual={f.codigo} />
+              {rotulo === 'Medida administrativa' && secoesDaMedida(valor).length > 0 && (
+                <span className={styles.medidas}>
+                  Na parte geral:{' '}
+                  {secoesDaMedida(valor).map((m, i) => (
+                    <span key={m.secao}>
+                      {i > 0 && ' · '}
+                      <Link href={`/parte-geral#${m.secao}`}>{m.rotulo}</Link>
+                    </span>
+                  ))}
+                </span>
+              )}
             </dd>
           </div>
         ))}

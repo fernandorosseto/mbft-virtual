@@ -76,6 +76,20 @@
   color: var(--muted);
 }
 
+.medidas {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.medidas a {
+  display: inline-block;
+  padding: 4px 0;
+  color: var(--sign-text);
+  font-weight: 600;
+}
+
 .quadro dd {
   line-height: 1.4;
 }

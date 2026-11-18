@@ -9,7 +9,7 @@ Consulta ao MBFT (Res. CONTRAN nº 985/2022) para agentes de fiscalização de t
 1. **Ficha** (`/fichas/[codigo]`, feita): cabeçalho com código, tipificação resumida, amparo legal, gravidade, penalidade, medida administrativa, infrator, competência, pontuação, constatação e crime; depois quando autuar, quando não autuar, definições e procedimentos, exemplos de observações e informações complementares. Link para a página do PDF oficial.
 2. **Busca** (feita, sobre código, tipificação resumida e amparo legal) por código (ex.: 672-61), artigo do CTB (ex.: 230, XVI) ou palavra, rodando no navegador sobre um índice leve.
 3. **Lista** das fichas agrupadas por artigo do CTB (feita, na página inicial); faltam os filtros (gravidade, infrator, competência).
-4. **Parte geral** do manual em páginas legíveis.
+4. **Parte geral** do manual (feita: `/parte-geral`).
 5. **Amparo legal** com o texto do artigo do CTB (de `docs/normas/ctb.txt`).
 
 ## 3. Decisões em aberto
@@ -29,3 +29,4 @@ Consulta ao MBFT (Res. CONTRAN nº 985/2022) para agentes de fiscalização de t
 | 18/11/2026 | Limpeza: removidos 3D (modelos, Three.js, scripts de modelagem), conteúdo e editais de concurso, Res. 960/989, verificador de citações, vídeos, lista de espera (Firebase) e imagens de prévia por rota | nada disso se aplica ao novo site; fica no histórico do CTB Virtual se for preciso |
 | 18/11/2026 | Página inicial = catálogo das fichas por artigo do CTB, com busca no navegador sobre código, tipificação resumida e amparo legal (sem o texto completo, para a página continuar leve) | o agente chega pela busca ou pelo artigo; buscar no texto inteiro exigiria baixar o MBFT todo |
 | 18/11/2026 | Ficha mostra os campos do PDF sem reescrita; códigos citados no texto viram links; figuras e tabelas ficam no PDF oficial, com link para a página | fidelidade ao texto; o extrator não captura figuras |
+| 18/11/2026 | Parte geral numa página só, com sumário e âncoras, texto extraído do `pdftotext` em parágrafos e listas; a medida administrativa da ficha liga à seção 8.x correspondente | são ~30 páginas de texto corrido: uma página com sumário é leve (~37 KB compactada) e permite busca do navegador; o texto do pdfplumber tinha palavras coladas |

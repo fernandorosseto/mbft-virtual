@@ -6,6 +6,7 @@ import { URL_SITE } from '@/lib/site';
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${URL_SITE}/`, changeFrequency: 'monthly', priority: 1 },
+    { url: `${URL_SITE}/parte-geral`, changeFrequency: 'monthly', priority: 0.9 },
     ...todasAsFichas().map((f) => ({
       url: `${URL_SITE}/fichas/${f.codigo}`,
       changeFrequency: 'monthly' as const,
