@@ -71,7 +71,7 @@ src/lib/site.ts              URL_SITE, NOME_SITE, URL_MBFT_OFICIAL
 src/lib/metadados.ts         metadataDe({ titulo, descricao, caminho })
 ```
 
-- A ficha mostra, nesta ordem: buscas (nesta ficha / outra ficha, na mesma linha também no celular), código e artigo, quadro (tipificação, amparo legal, penalidade, medida administrativa, infrator, competência, pontuação, constatação, crime), quando autuar / quando não autuar lado a lado no PC, definições e procedimentos, exemplos do campo de observações, informações complementares, conexões, resoluções citadas, texto do CTB, link para a página do PDF oficial (`#page=N`) e fichas anterior e seguinte na ordem do manual.
+- A ficha mostra, nesta ordem: buscas (nesta ficha / outra ficha, na mesma linha também no celular), selos do mesmo tamanho (principal escuro, o outro em amarelo `--sign`, conforme "guiar por"; letra acompanha a largura da tela no celular) e gravidade, quadro (tipificação, amparo legal, penalidade, medida administrativa, infrator, competência, pontuação, constatação, crime), quando autuar / quando não autuar lado a lado no PC, definições e procedimentos, exemplos do campo de observações, informações complementares, conexões, resoluções citadas, texto do CTB, link para a página do PDF oficial (`#page=N`) e fichas anterior e seguinte na ordem do manual.
 - Citações: 1.704 entre as 411 fichas (só 18 isoladas). Por item: 1.245 "em vez desta" (quando não autuar), 92 "autue também", 12 referências. São a base do mapa da busca e das conexões da ficha.
 - Na ficha, a medida administrativa ganha links para a seção da parte geral (retenção 8.1, remoção 8.2 etc.).
 - A ficha 542-81 aparece duas vezes no PDF (págs. 190 e 192), com o mesmo conteúdo: fica uma só.

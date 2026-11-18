@@ -91,13 +91,14 @@ export default async function PaginaFicha({ params }: Props) {
 
       <header className={styles.topo}>
         <div className={styles.linhaCodigo}>
+          {/* Dois selos do mesmo tamanho: o principal (escuro) e o outro (amarelo), conforme "guiar por" */}
           <span className={styles.codigo}>
             <Ref codigo={f.codigo} artigo={f.rotuloArtigo} />
           </span>
-          <Gravidade valor={f.gravidade} />
           <span className={styles.outraRef}>
             <RefOutra codigo={`Ficha ${f.codigo}`} artigo={f.rotuloArtigo} />
           </span>
+          <Gravidade valor={f.gravidade} />
         </div>
         <h1>
           {/* Permite quebrar depois de cada barra ("inscr/adesivo/legenda") em vez de no meio da palavra */}

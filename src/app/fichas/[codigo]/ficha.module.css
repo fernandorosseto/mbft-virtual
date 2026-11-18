@@ -39,31 +39,35 @@
   margin-bottom: 8px;
 }
 
-/* Referência secundária ("Ficha 669-61" ou o artigo): nunca parte no hífen; se não couber, desce inteira */
+/* Selos do topo: o principal (escuro) e o outro (amarelo) têm o mesmo tamanho; nunca partem no
+   meio. No celular, a letra acompanha a largura da tela para os dois e a gravidade caberem numa
+   linha; artigo longo ("Art. 163 c/c 162, VI") empurra a gravidade para a linha de baixo. */
+.codigo,
 .outraRef {
-  font-family: var(--f-num);
-  font-size: 13px;
-  color: var(--muted);
-  white-space: nowrap;
-}
-
-/* Selo principal (código ou artigo) sempre numa linha só */
-.codigo {
   font-family: var(--f-num);
   font-size: 22px;
   font-weight: 600;
-  line-height: 36px;
+  line-height: 1.6;
   padding: 0 10px;
   border-radius: 6px;
-  background: var(--paint);
-  color: #fff;
   white-space: nowrap;
 }
 
+.codigo {
+  background: var(--paint);
+  color: #fff;
+}
+
+.outraRef {
+  background: var(--sign);
+  color: var(--paint);
+}
+
 @media (max-width: 860px) {
-  .codigo {
-    font-size: 18px;
-    line-height: 32px;
+  .codigo,
+  .outraRef {
+    font-size: clamp(14px, 3.9vw, 20px);
+    padding: 0 0.45em;
   }
 }
 

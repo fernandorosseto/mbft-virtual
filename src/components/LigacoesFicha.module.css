@@ -6,6 +6,7 @@
 }
 
 .coluna {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -183,6 +184,14 @@
 
 @media (max-width: 860px) {
   .ligacoes {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Tela estreita: artigo longo ("Art. 164 c/c 162, I") pode quebrar em vez de empurrar a lista */
+@media (max-width: 400px) {
+  .destino b,
+  .origem b {
+    white-space: normal;
   }
 }
