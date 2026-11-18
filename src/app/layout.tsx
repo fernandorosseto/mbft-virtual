@@ -3,9 +3,7 @@ import { Barlow_Condensed, Barlow, Source_Serif_4, IBM_Plex_Mono } from 'next/fo
 import './globals.css';
 import { URL_SITE } from '@/lib/site';
 import { metadataDe } from '@/lib/metadados';
-import { INICIO } from '@/lib/navegacao';
 import { Analytics } from '@vercel/analytics/next';
-import { AppShell } from '@/components/app/AppShell';
 
 const barlowCondensed = Barlow_Condensed({
   subsets: ['latin'],
@@ -39,21 +37,20 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   // Base para os endereços absolutos (canônico, og:image) de todas as rotas
   metadataBase: new URL(URL_SITE),
-  ...metadataDe(INICIO),
+  ...metadataDe({
+    titulo: 'MBFT Virtual: Manual Brasileiro de Fiscalização de Trânsito para consulta',
+    descricao:
+      'Consulta rápida às fichas de fiscalização do MBFT (Res. CONTRAN nº 985/2022): enquadramento, quando autuar, quando não autuar e procedimentos, no celular e no computador.',
+    caminho: '/',
+  }),
   keywords: [
-    'CTB Virtual',
-    'concurso PRF',
-    'legislação de trânsito PRF',
-    'resoluções do CONTRAN para concurso',
+    'MBFT',
+    'Manual Brasileiro de Fiscalização de Trânsito',
+    'Resolução CONTRAN 985',
+    'fichas de fiscalização',
+    'enquadramento de infrações',
+    'agente de trânsito',
     'Código de Trânsito Brasileiro',
-    'CONTRAN',
-    'Resolução 989',
-    'Resolução 960',
-    'Película automotiva',
-    'Insulfilm',
-    'Transmitância luminosa',
-    'CTB art 230',
-    'Para-brisa',
   ],
 };
 
@@ -75,8 +72,6 @@ export default function RootLayout({
       className={`${barlowCondensed.variable} ${barlow.variable} ${sourceSerif.variable} ${ibmPlexMono.variable}`}
     >
       <body>
-        {/* O casco (menu, carro, painel) fica no layout para o carro 3D não ser recarregado entre rotas */}
-        <AppShell />
         {children}
         {/* Vercel Web Analytics: visitas por página, sem cookies */}
         <Analytics />

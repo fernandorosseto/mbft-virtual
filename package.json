@@ -1,5 +1,5 @@
 {
-  "name": "ctb-virtual",
+  "name": "mbft-virtual",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,31 +7,21 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit",
-    "verificar:citacoes": "tsx scripts/verificar-citacoes.ts"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@fontsource/barlow": "^5.1.0",
-    "@fontsource/barlow-condensed": "^5.1.0",
     "@vercel/analytics": "^2.0.1",
-    "firebase-admin": "^13.10.0",
-    "framer-motion": "^14.9.1",
     "lucide-react": "^0.453.0",
     "next": "^14.2.16",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "server-only": "^0.0.1",
-    "three": "^0.169.0",
-    "three-mesh-bvh": "^0.8.3"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@types/node": "^20.17.0",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
-    "@types/three": "^0.169.0",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.35",
-    "tsx": "^4.19.2",
     "typescript": "^5.6.3"
   }
 }
