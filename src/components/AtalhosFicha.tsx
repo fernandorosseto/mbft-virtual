@@ -147,10 +147,36 @@ export function AtalhosFicha({ secoes }: { secoes: Secao[] }) {
           {aberto ? (
             <X aria-hidden size={22} />
           ) : (
-            <TableOfContents aria-hidden size={22} />
+            <IconeCaminhos />
           )}
         </button>
       </span>
     </div>
+  );
+}
+
+/**
+ * Seta que segue em frente ou vira à direita, como nas placas de trânsito: o botão leva a
+ * caminhos dentro da ficha. Desenho próprio no traço dos ícones do lucide (24 × 24, linha 2,
+ * pontas arredondadas), porque o lucide não tem essa seta.
+ */
+function IconeCaminhos() {
+  return (
+    <svg
+      width={28}
+      height={28}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2.4}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M8 21V4" />
+      <path d="M4 8l4-4 4 4" />
+      <path d="M8 15c0-3.3 2.7-5 6-5h6" />
+      <path d="M17 7l3 3-3 3" />
+    </svg>
   );
 }
