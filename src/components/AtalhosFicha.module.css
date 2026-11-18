@@ -1,0 +1,110 @@
+.atalhos {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  z-index: 35;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition:
+    opacity 0.2s,
+    transform 0.2s,
+    bottom 0.2s;
+}
+
+.visivel {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* Barra de ocorrências da busca na ficha aberta: o botão sobe para não ficar por cima */
+:global(body:has([data-barra-ocorrencias])) .atalhos {
+  bottom: calc(76px + env(safe-area-inset-bottom));
+}
+
+.botao {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--paint);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.3);
+}
+
+.botao:hover {
+  background: #1e293b;
+}
+
+.botao[aria-expanded='true'] {
+  background: var(--sign);
+  color: var(--paint);
+}
+
+.menu {
+  width: min(280px, calc(100vw - 32px));
+  max-height: min(70vh, 520px);
+  overflow-y: auto;
+  padding: 8px;
+  background: var(--asphalt-2);
+  border: 1px solid var(--asphalt-3);
+  border-radius: 12px;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.22);
+}
+
+.titulo {
+  padding: 4px 8px 6px;
+  font-family: var(--f-display);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.menu ul {
+  list-style: none;
+}
+
+.menu button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 10px;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 15px;
+}
+
+.menu button:hover {
+  background: var(--asphalt);
+}
+
+.atual {
+  background: #fef9c3;
+  font-weight: 600;
+  box-shadow: inset 3px 0 0 var(--sign);
+}
+
+.topo {
+  margin-top: 4px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 4px;
+}
+
+.topo button {
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atalhos {
+    transition: none;
+  }
+}

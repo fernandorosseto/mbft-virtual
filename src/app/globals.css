@@ -126,3 +126,8 @@ html[data-fonte='1'] main {
 html[data-fonte='2'] main {
   zoom: 1.3;
 }
+
+/* Âncoras das seções (atalhos, links #): não ficam escondidas atrás do cabeçalho fixo */
+main [id] {
+  scroll-margin-top: 68px;
+}

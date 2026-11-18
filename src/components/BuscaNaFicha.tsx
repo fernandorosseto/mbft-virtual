@@ -130,7 +130,7 @@ export function BuscaNaFicha({ alvo }: { alvo: string }) {
 
       {/* Barra fixa embaixo: anda entre as ocorrências depois de rolar a ficha */}
       {ativa && trechos.length > 0 && (
-        <div className={styles.navegacao} data-fora-da-busca role="toolbar" aria-label="Ocorrências na ficha">
+        <div className={styles.navegacao} data-fora-da-busca data-barra-ocorrencias role="toolbar" aria-label="Ocorrências na ficha">
           <span className={styles.navTexto}>
             <b>“{consulta.trim()}”</b> {atual + 1} de {trechos.length}
           </span>

@@ -4,6 +4,9 @@ import { Fragment } from 'react';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 import { AmparoCtb } from '@/components/AmparoCtb';
+import { AtalhosFicha, type Secao } from '@/components/AtalhosFicha';
+import { trechosDoAmparo } from '@/lib/ctb';
+import { resolucoesDa } from '@/lib/resolucoes';
 import { BuscaNaFicha } from '@/components/BuscaNaFicha';
 import { ConexoesFicha } from '@/components/ConexoesFicha';
 import { IrPara } from '@/components/IrPara';
@@ -12,7 +15,7 @@ import { ResolucoesCitadas } from '@/components/ResolucoesCitadas';
 import barra from '@/components/BarraFicha.module.css';
 import { Gravidade } from '@/components/Gravidade';
 import { TextoMbft, dividirItem } from '@/components/TextoMbft';
-import { obterFicha, todasAsFichas, vizinhas, type Ficha } from '@/lib/mbft';
+import { conexoes, obterFicha, todasAsFichas, vizinhas, type Ficha } from '@/lib/mbft';
 import { metadataDe } from '@/lib/metadados';
 import { secoesDaMedida } from '@/lib/parteGeral';
 import { URL_MBFT_OFICIAL } from '@/lib/site';
@@ -58,6 +61,19 @@ export default function PaginaFicha({ params }: Props) {
   const f = obterFicha(params.codigo);
   if (!f) notFound();
   const { anterior, seguinte } = vizinhas(f.codigo);
+  const ligadas = conexoes(f.codigo);
+  // Atalhos do botão flutuante: só as seções que esta ficha tem
+  const secoes: Secao[] = [
+    { id: 'enquadramento', rotulo: 'Enquadramento' },
+    { id: 'quando-autuar', rotulo: 'Quando autuar' },
+    { id: 'quando-nao-autuar', rotulo: 'Quando não autuar' },
+    { id: 'definicoes', rotulo: 'Definições e procedimentos' },
+    { id: 'exemplos', rotulo: 'Exemplos do campo de observações' },
+    { id: 'informacoes', rotulo: 'Informações complementares' },
+    ...(ligadas.cita.length || ligadas.citadaPor.length ? [{ id: 'conexoes', rotulo: 'Conexões' }] : []),
+    ...(resolucoesDa(f).length ? [{ id: 'resolucoes', rotulo: 'Resoluções citadas' }] : []),
+    ...(trechosDoAmparo(f.amparoLegal).length ? [{ id: 'ctb', rotulo: 'Texto do CTB' }] : []),
+  ];
 
   return (
     <main className={styles.pagina} id="ficha">
@@ -97,7 +113,7 @@ export default function PaginaFicha({ params }: Props) {
         </h1>
       </header>
 
-      <dl className={styles.quadro}>
+      <dl className={styles.quadro} id="enquadramento">
         {quadro(f).map(([rotulo, valor], i, todos) => (
           // Tipificação ocupa a linha toda; com número ímpar de campos, o último também
           <div
@@ -132,12 +148,12 @@ export default function PaginaFicha({ params }: Props) {
       </dl>
 
       <div className={styles.autuar}>
-        <Coluna atual={f.codigo} titulo="Quando autuar" itens={f.quandoAutuar} tom="sim" />
-        <Coluna atual={f.codigo} titulo="Quando não autuar" itens={f.quandoNaoAutuar} tom="nao" />
+        <Coluna id="quando-autuar" atual={f.codigo} titulo="Quando autuar" itens={f.quandoAutuar} tom="sim" />
+        <Coluna id="quando-nao-autuar" atual={f.codigo} titulo="Quando não autuar" itens={f.quandoNaoAutuar} tom="nao" />
       </div>
-      <Coluna atual={f.codigo} titulo="Definições e procedimentos" itens={f.definicoesEProcedimentos} />
-      <Coluna atual={f.codigo} titulo="Exemplos do campo de observações" itens={f.exemplosObservacoes} />
-      <Coluna atual={f.codigo} titulo="Informações complementares" itens={f.informacoesComplementares} />
+      <Coluna id="definicoes" atual={f.codigo} titulo="Definições e procedimentos" itens={f.definicoesEProcedimentos} />
+      <Coluna id="exemplos" atual={f.codigo} titulo="Exemplos do campo de observações" itens={f.exemplosObservacoes} />
+      <Coluna id="informacoes" atual={f.codigo} titulo="Informações complementares" itens={f.informacoesComplementares} />
 
       <ConexoesFicha ficha={f} />
       <ResolucoesCitadas ficha={f} />
@@ -149,6 +165,8 @@ export default function PaginaFicha({ params }: Props) {
           Abrir na página {f.pagina} <ExternalLink aria-hidden size={14} />
         </a>
       </p>
+
+      <AtalhosFicha secoes={secoes} />
 
       <nav className={styles.vizinhas} aria-label="Fichas vizinhas" data-fora-da-busca>
         {anterior ? (
@@ -181,11 +199,13 @@ export default function PaginaFicha({ params }: Props) {
 }
 
 function Coluna({
+  id,
   titulo,
   itens,
   tom,
   atual,
 }: {
+  id: string;
   titulo: string;
   itens: string[];
   tom?: 'sim' | 'nao';
@@ -193,7 +213,7 @@ function Coluna({
 }) {
   const validos = itens.filter((t) => t.trim());
   return (
-    <section className={`${styles.coluna} ${tom === 'sim' ? styles.sim : tom === 'nao' ? styles.nao : ''}`}>
+    <section id={id} className={`${styles.coluna} ${tom === 'sim' ? styles.sim : tom === 'nao' ? styles.nao : ''}`}>
       <h2>{titulo}</h2>
       {validos.length ? (
         <ol>
