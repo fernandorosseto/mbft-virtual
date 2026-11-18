@@ -55,11 +55,45 @@
   color: var(--muted);
 }
 
-.contagem {
+.barraInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 36px;
   margin-top: 6px;
+}
+
+.contagem {
   color: var(--muted);
   font-family: var(--f-num);
   font-size: 12px;
+}
+
+.modos {
+  display: flex;
+  flex: none;
+  padding: 2px;
+  background: var(--asphalt-2);
+  border: 1px solid var(--asphalt-3);
+  border-radius: 8px;
+}
+
+.modos button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.modos button[aria-pressed='true'] {
+  background: var(--paint);
+  color: #fff;
 }
 
 .grupo h2 {

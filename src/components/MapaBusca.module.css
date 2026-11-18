@@ -1,0 +1,60 @@
+.mapa {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.legenda {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.cartao {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  background: var(--asphalt-2);
+  border: 1px solid var(--sign);
+  border-radius: 10px;
+}
+
+.cartaoTopo {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.cartaoTopo b {
+  font-family: var(--f-num);
+  font-size: 16px;
+  color: var(--paint);
+}
+
+.amparo {
+  font-family: var(--f-num);
+}
+
+.cartaoRodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.abrir {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 8px;
+  background: var(--sign);
+  color: var(--paint);
+  font-weight: 600;
+  text-decoration: none;
+}

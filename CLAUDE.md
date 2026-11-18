@@ -33,13 +33,18 @@ Rode `typecheck`, `lint` e `build` antes de cada commit.
 
 | Rota | Conteúdo |
 |---|---|
-| `/` | catálogo: fichas agrupadas por artigo do CTB, com busca (`?q=` no endereço) |
+| `/` | catálogo: fichas agrupadas por artigo do CTB, com busca no título e no texto completo e modo mapa (`?q=` e `?ver=mapa` no endereço) |
 | `/fichas/[codigo]` | ficha completa (ex.: `/fichas/552-50`), gerada no build para as 411 fichas |
+| `/busca.json` | índice gerado no build (fichas, palavras do texto completo, citações); o navegador só baixa ao buscar (~80 KB compactado) |
 | `/parte-geral` | Parte Geral do manual numa página, com sumário (fixo ao lado no PC, recolhível no celular) e âncoras por seção (`#8-2`, `#infracoes-concorrentes`) |
 
 ```
-src/lib/mbft.ts              lê docs/normas/mbft/mbft.json no build (server-only): Ficha, obterFicha, fichasPorArtigo, vizinhas
-src/components/Catalogo.tsx  único componente de cliente: lista e busca (códigos, números e romanos casam a palavra inteira; o resto, pelo começo)
+src/lib/mbft.ts              lê docs/normas/mbft/mbft.json no build (server-only): Ficha, obterFicha, fichasPorArtigo, vizinhas, textoCompleto, citacoes (a cita b quando o texto de a traz o código de b), conexoes
+src/components/Catalogo.tsx  lista e busca (cliente): primeiro título/código/amparo; com o índice, também o texto completo (resultados separados). Códigos, números e romanos casam a palavra inteira; o resto, pelo começo (src/lib/texto.ts)
+src/components/MapaBusca.tsx mapa da busca (cliente), estilo grafo do Obsidian: fichas encontradas (maiores) e fichas ligadas a elas por citação (menores, até 40 ou 20 se a busca trouxe 15+); tocar mostra um cartão com link
+src/components/ConexoesFicha.tsx grafo local da ficha, desenhado no build (SVG com links, sem JavaScript), em versão larga e alta, e as listas "cita" / "é citada por"
+src/components/DesenhoGrafo.tsx SVG de grafo já posicionado (cor = gravidade); serve ao servidor e ao cliente
+src/lib/grafo.ts             disposição por forças, determinística, sem bibliotecas: partes pequenas soltas vão para uma faixa; no fim afasta nós até caber o rótulo
 src/components/TextoMbft.tsx texto da ficha com códigos citados (ex.: 565-70) virando link; dividirItem separa número e subitens (1.1.)
 src/lib/parteGeral.ts        lê docs/normas/mbft/parte-geral.json (server-only): SECOES, secoesDaMedida (medida administrativa da ficha → seção 8.x)
 src/components/Gravidade.tsx selo da natureza da infração
@@ -49,6 +54,7 @@ src/lib/metadados.ts         metadataDe({ titulo, descricao, caminho })
 ```
 
 - A ficha mostra os campos como estão no PDF: quadro (tipificação, amparo legal, penalidade, medida administrativa, infrator, competência, pontuação, constatação, crime), quando autuar / quando não autuar lado a lado no PC, definições e procedimentos, exemplos do campo de observações, informações complementares, link para a página do PDF oficial (`#page=N`) e fichas anterior e seguinte na ordem do manual.
+- Citações: 1.704 entre as 411 fichas (só 18 isoladas). São a base do mapa da busca e das conexões da ficha.
 - Na ficha, a medida administrativa ganha links para a seção da parte geral (retenção 8.1, remoção 8.2 etc.).
 - A ficha 542-81 aparece duas vezes no PDF (págs. 190 e 192), com o mesmo conteúdo: fica uma só.
 - Gravidade por cor: gravíssima vermelho, grave laranja, média amarelo, leve verde.

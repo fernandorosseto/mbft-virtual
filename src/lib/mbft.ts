@@ -91,3 +91,46 @@ export function vizinhas(codigo: string): { anterior?: Ficha; seguinte?: Ficha }
   const i = FICHAS.findIndex((f) => f.codigo === codigo);
   return { anterior: FICHAS[i - 1], seguinte: FICHAS[i + 1] };
 }
+
+/** Texto completo da ficha, para o índice de busca e as citações. */
+export function textoCompleto(f: Ficha): string {
+  return [
+    f.codigo,
+    f.tipificacaoResumida,
+    f.tipificacao,
+    f.amparoLegal,
+    f.medidaAdministrativa,
+    f.crime ?? '',
+    ...f.quandoAutuar,
+    ...f.quandoNaoAutuar,
+    ...f.definicoesEProcedimentos,
+    ...f.exemplosObservacoes,
+    ...f.informacoesComplementares,
+  ].join(' ');
+}
+
+/** Citações entre fichas: [a, b] quando o texto de a cita o código de b (ex.: "utilizar 565-70"). */
+const ARESTAS: [string, string][] = (() => {
+  const lista: [string, string][] = [];
+  for (const f of FICHAS) {
+    const citados = new Set(textoCompleto(f).match(/\b\d{3}-\d{2}\b/g) ?? []);
+    for (const c of Array.from(citados).sort()) {
+      if (c !== f.codigo && POR_CODIGO.has(c)) lista.push([f.codigo, c]);
+    }
+  }
+  return lista;
+})();
+
+export function citacoes(): [string, string][] {
+  return ARESTAS;
+}
+
+/** Fichas que esta cita e fichas que a citam, na ordem do manual. */
+export function conexoes(codigo: string): { cita: Ficha[]; citadaPor: Ficha[] } {
+  const cita = new Set(ARESTAS.filter(([a]) => a === codigo).map(([, b]) => b));
+  const citadaPor = new Set(ARESTAS.filter(([, b]) => b === codigo).map(([a]) => a));
+  return {
+    cita: FICHAS.filter((f) => cita.has(f.codigo)),
+    citadaPor: FICHAS.filter((f) => citadaPor.has(f.codigo)),
+  };
+}

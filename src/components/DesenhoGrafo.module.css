@@ -1,0 +1,76 @@
+.grafo {
+  display: block;
+  width: 100%;
+  height: auto;
+  background:
+    radial-gradient(circle at 1px 1px, #e2e8f0 1px, transparent 0) 0 0 / 22px 22px,
+    var(--asphalt-2);
+  border: 1px solid var(--asphalt-3);
+  border-radius: 10px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.aresta {
+  stroke: #cbd5e1;
+  stroke-width: 1;
+}
+
+.arestaAtiva {
+  stroke: var(--sign);
+  stroke-width: 1.8;
+}
+
+.no {
+  cursor: pointer;
+  outline: none;
+  transition: opacity 0.15s;
+}
+
+.alvo {
+  fill: transparent;
+}
+
+.bolinha {
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+.bolinhaAtiva {
+  stroke: var(--paint);
+  stroke-width: 3;
+}
+
+.no:hover .bolinha,
+.no:focus-visible .bolinha {
+  stroke: var(--paint);
+}
+
+.rotulo,
+.rotuloVizinho {
+  font-family: var(--f-num);
+  text-anchor: middle;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.rotulo {
+  font-size: 12px;
+  font-weight: 600;
+  fill: var(--paint);
+}
+
+.rotuloVizinho {
+  font-size: 10px;
+  fill: var(--muted);
+}
+
+.vizinho {
+  opacity: 0.75;
+}
+
+.apagado {
+  opacity: 0.18;
+}

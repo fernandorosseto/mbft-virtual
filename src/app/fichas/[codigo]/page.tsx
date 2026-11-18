@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
+import { ConexoesFicha } from '@/components/ConexoesFicha';
 import { Gravidade } from '@/components/Gravidade';
 import { TextoMbft, dividirItem } from '@/components/TextoMbft';
 import { obterFicha, todasAsFichas, vizinhas, type Ficha } from '@/lib/mbft';
@@ -100,6 +101,8 @@ export default function PaginaFicha({ params }: Props) {
       <Coluna atual={f.codigo} titulo="Definições e procedimentos" itens={f.definicoesEProcedimentos} />
       <Coluna atual={f.codigo} titulo="Exemplos do campo de observações" itens={f.exemplosObservacoes} />
       <Coluna atual={f.codigo} titulo="Informações complementares" itens={f.informacoesComplementares} />
+
+      <ConexoesFicha ficha={f} />
 
       <p className={styles.fonte}>
         Figuras e tabelas da ficha estão no PDF oficial.{' '}

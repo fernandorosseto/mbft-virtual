@@ -1,0 +1,87 @@
+.conexoes {
+  background: var(--asphalt-2);
+  border: 1px solid var(--asphalt-3);
+  border-radius: 10px;
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.conexoes h2 {
+  font-family: var(--f-display);
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.legenda {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.celular {
+  display: none !important;
+}
+
+.listas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.listas h3 {
+  font-family: var(--f-display);
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.qtd {
+  font-family: var(--f-num);
+  font-size: 12px;
+}
+
+.listas ul {
+  list-style: none;
+}
+
+.listas a {
+  display: block;
+  padding: 8px 0;
+  border-top: 1px solid #e2e8f0;
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.listas a:hover {
+  color: var(--sign-text);
+}
+
+.listas b {
+  font-family: var(--f-num);
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.nenhuma {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+@media (max-width: 860px) {
+  .pc {
+    display: none !important;
+  }
+
+  .celular {
+    display: block !important;
+  }
+
+  .listas {
+    grid-template-columns: 1fr;
+  }
+}
