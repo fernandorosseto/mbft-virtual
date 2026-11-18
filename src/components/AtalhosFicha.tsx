@@ -122,7 +122,7 @@ export function AtalhosFicha({ secoes }: { secoes: Secao[] }) {
           onClick={() => setAberto((a) => !a)}
           tabIndex={visivel || aberto ? 0 : -1}
         >
-          {aberto ? <X aria-hidden size={22} /> : <IconeCaminhos />}
+          {aberto ? <X aria-hidden size={24} strokeWidth={3.2} /> : <IconeCaminhos />}
         </button>
       </span>
     </div>

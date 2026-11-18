@@ -54,6 +54,8 @@
   background-color: currentColor;
   -webkit-mask: url('/icones/seta-atalhos.png') center / contain no-repeat;
   mask: url('/icones/seta-atalhos.png') center / contain no-repeat;
+  /* A haste fica à esquerda na imagem: um pouco para a direita para parecer centrada no círculo */
+  transform: translateX(2px);
 }
 
 .aberto .botao {
