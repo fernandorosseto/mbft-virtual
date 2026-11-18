@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
+import { AmparoCtb } from '@/components/AmparoCtb';
 import { BuscaNaFicha } from '@/components/BuscaNaFicha';
 import { ConexoesFicha } from '@/components/ConexoesFicha';
 import { IrPara } from '@/components/IrPara';
@@ -86,6 +87,14 @@ export default function PaginaFicha({ params }: Props) {
             <dt>{rotulo}</dt>
             <dd>
               <TextoMbft texto={valor} atual={f.codigo} />
+              {rotulo === 'Amparo legal' && (
+                <>
+                  {' '}
+                  <a href="#ctb" className={styles.verCtb}>
+                    Ver texto do CTB
+                  </a>
+                </>
+              )}
               {rotulo === 'Medida administrativa' && secoesDaMedida(valor).length > 0 && (
                 <span className={styles.medidas}>
                   Na parte geral:{' '}
@@ -101,6 +110,8 @@ export default function PaginaFicha({ params }: Props) {
           </div>
         ))}
       </dl>
+
+      <AmparoCtb amparo={f.amparoLegal} />
 
       <div className={styles.autuar}>
         <Coluna atual={f.codigo} titulo="Quando autuar" itens={f.quandoAutuar} tom="sim" />

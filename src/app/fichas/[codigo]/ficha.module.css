@@ -76,6 +76,13 @@
   color: var(--muted);
 }
 
+.verCtb {
+  color: var(--sign-text);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 .medidas {
   display: block;
   margin-top: 4px;

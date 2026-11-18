@@ -10,7 +10,7 @@ Consulta ao MBFT (Res. CONTRAN nº 985/2022) para agentes de fiscalização de t
 2. **Busca** (feita, sobre código, tipificação resumida e amparo legal) por código (ex.: 672-61), artigo do CTB (ex.: 230, XVI) ou palavra, rodando no navegador sobre um índice leve.
 3. **Lista** das fichas agrupadas por artigo do CTB (feita, na página inicial); faltam os filtros (gravidade, infrator, competência).
 4. **Parte geral** do manual (feita: `/parte-geral`).
-5. **Amparo legal** com o texto do artigo do CTB (de `docs/normas/ctb.txt`).
+5. **Amparo legal** com o texto do artigo do CTB (feito: seção "Texto do CTB" na ficha).
 
 ## 3. Decisões em aberto
 
@@ -33,3 +33,4 @@ Consulta ao MBFT (Res. CONTRAN nº 985/2022) para agentes de fiscalização de t
 | 18/11/2026 | Busca também no texto completo das fichas, com índice baixado só ao buscar; resultados separados entre título/amparo e texto | "álcool" achava 1 ficha pelo título e o tema aparece em 5; o índice (~80 KB compactado) não pesa na página inicial |
 | 18/11/2026 | Visualização em grafo, estilo Obsidian: modo mapa na busca (encontradas + ligadas por citação) e conexões em cada ficha (grafo local + listas cita / é citada por) | as fichas se citam muito ("utilizar 565-70"); o grafo mostra o tema inteiro e os enquadramentos vizinhos. Desenho próprio em SVG, sem bibliotecas; na ficha, gerado no build |
 | 18/11/2026 | Duas buscas no topo da ficha: "Buscar nesta ficha" (marca e conta as ocorrências, anda entre elas) e "Ir para outra ficha ou tema" (sugestões de fichas e seções da parte geral) | fichas longas: o agente procura um termo dentro dela sem o Ctrl+F do celular; e troca de ficha sem voltar ao catálogo |
+| 18/11/2026 | Ficha mostra o texto do CTB do amparo legal: caput, dispositivo citado (marcado) e a sanção que vale para ele; o artigo inteiro fica recolhido | o agente confere a letra da lei sem sair da ficha; em artigos longos (art. 230), a sanção certa é o primeiro bloco "Infração / Penalidade / Medida" depois do inciso |

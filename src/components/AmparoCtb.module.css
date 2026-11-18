@@ -1,0 +1,107 @@
+.ctb {
+  background: var(--asphalt-2);
+  border: 1px solid var(--asphalt-3);
+  border-left: 4px solid var(--sign);
+  border-radius: 10px;
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scroll-margin-top: 64px;
+}
+
+.ctb h2 {
+  font-family: var(--f-display);
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.artigo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.artigo h3 {
+  font-family: var(--f-num);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sign-text);
+}
+
+.bloco {
+  font-family: var(--f-law);
+  font-size: 16px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.rotulo {
+  font-weight: 600;
+}
+
+.inciso,
+.sancao {
+  padding-left: 14px;
+}
+
+.alinea {
+  padding-left: 28px;
+}
+
+.sancao {
+  font-size: 15px;
+}
+
+.citado {
+  background: #fef9c3;
+  box-shadow: -6px 0 0 #fef9c3, 6px 0 0 #fef9c3;
+  border-radius: 2px;
+}
+
+.nota {
+  font-family: var(--f-body);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.salto {
+  color: var(--muted);
+  font-family: var(--f-law);
+  padding-left: 14px;
+}
+
+.inteiro {
+  margin-top: 4px;
+  border-top: 1px dashed var(--asphalt-3);
+}
+
+.inteiro summary {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--sign-text);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.inteiro[open] {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fonte {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.fonte a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--sign-text);
+  font-weight: 600;
+}

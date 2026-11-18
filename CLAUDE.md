@@ -27,6 +27,7 @@ Rode `typecheck`, `lint` e `build` antes de cada commit.
 - `mbft/parte-geral.json`: a Parte Geral (págs. 5 a 30) em seções e blocos (parágrafo, item com marcador, sigla), gerada do `mbft.txt` por `tools/normas/mbft/extrair_parte_geral.py`, que reconhece os títulos pelo sumário do manual. O texto por página do `mbft.json` não serve para isso: o pdfplumber cola palavras nas linhas justificadas.
 - `mbft/mbft.json`: o MBFT convertido (parte geral por página e as 412 fichas, com os campos do PDF); `mbft/mbft.txt`: texto corrido para conferência. Formato e limitações em `docs/normas/mbft/README.md`; gerado por `tools/normas/mbft/extrair_mbft.py`.
 - `ctb.txt`: CTB vigente, extraído de `ctb-planalto.html` (página compilada do Planalto salva pelo navegador) por `tools/normas/extrair-ctb.py`, descartando redações revogadas. Serve para mostrar o artigo citado no amparo legal.
+- `ctb-artigos.json`: os 100 artigos do CTB citados nas fichas, em blocos (caput, inciso, alínea, parágrafo, sanção), gerado do `ctb.txt` por `tools/normas/extrair_artigos_ctb.py` (junta linhas quebradas, "Art." e "§" soltos).
 - `contran-indice.json`: índice das resoluções do CONTRAN no DOU (nº 700 em diante), de `tools/normas/dou/coletar.py`. Serve para ligar as resoluções citadas nas fichas.
 
 ## Estrutura
@@ -49,6 +50,8 @@ src/components/ConexoesFicha.tsx grafo local da ficha, desenhado no build (SVG c
 src/components/DesenhoGrafo.tsx SVG de grafo já posicionado (cor = gravidade); serve ao servidor e ao cliente
 src/lib/grafo.ts             disposição por forças, determinística, sem bibliotecas: partes pequenas soltas vão para uma faixa; no fim afasta nós até caber o rótulo
 src/components/TextoMbft.tsx texto da ficha com códigos citados (ex.: 565-70) virando link; dividirItem separa número e subitens (1.1.)
+src/lib/ctb.ts               lê ctb-artigos.json (server-only): referenciasDe (amparo → artigo, inciso, alínea, §), trechosDoAmparo (caput + dispositivo citado + a primeira sanção depois dele; artigo inteiro à parte)
+src/components/AmparoCtb.tsx seção "Texto do CTB" da ficha (#ctb): trecho com o citado marcado, "[...]" nos saltos, artigo inteiro recolhido, notas de redação discretas
 src/lib/parteGeral.ts        lê docs/normas/mbft/parte-geral.json (server-only): SECOES, secoesDaMedida (medida administrativa da ficha → seção 8.x)
 src/components/Gravidade.tsx selo da natureza da infração
 src/components/Casco.tsx     cabeçalho e rodapé (no layout)
