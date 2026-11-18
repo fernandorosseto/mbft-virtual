@@ -2,7 +2,10 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
+import { BuscaNaFicha } from '@/components/BuscaNaFicha';
 import { ConexoesFicha } from '@/components/ConexoesFicha';
+import { IrPara } from '@/components/IrPara';
+import barra from '@/components/BarraFicha.module.css';
 import { Gravidade } from '@/components/Gravidade';
 import { TextoMbft, dividirItem } from '@/components/TextoMbft';
 import { obterFicha, todasAsFichas, vizinhas, type Ficha } from '@/lib/mbft';
@@ -53,12 +56,17 @@ export default function PaginaFicha({ params }: Props) {
   const { anterior, seguinte } = vizinhas(f.codigo);
 
   return (
-    <main className={styles.pagina}>
-      <nav className={styles.trilha} aria-label="Navegação">
+    <main className={styles.pagina} id="ficha">
+      <nav className={styles.trilha} aria-label="Navegação" data-fora-da-busca>
         <Link href="/">Fichas</Link>
         <span aria-hidden>/</span>
         <Link href={`/#art-${f.artigo}`}>Art. {f.artigo}</Link>
       </nav>
+
+      <div className={barra.barra} role="search">
+        <BuscaNaFicha alvo="ficha" />
+        <IrPara atual={f.codigo} />
+      </div>
 
       <header className={styles.topo}>
         <div className={styles.linhaCodigo}>
@@ -111,7 +119,7 @@ export default function PaginaFicha({ params }: Props) {
         </a>
       </p>
 
-      <nav className={styles.vizinhas} aria-label="Fichas vizinhas">
+      <nav className={styles.vizinhas} aria-label="Fichas vizinhas" data-fora-da-busca>
         {anterior ? (
           <Link href={`/fichas/${anterior.codigo}`} className={styles.anterior}>
             <ArrowLeft aria-hidden size={18} />

@@ -1,4 +1,5 @@
 import { citacoes, textoCompleto, todasAsFichas } from '@/lib/mbft';
+import { SECOES } from '@/lib/parteGeral';
 import { normalizar } from '@/lib/texto';
 
 // Gerado no build: o navegador só baixa quando a pessoa começa a buscar
@@ -13,6 +14,8 @@ export interface IndiceBusca {
   ocorrencias: number[][];
   /** Citações [a, b]: a ficha a cita a ficha b (índices em `fichas`). */
   citacoes: [number, number][];
+  /** Seções da parte geral: âncora e título ("8.2. Remoção do Veículo"). */
+  secoes: [string, string][];
 }
 
 export function GET() {
@@ -35,6 +38,7 @@ export function GET() {
     palavras,
     ocorrencias: palavras.map((p) => porPalavra.get(p)!),
     citacoes: citacoes().map(([a, b]) => [indice.get(a)!, indice.get(b)!]),
+    secoes: SECOES.map((s) => [s.id, s.numero ? `${s.numero}. ${s.titulo}` : s.titulo]),
   };
   return Response.json(corpo);
 }

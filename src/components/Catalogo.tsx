@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { List, Network, Search, X } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { IndiceBusca } from '@/app/busca.json/route';
-import { casa, normalizar, TERMO_EXATO } from '@/lib/texto';
+import { buscarNoTexto, carregarIndice as baixarIndice, casaTodos, palavrasDoTitulo, termosDe } from '@/lib/busca';
 import { MapaBusca } from './MapaBusca';
 import styles from './Catalogo.module.css';
 
@@ -28,8 +28,7 @@ const COR: Record<string, string> = {
 };
 
 function palavrasDe(item: ItemCatalogo): string[] {
-  const codigo = item.codigo.replace('-', '');
-  return normalizar(`${item.codigo} ${codigo} ${item.resumo} ${item.amparo} ${item.gravidade}`).split(' ');
+  return palavrasDoTitulo(item.codigo, item.resumo, item.amparo, item.gravidade);
 }
 
 type Modo = 'lista' | 'mapa';
@@ -46,9 +45,8 @@ export function Catalogo({ grupos, total }: { grupos: GrupoCatalogo[]; total: nu
   const carregarIndice = useCallback(() => {
     if (carregando.current) return;
     carregando.current = true;
-    fetch('/busca.json')
-      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
-      .then((dados: IndiceBusca) => setIndiceTexto(dados))
+    baixarIndice()
+      .then((dados) => setIndiceTexto(dados))
       .catch(() => {
         carregando.current = false;
         setErroIndice(true);
@@ -90,32 +88,19 @@ export function Catalogo({ grupos, total }: { grupos: GrupoCatalogo[]; total: nu
   );
 
   const resultado = useMemo(() => {
-    const termos = normalizar(consulta).split(' ').filter(Boolean);
+    const termos = termosDe(consulta);
     if (!termos.length) return null;
 
-    const titulo = indiceTitulo
-      .filter(({ palavras }) => termos.every((t) => palavras.some((p) => casa(t, p))))
-      .map(({ item }) => item);
+    const titulo = indiceTitulo.filter(({ palavras }) => casaTodos(termos, palavras)).map(({ item }) => item);
 
-    // No texto completo: todas as palavras buscadas na mesma ficha (termos de 1 ou 2 letras não contam)
-    let texto: ItemCatalogo[] = [];
-    if (indiceTexto && termos.every((t) => t.length >= 3 || TERMO_EXATO.test(t))) {
-      let fichas: Set<number> | undefined;
-      for (const t of termos) {
-        const deste = new Set<number>();
-        indiceTexto.palavras.forEach((p, i) => {
-          if (casa(t, p)) indiceTexto.ocorrencias[i].forEach((f) => deste.add(f));
-        });
-        const anteriores: Set<number> | undefined = fichas;
-        fichas = anteriores ? new Set(Array.from(anteriores).filter((f) => deste.has(f))) : deste;
-      }
-      const noTitulo = new Set(titulo.map((i) => i.codigo));
-      texto = Array.from(fichas ?? new Set<number>())
-        .sort((x, y) => x - y)
-        .map((i) => indiceTexto.fichas[i])
-        .filter(([codigo]) => !noTitulo.has(codigo))
-        .map(([codigo, resumo, amparo, gravidade]) => ({ codigo, resumo, amparo, gravidade }));
-    }
+    // No texto completo: todas as palavras buscadas na mesma ficha
+    const noTitulo = new Set(titulo.map((i) => i.codigo));
+    const texto: ItemCatalogo[] = indiceTexto
+      ? buscarNoTexto(indiceTexto, termos)
+          .map((i) => indiceTexto.fichas[i])
+          .filter(([codigo]) => !noTitulo.has(codigo))
+          .map(([codigo, resumo, amparo, gravidade]) => ({ codigo, resumo, amparo, gravidade }))
+      : [];
     return { titulo, texto };
   }, [consulta, indiceTitulo, indiceTexto]);
 

@@ -89,3 +89,14 @@ button {
   text-underline-offset: 2px;
   white-space: nowrap;
 }
+
+/* Ocorrências da busca dentro da ficha (CSS Custom Highlight API) */
+::highlight(busca-ficha) {
+  background-color: #fde68a;
+  color: inherit;
+}
+
+::highlight(busca-ficha-atual) {
+  background-color: #f97316;
+  color: #fff;
+}
