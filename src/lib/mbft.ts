@@ -177,3 +177,65 @@ export function categoriasDe(f: Ficha): Categorias {
       : 'Vide procedimentos';
   return { gravidade: f.gravidade, infrator, competencia, constatacao };
 }
+
+/**
+ * Sentido de uma citação entre fichas, pelo lugar e pelo texto do item:
+ * - `emVez`: item do "Quando não autuar" (ex.: "utilizar enquadramento específico: 565-70"):
+ *   nesta situação, não se autua nesta ficha, e sim na citada;
+ * - `tambem`: item que pede outro auto além deste ("autua-se também", "concomitantemente", "deve ser
+ *   precedida pela lavratura do auto no enquadramento...");
+ * - `referencia`: demais citações (definições, informações complementares, quando autuar).
+ */
+export type TipoLigacao = 'emVez' | 'tambem' | 'referencia';
+
+export interface ItemLigado {
+  tipo: TipoLigacao;
+  campo: 'quandoAutuar' | 'quandoNaoAutuar' | 'definicoesEProcedimentos' | 'informacoesComplementares';
+  /** Texto do item, como está no PDF. */
+  item: string;
+  /** Fichas citadas no item, na ordem do texto. */
+  destinos: Ficha[];
+}
+
+const CAMPOS_LIGADOS = ['quandoNaoAutuar', 'quandoAutuar', 'definicoesEProcedimentos', 'informacoesComplementares'] as const;
+// "autua-se também", "autuar também", "lavrar outro auto de infração", "lavrar também outro AIT", "utilizar, concomitantemente, enquadramento específico",
+// "a autuação neste enquadramento deve ser precedida pela lavratura do auto no enquadramento 502-91"
+const PEDE_OUTRO_AUTO =
+  /autua-se tamb[ée]m|autuar tamb[ée]m|tamb[ée]m autuar|lavra(?:r|-se) tamb[ée]m|lavrar outro auto|tamb[ée]m (?:outro )?AIT|cumulativamente|concomitantemente|precedid[ao] (?:d[ae]|pel[ao]) lavratura/i;
+
+const ITENS_LIGADOS: Map<string, ItemLigado[]> = (() => {
+  const mapa = new Map<string, ItemLigado[]>();
+  for (const f of FICHAS) {
+    const itens: ItemLigado[] = [];
+    for (const campo of CAMPOS_LIGADOS) {
+      for (const item of f[campo]) {
+        const codigos = Array.from(new Set(item.match(/\b\d{3}-\d{2}\b/g) ?? [])).filter(
+          (c) => c !== f.codigo && POR_CODIGO.has(c),
+        );
+        if (!codigos.length) continue;
+        const tipo: TipoLigacao = PEDE_OUTRO_AUTO.test(item) ? 'tambem' : campo === 'quandoNaoAutuar' ? 'emVez' : 'referencia';
+        itens.push({ tipo, campo, item, destinos: codigos.map((c) => POR_CODIGO.get(c)!) });
+      }
+    }
+    mapa.set(f.codigo, itens);
+  }
+  return mapa;
+})();
+
+/**
+ * Ligações da ficha com o sentido e a situação: os itens desta ficha que citam outras (`saidas`)
+ * e, para cada ficha que cita esta, os itens dela que a citam (`recebidas`).
+ */
+export function ligacoesDaFicha(codigo: string): {
+  saidas: ItemLigado[];
+  recebidas: { origem: Ficha; itens: ItemLigado[] }[];
+} {
+  const saidas = ITENS_LIGADOS.get(codigo) ?? [];
+  const recebidas: { origem: Ficha; itens: ItemLigado[] }[] = [];
+  for (const f of FICHAS) {
+    if (f.codigo === codigo) continue;
+    const itens = (ITENS_LIGADOS.get(f.codigo) ?? []).filter((i) => i.destinos.some((d) => d.codigo === codigo));
+    if (itens.length) recebidas.push({ origem: f, itens });
+  }
+  return { saidas, recebidas };
+}

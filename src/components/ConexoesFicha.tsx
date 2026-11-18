@@ -1,10 +1,9 @@
-import Link from 'next/link';
 import { GrafoVivo } from './GrafoVivo';
 import { tamanhoDoNo, type NoGrafo } from '@/lib/noGrafo';
 import { citacoes, conexoes, obterFicha, type Ficha } from '@/lib/mbft';
 import { posicionarComAltura } from '@/lib/grafo';
 import styles from './ConexoesFicha.module.css';
-import { Ref } from './Ref';
+import { LigacoesFicha } from './LigacoesFicha';
 
 /** Duas versões do mesmo grafo: larga no computador, estreita no celular (rótulos legíveis nos dois). */
 const FORMATOS = [
@@ -12,7 +11,7 @@ const FORMATOS = [
   { largura: 360, minimo: 360, maximo: 1100, classe: styles.celular },
 ];
 
-/** Grafo local da ficha (estilo Obsidian) e as listas de fichas que ela cita e que a citam. */
+/** Grafo local da ficha (estilo Obsidian) e as ligações pelo sentido (LigacoesFicha). */
 export function ConexoesFicha({ ficha }: { ficha: Ficha }) {
   const { cita, citadaPor } = conexoes(ficha.codigo);
   if (!cita.length && !citadaPor.length) return null;
@@ -64,36 +63,7 @@ export function ConexoesFicha({ ficha }: { ficha: Ficha }) {
         );
       })}
 
-      <div className={styles.listas}>
-        <Lista titulo="Esta ficha cita" fichas={cita} />
-        <Lista titulo="É citada por" fichas={citadaPor} />
-      </div>
+      <LigacoesFicha ficha={ficha} />
     </section>
-  );
-}
-
-function Lista({ titulo, fichas }: { titulo: string; fichas: Ficha[] }) {
-  return (
-    <div>
-      <h3>
-        {titulo} <span className={styles.qtd}>{fichas.length}</span>
-      </h3>
-      {fichas.length ? (
-        <ul>
-          {fichas.map((f) => (
-            <li key={f.codigo}>
-              <Link href={`/fichas/${f.codigo}`}>
-                <b>
-                  <Ref codigo={f.codigo} artigo={f.rotuloArtigo} />
-                </b>{' '}
-                {f.tipificacaoResumida}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className={styles.nenhuma}>Nenhuma.</p>
-      )}
-    </div>
   );
 }
