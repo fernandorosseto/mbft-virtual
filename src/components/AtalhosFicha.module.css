@@ -47,6 +47,15 @@
   color: #fff;
 }
 
+.seta {
+  display: block;
+  width: 22px;
+  height: 29px;
+  background-color: currentColor;
+  -webkit-mask: url('/icones/seta-atalhos.png') center / contain no-repeat;
+  mask: url('/icones/seta-atalhos.png') center / contain no-repeat;
+}
+
 .aberto .botao {
   color: var(--paint);
 }
