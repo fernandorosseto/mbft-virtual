@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Fragment } from 'react';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 import { AmparoCtb } from '@/components/AmparoCtb';
@@ -81,7 +82,19 @@ export default function PaginaFicha({ params }: Props) {
             <RefOutra codigo={`Ficha ${f.codigo}`} artigo={f.rotuloArtigo} />
           </span>
         </div>
-        <h1>{f.tipificacaoResumida}</h1>
+        <h1>
+          {/* Permite quebrar depois de cada barra ("inscr/adesivo/legenda") em vez de no meio da palavra */}
+          {f.tipificacaoResumida.split('/').map((parte, i, partes) => (
+            <Fragment key={i}>
+              {parte}
+              {i < partes.length - 1 && (
+                <>
+                  /<wbr />
+                </>
+              )}
+            </Fragment>
+          ))}
+        </h1>
       </header>
 
       <dl className={styles.quadro}>

@@ -27,29 +27,44 @@
   font-family: var(--f-display);
   font-size: clamp(26px, 4.5vw, 38px);
   line-height: 1.12;
+  /* Tipificações com termos emendados por barra ("inscr/adesivo/legenda") quebram na tela estreita */
+  overflow-wrap: anywhere;
 }
 
 .linhaCodigo {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 6px;
+  gap: 6px 10px;
+  margin-bottom: 8px;
 }
 
+/* Referência secundária ("Ficha 669-61" ou o artigo): nunca parte no hífen; se não couber, desce inteira */
 .outraRef {
   font-family: var(--f-num);
   font-size: 13px;
   color: var(--muted);
+  white-space: nowrap;
 }
 
+/* Selo principal (código ou artigo) sempre numa linha só */
 .codigo {
   font-family: var(--f-num);
   font-size: 22px;
   font-weight: 600;
+  line-height: 36px;
   padding: 0 10px;
   border-radius: 6px;
   background: var(--paint);
   color: #fff;
+  white-space: nowrap;
+}
+
+@media (max-width: 860px) {
+  .codigo {
+    font-size: 18px;
+    line-height: 32px;
+  }
 }
 
 /* Quadro com os dados do enquadramento */
