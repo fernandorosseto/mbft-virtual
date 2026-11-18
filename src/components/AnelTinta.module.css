@@ -1,38 +1,16 @@
-.anel {
+/* A gota fica atrás do botão (que é transparente) e ocupa 14 px a mais de cada lado */
+.gota {
   position: absolute;
   inset: -14px;
   width: calc(100% + 28px);
   height: calc(100% + 28px);
   pointer-events: none;
   overflow: visible;
-  /* Giro bem lento: junto com a turbulência, o traço parece escorrer */
-  animation: girar 48s linear infinite;
+  filter: drop-shadow(0 6px 14px rgba(15, 23, 42, 0.28));
 }
 
-.parado {
-  animation-play-state: paused;
-}
-
-.tinta path {
-  fill: none;
-  stroke: var(--paint);
-  stroke-linecap: round;
-  opacity: 0.88;
-}
-
-.tinta circle {
+/* Mesma cor do botão: escuro; amarelo com o menu aberto; um pouco mais claro ao passar o mouse */
+.liquido {
   fill: var(--paint);
-  opacity: 0.85;
-}
-
-@keyframes girar {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .anel {
-    animation: none;
-  }
+  transition: fill 0.2s;
 }

@@ -36,23 +36,23 @@
 
 .botao {
   position: relative;
+  z-index: 1;
   display: grid;
   place-items: center;
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: var(--paint);
+  /* O fundo é a gota de líquido (AnelTinta), desenhada atrás */
+  background: transparent;
   color: #fff;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.3);
 }
 
-.botao:hover {
-  background: #1e293b;
-}
-
-.botao[aria-expanded='true'] {
-  background: var(--sign);
+.aberto .botao {
   color: var(--paint);
+}
+
+.aberto :global(svg) circle {
+  fill: var(--sign);
 }
 
 .menu {
