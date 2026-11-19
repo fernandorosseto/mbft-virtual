@@ -5,6 +5,7 @@ import { List, Network, Search, SlidersHorizontal, X } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { IndiceBusca } from '@/app/busca.json/route';
 import { buscarNoTexto, carregarIndice as baixarIndice, casaTodos, palavrasDoTitulo, termosDe } from '@/lib/busca';
+import { SINONIMOS } from '@/lib/sinonimos';
 import { MapaBusca } from './MapaBusca';
 import { Ref, RefOutra } from './Ref';
 import styles from './Catalogo.module.css';
@@ -42,7 +43,12 @@ type Modo = 'lista' | 'mapa';
 
 /** Filtros: opções em OU dentro do grupo e E entre grupos. A chave vai para o endereço. */
 const FILTROS = [
-  { chave: 'g', nome: 'Gravidade', campo: 'gravidade', opcoes: ['Gravíssima', 'Grave', 'Média', 'Leve', 'Não aplicável'] },
+  {
+    chave: 'g',
+    nome: 'Gravidade',
+    campo: 'gravidade',
+    opcoes: ['Gravíssima', 'Grave', 'Média', 'Leve', 'Não aplicável'],
+  },
   {
     chave: 'i',
     nome: 'Infrator',
@@ -102,7 +108,10 @@ export function Catalogo({ grupos, total }: { grupos: GrupoCatalogo[]; total: nu
     if (q) setConsulta(q);
     const inicial: Selecao = {};
     for (const { chave, opcoes } of FILTROS) {
-      const v = params.get(chave)?.split(',').filter((x) => (opcoes as readonly string[]).includes(x));
+      const v = params
+        .get(chave)
+        ?.split(',')
+        .filter((x) => (opcoes as readonly string[]).includes(x));
       if (v?.length) inicial[chave] = v;
     }
     setSelecao(inicial);
@@ -219,13 +228,24 @@ export function Catalogo({ grupos, total }: { grupos: GrupoCatalogo[]; total: nu
           </button>
         </div>
         <div className={styles.barraInfo}>
-          <p className={styles.contagem} aria-live="polite">
-            {ativo
-              ? `${encontradas} de ${total} fichas` +
-                (resultado?.texto.length ? ` (${resultado.texto.length} só no texto)` : '') +
-                (resultado && !indiceTexto && !erroIndice ? ' · buscando no texto…' : '')
-              : `${total} fichas`}
-          </p>
+          <div className={styles.infoBusca}>
+            <p className={styles.contagem} aria-live="polite">
+              {ativo
+                ? `${encontradas} de ${total} fichas` +
+                  (resultado?.texto.length ? ` (${resultado.texto.length} só no texto)` : '') +
+                  (resultado && !indiceTexto && !erroIndice ? ' · buscando no texto…' : '')
+                : `${total} fichas`}
+            </p>
+            {/* Termos do dia a dia que também buscaram pelo termo do manual */}
+            {consulta &&
+              termosDe(consulta)
+                .filter((t) => SINONIMOS[t])
+                .map((t) => (
+                  <p key={t} className={styles.sinonimo}>
+                    “{t}” também busca: {SINONIMOS[t].join(', ')}
+                  </p>
+                ))}
+          </div>
           {ativo && encontradas > 0 && (
             <div className={styles.modos} role="group" aria-label="Ver resultado como">
               <button type="button" aria-pressed={modo === 'lista'} onClick={() => setModo('lista')}>

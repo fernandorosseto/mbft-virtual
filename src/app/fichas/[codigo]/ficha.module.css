@@ -177,6 +177,11 @@
   gap: 10px;
 }
 
+.coluna li > div {
+  flex: 1;
+  min-width: 0;
+}
+
 .coluna li p {
   line-height: 1.5;
   overflow-wrap: anywhere;

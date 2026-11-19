@@ -1,0 +1,31 @@
+.botao {
+  flex: none;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 8px;
+  background: var(--asphalt-2);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.botao:hover {
+  border-color: var(--sign);
+  color: var(--paint);
+}
+
+.copiado {
+  border-color: var(--ok);
+  color: var(--ok);
+}
+
+@media (pointer: coarse) {
+  .botao {
+    min-height: 44px;
+  }
+}

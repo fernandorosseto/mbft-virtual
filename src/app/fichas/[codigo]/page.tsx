@@ -5,6 +5,8 @@ import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 import { AmparoCtb } from '@/components/AmparoCtb';
 import { AtalhosFicha, type Secao } from '@/components/AtalhosFicha';
+import { BotaoCopiar } from '@/components/BotaoCopiar';
+import { Favoritar } from '@/components/Favoritar';
 import { trechosDoAmparo } from '@/lib/ctb';
 import { resolucoesDa } from '@/lib/resolucoes';
 import { BuscaNaFicha } from '@/components/BuscaNaFicha';
@@ -99,6 +101,9 @@ export default async function PaginaFicha({ params }: Props) {
             <RefOutra codigo={`Ficha ${f.codigo}`} artigo={f.rotuloArtigo} />
           </span>
           <Gravidade valor={f.gravidade} />
+          <Favoritar
+            ficha={{ codigo: f.codigo, artigo: f.rotuloArtigo, resumo: f.tipificacaoResumida, gravidade: f.gravidade }}
+          />
         </div>
         <h1>
           {/* Permite quebrar depois de cada barra ("inscr/adesivo/legenda") em vez de no meio da palavra */}
@@ -154,7 +159,7 @@ export default async function PaginaFicha({ params }: Props) {
         <Coluna id="quando-nao-autuar" atual={f.codigo} titulo="Quando não autuar" itens={f.quandoNaoAutuar} tom="nao" />
       </div>
       <Coluna id="definicoes" atual={f.codigo} titulo="Definições e procedimentos" itens={f.definicoesEProcedimentos} />
-      <Coluna id="exemplos" atual={f.codigo} titulo="Exemplos do campo de observações" itens={f.exemplosObservacoes} />
+      <Coluna id="exemplos" atual={f.codigo} titulo="Exemplos do campo de observações" itens={f.exemplosObservacoes} copiar />
       <Coluna id="informacoes" atual={f.codigo} titulo="Informações complementares" itens={f.informacoesComplementares} />
 
       <ConexoesFicha ficha={f} />
@@ -206,12 +211,15 @@ function Coluna({
   itens,
   tom,
   atual,
+  copiar,
 }: {
   id: string;
   titulo: string;
   itens: string[];
   tom?: 'sim' | 'nao';
   atual: string;
+  /** Botão de copiar em cada item (exemplos para o campo de observações do AIT). */
+  copiar?: boolean;
 }) {
   const validos = itens.filter((t) => t.trim());
   return (
@@ -241,6 +249,12 @@ function Coluna({
                     </ol>
                   )}
                 </div>
+                {copiar && !/^n[ãa]o h[áa]/i.test(texto) && (
+                  <BotaoCopiar
+                    texto={[texto, ...subitens.map((s) => `${s.numero} ${s.texto}`)].join(' ')}
+                    rotulo="Copiar"
+                  />
+                )}
               </li>
             );
           })}

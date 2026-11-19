@@ -1,4 +1,5 @@
 import type { IndiceBusca } from '@/app/busca.json/route';
+import { alternativasDe } from './sinonimos';
 import { casa, normalizar, TERMO_EXATO } from './texto';
 
 /** Palavras da consulta, normalizadas. */
@@ -11,25 +12,41 @@ export function palavrasDoTitulo(codigo: string, resumo: string, amparo: string,
   return normalizar(`${codigo} ${codigo.replace('-', '')} ${resumo} ${amparo} ${gravidade}`).split(' ');
 }
 
-/** Todas as palavras buscadas aparecem nessas palavras. */
+/** Todas as palavras buscadas aparecem nessas palavras (cada uma pelo próprio termo ou por um sinônimo). */
 export function casaTodos(termos: string[], palavras: string[]): boolean {
-  return termos.every((t) => palavras.some((p) => casa(t, p)));
+  return alternativasDe(termos).every((alternativas) =>
+    alternativas.some((alt) => alt.every((t) => palavras.some((p) => casa(t, p)))),
+  );
 }
 
+/** Termos de 1 ou 2 letras que não sejam número ou romano não buscam no texto (achariam quase tudo). */
+const buscavel = (t: string) => t.length >= 3 || TERMO_EXATO.test(t);
+
 /**
- * Fichas (índices em `indice.fichas`) com todas as palavras buscadas no texto completo.
- * Termos de 1 ou 2 letras que não sejam número ou romano não buscam no texto (achariam quase tudo).
+ * Fichas (índices em `indice.fichas`) com todas as palavras buscadas no texto completo; cada palavra
+ * vale pelo próprio termo ou por um sinônimo (src/lib/sinonimos.ts).
  */
 export function buscarNoTexto(indice: IndiceBusca, termos: string[]): number[] {
-  if (!termos.length || !termos.every((t) => t.length >= 3 || TERMO_EXATO.test(t))) return [];
-  let fichas: Set<number> | undefined;
-  for (const t of termos) {
+  if (!termos.length || !termos.every(buscavel)) return [];
+  const comPalavra = (t: string) => {
     const deste = new Set<number>();
     indice.palavras.forEach((p, i) => {
       if (casa(t, p)) indice.ocorrencias[i].forEach((f) => deste.add(f));
     });
-    const anteriores: Set<number> | undefined = fichas;
-    fichas = anteriores ? new Set(Array.from(anteriores).filter((f) => deste.has(f))) : deste;
+    return deste;
+  };
+  const intersecao = (a: Set<number>, b: Set<number>) => new Set(Array.from(a).filter((f) => b.has(f)));
+  let fichas: Set<number> | undefined;
+  for (const alternativas of alternativasDe(termos)) {
+    // Fichas que têm o termo ou alguma alternativa (com todas as palavras dela)
+    const deste = new Set<number>();
+    for (const alt of alternativas) {
+      if (!alt.every(buscavel)) continue;
+      let comTodas: Set<number> | undefined;
+      for (const t of alt) comTodas = comTodas ? intersecao(comTodas, comPalavra(t)) : comPalavra(t);
+      comTodas?.forEach((f) => deste.add(f));
+    }
+    fichas = fichas ? intersecao(fichas, deste) : deste;
   }
   return Array.from(fichas ?? new Set<number>()).sort((a, b) => a - b);
 }

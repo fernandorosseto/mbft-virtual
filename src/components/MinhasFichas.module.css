@@ -1,0 +1,89 @@
+.minhas {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.grupo h2 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-family: var(--f-display);
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.limpar {
+  margin-left: auto;
+  min-height: 36px;
+  padding: 0 8px;
+  font-family: var(--f-body);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: none;
+  color: var(--sign-text);
+}
+
+/* Faixa de cartões que rola de lado no celular */
+.grupo ul {
+  list-style: none;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scroll-snap-type: x proximity;
+}
+
+.cartao {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 200px;
+  min-height: 72px;
+  padding: 10px 12px;
+  background: var(--asphalt-2);
+  border: 1px solid var(--asphalt-3);
+  border-left: 4px solid var(--asphalt-3);
+  border-radius: 10px;
+  text-decoration: none;
+  scroll-snap-align: start;
+}
+
+.cartao:hover {
+  border-color: var(--sign);
+}
+
+.cartao b {
+  font-family: var(--f-num);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.cartao span {
+  font-size: 13px;
+  line-height: 1.3;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.gravissima {
+  border-left-color: #dc2626;
+}
+
+.grave {
+  border-left-color: #ea580c;
+}
+
+.media {
+  border-left-color: #eab308;
+}
+
+.leve {
+  border-left-color: #16a34a;
+}
