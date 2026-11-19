@@ -25,6 +25,22 @@ test('catálogo: busca no título, no texto e por sinônimo', async ({ page }) =
   await semRolagemLateral(page);
 });
 
+test('catálogo: sinônimo em frase não acha outro sentido', async ({ page }) => {
+  await page.goto('/?q=escapamento');
+  await expect(page.locator('main ul a[href="/fichas/665-31"]').first()).toBeVisible();
+  await expect(page.getByText('No texto da ficha')).toBeVisible();
+  // "descarga livre" não acha "carga/descarga"
+  await expect(page.locator('main ul a[href="/fichas/554-14"]')).toHaveCount(0);
+  await expect(page.locator('main ul a[href="/fichas/722-62"]')).toHaveCount(0);
+  // frase com palavra curta ("excesso de peso") também vale no texto
+  await page.goto('/?q=sobrepeso');
+  await expect(page.locator('main ul a[href="/fichas/683-11"]').first()).toBeVisible();
+  // "som" não acha "somente"
+  await page.goto('/?q=som');
+  await expect(page.locator('main ul a[href="/fichas/653-00"]').first()).toBeVisible();
+  await expect(page.getByText(/^\d+ de 411 fichas \((\d) só no texto\)/)).toBeVisible();
+});
+
 test('ficha: seções, CTB, ligações, desenho e copiar', async ({ page }) => {
   await page.goto('/fichas/539-80');
   for (const id of ['enquadramento', 'quando-autuar', 'quando-nao-autuar', 'exemplos', 'informacoes', 'ctb']) {

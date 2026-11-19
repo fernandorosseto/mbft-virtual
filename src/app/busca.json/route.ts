@@ -3,6 +3,8 @@ import { citacoesTipadas, textoCompleto, todasAsFichas } from '@/lib/mbft';
 import { SECOES } from '@/lib/parteGeral';
 import { paginasDeTabela } from '@/lib/figuras';
 import { normalizar } from '@/lib/texto';
+import { temFrase } from '@/lib/busca';
+import { SINONIMOS } from '@/lib/sinonimos';
 
 // Gerado no build: o navegador só baixa quando a pessoa começa a buscar
 export const dynamic = 'force-static';
@@ -18,6 +20,8 @@ export interface IndiceBusca {
   citacoes: [number, number, number][];
   /** Seções da parte geral: âncora e título ("8.2. Remoção do Veículo"). */
   secoes: [string, string][];
+  /** Sinônimos de mais de uma palavra ("descarga livre"): fichas que têm as palavras juntas, na ordem. */
+  frases: Record<string, number[]>;
   /** Outras páginas que o "Salvar todas" baixa (tabelas em página própria). */
   extras: string[];
 }
@@ -37,12 +41,26 @@ export function GET() {
     }
   });
   const palavras = Array.from(porPalavra.keys()).sort();
+  const textos = fichas.map((f) => normalizar(textoCompleto(f)).split(' '));
+  const frases: Record<string, number[]> = {};
+  for (const valores of Object.values(SINONIMOS)) {
+    for (const v of valores) {
+      const frase = normalizar(v).split(' ');
+      if (frase.length < 2 || frases[frase.join(' ')]) continue;
+      frases[frase.join(' ')] = textos.flatMap((t, i) => (temFrase(frase, t) ? [i] : []));
+    }
+  }
   const corpo: IndiceBusca = {
     fichas: fichas.map((f) => [f.codigo, f.tipificacaoResumida, f.amparoLegal, f.gravidade, f.rotuloArtigo, f.tema]),
     palavras,
     ocorrencias: palavras.map((p) => porPalavra.get(p)!),
-    citacoes: citacoesTipadas().map(({ de, para, tipo }) => [indice.get(de)!, indice.get(para)!, TIPOS_LIGACAO.indexOf(tipo)]),
+    citacoes: citacoesTipadas().map(({ de, para, tipo }) => [
+      indice.get(de)!,
+      indice.get(para)!,
+      TIPOS_LIGACAO.indexOf(tipo),
+    ]),
     secoes: SECOES.map((s) => [s.id, s.numero ? `${s.numero}. ${s.titulo}` : s.titulo]),
+    frases,
     extras: paginasDeTabela().map((p) => `/tabela/${p.slug}`),
   };
   return Response.json(corpo);

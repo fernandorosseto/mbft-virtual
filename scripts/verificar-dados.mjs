@@ -125,6 +125,7 @@ for (const f of mbft.fichas) {
 
 // Sinônimos: toda palavra de destino precisa existir no texto das fichas
 const vocabulario = new Set();
+const textosNormalizados = [];
 for (const f of mbft.fichas) {
   const texto = [
     f.codigo,
@@ -139,17 +140,25 @@ for (const f of mbft.fichas) {
     ...f.exemplosObservacoes,
     ...f.informacoesComplementares,
   ].join(' ');
-  normalizar(texto)
-    .split(' ')
-    .forEach((p) => vocabulario.add(p));
+  const palavras = normalizar(texto).split(' ');
+  palavras.forEach((p) => vocabulario.add(p));
+  textosNormalizados.push(palavras);
 }
+// Sinônimo de uma palavra: existe no texto (pelo começo); de mais de uma: as palavras juntas, na ordem
+const temFrase = (frase, palavras) => palavras.some((_, i) => frase.every((t, k) => palavras[i + k]?.startsWith(t)));
 const fonteSinonimos = readFileSync(new URL('../src/lib/sinonimos.ts', import.meta.url), 'utf8');
 for (const [, chave, valores] of fonteSinonimos.matchAll(/^\s+(\w+): \[([^\]]*)\]/gm)) {
   for (const [, alt] of valores.matchAll(/'([^']*)'/g)) {
-    for (const p of normalizar(alt).split(' ')) {
+    const frase = normalizar(alt).split(' ');
+    if (frase.length > 1) {
       conferir(
-        [...vocabulario].some((v) => v.startsWith(p)),
-        `sinônimo "${chave}": "${p}" não aparece em nenhuma ficha`,
+        textosNormalizados.some((t) => temFrase(frase, t)),
+        `sinônimo "${chave}": a frase "${alt}" não aparece junta em nenhuma ficha`,
+      );
+    } else {
+      conferir(
+        [...vocabulario].some((v) => v.startsWith(frase[0])),
+        `sinônimo "${chave}": "${alt}" não aparece em nenhuma ficha`,
       );
     }
   }

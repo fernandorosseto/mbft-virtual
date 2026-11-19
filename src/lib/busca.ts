@@ -12,10 +12,21 @@ export function palavrasDoTitulo(codigo: string, resumo: string, amparo: string,
   return normalizar(`${codigo} ${codigo.replace('-', '')} ${resumo} ${amparo} ${gravidade}`).split(' ');
 }
 
-/** Todas as palavras buscadas aparecem nessas palavras (cada uma pelo próprio termo ou por um sinônimo). */
+/** A frase aparece nas palavras, em sequência e na ordem (cada palavra pelo começo, como na busca). */
+export function temFrase(frase: string[], palavras: string[]): boolean {
+  for (let i = 0; i + frase.length <= palavras.length; i++) {
+    if (frase.every((t, k) => casa(t, palavras[i + k]))) return true;
+  }
+  return false;
+}
+
+/**
+ * Todas as palavras buscadas aparecem nessas palavras (cada uma pelo próprio termo ou por um
+ * sinônimo). Sinônimo de mais de uma palavra ("descarga livre") vale só com as palavras juntas.
+ */
 export function casaTodos(termos: string[], palavras: string[]): boolean {
   return alternativasDe(termos).every((alternativas) =>
-    alternativas.some((alt) => alt.every((t) => palavras.some((p) => casa(t, p)))),
+    alternativas.some((alt) => (alt.length > 1 ? temFrase(alt, palavras) : palavras.some((p) => casa(alt[0], p)))),
   );
 }
 
@@ -41,10 +52,12 @@ export function buscarNoTexto(indice: IndiceBusca, termos: string[]): number[] {
     // Fichas que têm o termo ou alguma alternativa (com todas as palavras dela)
     const deste = new Set<number>();
     for (const alt of alternativas) {
-      if (!alt.every(buscavel)) continue;
-      let comTodas: Set<number> | undefined;
-      for (const t of alt) comTodas = comTodas ? intersecao(comTodas, comPalavra(t)) : comPalavra(t);
-      comTodas?.forEach((f) => deste.add(f));
+      if (alt.length > 1) {
+        // Sinônimo em frase: fichas com as palavras juntas, calculadas no build (indice.frases)
+        indice.frases[alt.join(' ')]?.forEach((f) => deste.add(f));
+        continue;
+      }
+      if (buscavel(alt[0])) comPalavra(alt[0]).forEach((f) => deste.add(f));
     }
     fichas = fichas ? intersecao(fichas, deste) : deste;
   }

@@ -2,13 +2,15 @@ import { normalizar } from './texto';
 
 /**
  * Palavras do dia a dia que o agente digita e o termo que o MBFT usa. A busca procura pelos dois.
- * Chave e valores sem acento e em minúsculas (como a busca compara). Cada valor pode ter mais de
- * uma palavra ("luz baixa"): todas precisam aparecer. Só termos que existem no texto das fichas
- * (conferido por `npm run verificar:dados`).
+ * Chave e valores sem acento e em minúsculas (como a busca compara). Valor de mais de uma palavra
+ * é uma frase: as palavras precisam aparecer juntas e nessa ordem ("descarga livre" não acha
+ * "carga e descarga"). Prefira a frase ao termo solto quando o termo tem outro sentido no manual.
+ * Só termos que existem no texto das fichas (conferido por `npm run verificar:dados`), e o próprio
+ * termo digitado já busca pelo começo da palavra (não precisa repetir "pneus" para "pneu").
  */
 export const SINONIMOS: Record<string, string[]> = {
-  insulfilm: ['pelicula', 'peliculas'],
-  insufilm: ['pelicula', 'peliculas'],
+  insulfilm: ['pelicula'],
+  insufilm: ['pelicula'],
   filme: ['pelicula'],
   bafometro: ['etilometro'],
   bafo: ['etilometro'],
@@ -21,8 +23,8 @@ export const SINONIMOS: Record<string, string[]> = {
   drogas: ['psicoativa'],
   racha: ['corrida', 'competicao'],
   pega: ['corrida'],
-  grau: ['manobra perigosa', 'malabarismo'],
-  empinar: ['malabarismo', 'roda'],
+  grau: ['manobra perigosa', 'malabarismo', 'equilibrando'],
+  empinar: ['malabarismo', 'equilibrando'],
   celular: ['telefone'],
   smartphone: ['telefone'],
   fone: ['fones'],
@@ -30,11 +32,11 @@ export const SINONIMOS: Record<string, string[]> = {
   habilitacao: ['cnh', 'ppd', 'acc'],
   permissao: ['ppd'],
   ipva: ['licenciado', 'licenciamento'],
-  documento: ['crlv', 'documentos'],
+  documento: ['crlv'],
   documentos: ['crlv'],
   licenciamento: ['licenciado'],
   guincho: ['remocao'],
-  cadeirinha: ['crianca'],
+  cadeirinha: ['dispositivo de retencao'],
   menor: ['crianca'],
   moto: ['motocicleta', 'motoneta'],
   motoqueiro: ['motocicleta'],
@@ -42,41 +44,42 @@ export const SINONIMOS: Record<string, string[]> = {
   ciclista: ['bicicleta'],
   pcd: ['deficiencia'],
   deficiente: ['deficiencia'],
-  idosos: ['idoso', 'idosos'],
-  farol: ['farol', 'farois', 'luz'],
-  apagado: ['acesa', 'acesas'],
-  apagada: ['acesa', 'acesas'],
-  queimada: ['queimadas', 'inoperante'],
+  idosos: ['idoso'],
+  // "luz" sozinha achava também a luz indicadora (seta)
+  farol: ['farois', 'luz alta', 'luz baixa', 'facho'],
+  apagado: ['acesa'],
+  apagada: ['acesa'],
+  queimada: ['lampadas queimadas'],
   pisca: ['pisca alerta', 'luz indicadora', 'intermitente'],
-  seta: ['luz indicadora', 'indicar'],
-  semaforo: ['sinal vermelho', 'semaforo'],
+  seta: ['luz indicadora'],
+  semaforo: ['sinal vermelho'],
   vermelho: ['sinal vermelho'],
   pare: ['parada obrigatoria'],
-  radar: ['velocidade', 'medidor'],
-  velocidade: ['velocidade', 'veloc'],
-  escapamento: ['descarga', 'silenciador'],
-  som: ['som', 'volume', 'sonoro'],
+  // "velocidade" sozinha achava também "reduzir a velocidade"
+  radar: ['velocidade superior', 'medidor de velocidade', 'antirradar'],
+  velocidade: ['veloc'],
+  // "descarga" sozinha achava "carga e descarga"
+  escapamento: ['descarga livre', 'silenciador'],
+  // "volume" e "sonoro" achavam "transportar volume" e "alarme sonoro" de veículo de urgência
+  som: ['aparelhagem sonora'],
   buzinar: ['buzina'],
-  calcada: ['passeio', 'calcada'],
-  balanca: ['pesagem', 'peso'],
+  calcada: ['passeio'],
+  balanca: ['pesagem', 'excesso de peso'],
   sobrepeso: ['excesso de peso'],
   aplicativo: ['transporte remunerado'],
   uber: ['transporte remunerado'],
   pirata: ['transporte remunerado'],
   clandestino: ['transporte remunerado'],
-  mototaxi: ['mototaxistas', 'mototaxi'],
+  mototaxi: ['mototaxista'],
   motoboy: ['motofrete', 'transp remun mercadoria'],
-  onibus: ['coletivo', 'onibus'],
-  lotacao: ['lotacao'],
-  pedagio: ['cobranca', 'pagamento'],
-  fuga: ['fugir', 'evadir'],
-  recusa: ['recusar', 'recusa'],
-  placa: ['placa', 'placas'],
-  chassi: ['chassi'],
-  vidro: ['vidros', 'para brisa'],
+  // "coletivo" sozinho achava qualquer menção a transporte coletivo de passageiros em outras fichas
+  onibus: ['transporte coletivo'],
+  // "cobrança" sozinha achava "cobrança de tarifa" (759-50)
+  pedagio: ['pelo uso de rodovias'],
+  // "evadir" achava a evasão de pedágio
+  fuga: ['fugir', 'acao policial'],
+  vidro: ['para brisa'],
   parabrisa: ['para brisa'],
-  limpador: ['limpador'],
-  pneu: ['pneus', 'mau estado'],
 };
 
 /**
