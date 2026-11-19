@@ -1,13 +1,702 @@
 {
-  "aviso": "Fichas com tabela no PDF oficial (conferido à mão nas páginas da ficha). Uma ficha que só cita tabela de outra norma não entra. O site usa a lista para o texto do link do PDF.",
-  "fichas": {
-    "505-31": "Tabela de códigos e abreviaturas a constarem na CNH",
-    "505-32": "Tabela de códigos e abreviaturas a constarem na CNH",
-    "505-33": "Tabela de códigos e abreviaturas a constarem na CNH",
-    "505-34": "Tabela de códigos e abreviaturas a constarem na CNH",
-    "675-00": "Tabela dos dados técnicos a inscrever, ao final da ficha",
-    "683-11": "Tabela da Res. Contran nº 547/2015 para identificar o infrator (item 1 das informações complementares)",
-    "683-12": "Tabela da Res. Contran nº 547/2015 para identificar o infrator (item 1 das informações complementares)",
-    "683-13": "Tabela da Res. Contran nº 547/2015 para identificar o infrator (item 1 das informações complementares)"
-  }
+ "aviso": "Tabelas das fichas, do PDF oficial (tools/normas/mbft/extrair_tabelas.py). O site troca o trecho entre inicio e fim do item pela tabela.",
+ "fichas": {
+  "505-31": [
+   {
+    "campo": "informacoesComplementares",
+    "item": 0,
+    "inicio": "TABELA DE CÓDIGOS",
+    "fim": "Outras restrições X",
+    "pagina": 50,
+    "titulo": "TABELA DE CÓDIGOS E ABREVIATURAS A CONSTAREM NA CNH",
+    "cabecalho": [
+     "ABREVIATURA",
+     "CURSOS E RESTRIÇÕES",
+     "CÓDIGO"
+    ],
+    "linhas": [
+     [
+      "CETPP",
+      "Habilitado em Curso Específico de Transporte Produtos Perigosos",
+      "-"
+     ],
+     [
+      "CETE",
+      "Habilitado em Curso Específico de Transporte Escolar",
+      "-"
+     ],
+     [
+      "CETCP",
+      "Habilitado em Curso Específico de Transporte Coletivo de Passageiros",
+      "-"
+     ],
+     [
+      "CETVE",
+      "Habilitado em Curso Específico de Transporte de Veículos de Emergência",
+      "-"
+     ],
+     [
+      "EAR",
+      "Exerce Atividade Remunerada",
+      "15"
+     ],
+     [
+      "CETCI",
+      "Habilitado em Curso Específico de Transporte de Carga Indivisível",
+      "-"
+     ],
+     [
+      "CMTX",
+      "Habilitado em curso para Mototaxista",
+      "-"
+     ],
+     [
+      "CMTF",
+      "Habilitado em curso para Motofretista",
+      "-"
+     ],
+     [
+      "A",
+      "Obrigatório o uso de lentes corretivas",
+      "A"
+     ],
+     [
+      "B",
+      "Obrigatório o uso de prótese auditiva",
+      "B"
+     ],
+     [
+      "C",
+      "Obrigatório o uso de acelerador à esquerda",
+      "C"
+     ],
+     [
+      "D",
+      "Obrigatório o uso de veículo com transmissão automática",
+      "D"
+     ],
+     [
+      "E",
+      "Obrigatório o uso de empunhadura/manopla/pômo no volante",
+      "E"
+     ],
+     [
+      "F",
+      "Obrigatório o uso de veículo com direção hidráulica",
+      "F"
+     ],
+     [
+      "G",
+      "Obrigatório o uso de veículo com embreagem manual ou com automação de embreagem ou com transmissão automática",
+      "G"
+     ],
+     [
+      "H",
+      "Obrigatório o uso de acelerador e freio manual",
+      "H"
+     ],
+     [
+      "I",
+      "Obrigatório o uso de adaptação dos comandos de painel ao volante",
+      "I"
+     ],
+     [
+      "J",
+      "Obrigatório o uso de adaptação dos comandos de painel para os membros inferiores e/ou outras partes do corpo",
+      "J"
+     ],
+     [
+      "K",
+      "Obrigatório o uso de veículo com prolongamento da alavanca de câmbio e/ou almofadas (fixas) de compensação de altura e/ou profundidade",
+      "K"
+     ],
+     [
+      "L",
+      "Obrigatório o uso de veículo com prolongadores dos pedais e elevação do assoalho e/ou almofadas fixas de compensação de altura e/ou profundidade",
+      "L"
+     ],
+     [
+      "M",
+      "Obrigatório o uso de motocicleta com pedal de câmbio adaptado",
+      "M"
+     ],
+     [
+      "N",
+      "Obrigatório o uso de motocicleta com pedal do freio traseiro adaptado",
+      "N"
+     ],
+     [
+      "O",
+      "Obrigatório o uso de motocicleta com manopla do freio dianteiro adaptada",
+      "O"
+     ],
+     [
+      "P",
+      "Obrigatório o uso de motocicleta com manopla de embreagem adaptada",
+      "P"
+     ],
+     [
+      "Q",
+      "Obrigatório o uso de motocicleta com carro lateral ou triciclo",
+      "Q"
+     ],
+     [
+      "R",
+      "Obrigatório o uso de motoneta com carro lateral ou triciclo",
+      "R"
+     ],
+     [
+      "S",
+      "Obrigatório o uso de motocicleta com automação de troca de marchas",
+      "S"
+     ],
+     [
+      "T",
+      "Vedado dirigir em rodovias e vias de trânsito rápido",
+      "T"
+     ],
+     [
+      "U",
+      "Vedado dirigir após o pôr-do-sol",
+      "U"
+     ],
+     [
+      "X",
+      "Outras restrições",
+      "X"
+     ]
+    ]
+   }
+  ],
+  "505-32": [
+   {
+    "campo": "informacoesComplementares",
+    "item": 0,
+    "inicio": "TABELA DE CÓDIGOS",
+    "fim": "Outras restrições X",
+    "pagina": 53,
+    "titulo": "TABELA DE CÓDIGOS E ABREVIATURAS A CONSTAREM NA CNH",
+    "cabecalho": [
+     "ABREVIATURA",
+     "CURSOS E RESTRIÇÕES",
+     "CÓDIGO"
+    ],
+    "linhas": [
+     [
+      "CETPP",
+      "Habilitado em Curso Específico de Transporte Produtos Perigosos",
+      "-"
+     ],
+     [
+      "CETE",
+      "Habilitado em Curso Específico de Transporte Escolar",
+      "-"
+     ],
+     [
+      "CETCP",
+      "Habilitado em Curso Específico de Transporte Coletivo de Passageiros",
+      "-"
+     ],
+     [
+      "CETVE",
+      "Habilitado em Curso Específico de Transporte de Veículos de Emergência",
+      "-"
+     ],
+     [
+      "EAR",
+      "Exerce Atividade Remunerada",
+      "15"
+     ],
+     [
+      "CETCI",
+      "Habilitado em Curso Específico de Transporte de Carga Indivisível",
+      "-"
+     ],
+     [
+      "CMTX",
+      "Habilitado em curso para Mototaxista",
+      "-"
+     ],
+     [
+      "CMTF",
+      "Habilitado em curso para Motofretista",
+      "-"
+     ],
+     [
+      "A",
+      "Obrigatório o uso de lentes corretivas",
+      "A"
+     ],
+     [
+      "B",
+      "Obrigatório o uso de prótese auditiva",
+      "B"
+     ],
+     [
+      "C",
+      "Obrigatório o uso de acelerador à esquerda",
+      "C"
+     ],
+     [
+      "D",
+      "Obrigatório o uso de veículo com transmissão automática",
+      "D"
+     ],
+     [
+      "E",
+      "Obrigatório o uso de empunhadura/manopla/pômo no volante",
+      "E"
+     ],
+     [
+      "F",
+      "Obrigatório o uso de veículo com direção hidráulica",
+      "F"
+     ],
+     [
+      "G",
+      "Obrigatório o uso de veículo com embreagem manual ou com automação de embreagem ou com transmissão automática",
+      "G"
+     ],
+     [
+      "H",
+      "Obrigatório o uso de acelerador e freio manual",
+      "H"
+     ],
+     [
+      "I",
+      "Obrigatório o uso de adaptação dos comandos de painel ao volante",
+      "I"
+     ],
+     [
+      "J",
+      "Obrigatório o uso de adaptação dos comandos de painel para os membros inferiores e/ou outras partes do corpo",
+      "J"
+     ],
+     [
+      "K",
+      "Obrigatório o uso de veículo com prolongamento da alavanca de câmbio e/ou almofadas (fixas) de compensação de altura e/ou profundidade",
+      "K"
+     ],
+     [
+      "L",
+      "Obrigatório o uso de veículo com prolongadores dos pedais e elevação do assoalho e/ou almofadas fixas de compensação de altura e/ou profundidade",
+      "L"
+     ],
+     [
+      "M",
+      "Obrigatório o uso de motocicleta com pedal de câmbio adaptado",
+      "M"
+     ],
+     [
+      "N",
+      "Obrigatório o uso de motocicleta com pedal do freio traseiro adaptado",
+      "N"
+     ],
+     [
+      "O",
+      "Obrigatório o uso de motocicleta com manopla do freio dianteiro adaptada",
+      "O"
+     ],
+     [
+      "P",
+      "Obrigatório o uso de motocicleta com manopla de embreagem adaptada",
+      "P"
+     ],
+     [
+      "Q",
+      "Obrigatório o uso de motocicleta com carro lateral ou triciclo",
+      "Q"
+     ],
+     [
+      "R",
+      "Obrigatório o uso de motoneta com carro lateral ou triciclo",
+      "R"
+     ],
+     [
+      "S",
+      "Obrigatório o uso de motocicleta com automação de troca de marchas",
+      "S"
+     ],
+     [
+      "T",
+      "Vedado dirigir em rodovias e vias de trânsito rápido",
+      "T"
+     ],
+     [
+      "U",
+      "Vedado dirigir após o pôr-do-sol",
+      "U"
+     ],
+     [
+      "X",
+      "Outras restrições",
+      "X"
+     ]
+    ]
+   }
+  ],
+  "505-33": [
+   {
+    "campo": "informacoesComplementares",
+    "item": 0,
+    "inicio": "TABELA DE CÓDIGOS",
+    "fim": "Outras restrições X",
+    "pagina": 55,
+    "titulo": "TABELA DE CÓDIGOS E ABREVIATURAS A CONSTAREM NA CNH",
+    "cabecalho": [
+     "ABREVIATURA",
+     "CURSOS E RESTRIÇÕES",
+     "CÓDIGO"
+    ],
+    "linhas": [
+     [
+      "CETPP",
+      "Habilitado em Curso Específico de Transporte Produtos Perigosos",
+      "-"
+     ],
+     [
+      "CETE",
+      "Habilitado em Curso Específico de Transporte Escolar",
+      "-"
+     ],
+     [
+      "CETCP",
+      "Habilitado em Curso Específico de Transporte Coletivo de Passageiros",
+      "-"
+     ],
+     [
+      "CETVE",
+      "Habilitado em Curso Específico de Transporte de Veículos de Emergência",
+      "-"
+     ],
+     [
+      "EAR",
+      "Exerce Atividade Remunerada",
+      "15"
+     ],
+     [
+      "CETCI",
+      "Habilitado em Curso Específico de Transporte de Carga Indivisível",
+      "-"
+     ],
+     [
+      "CMTX",
+      "Habilitado em curso para Mototaxista",
+      "-"
+     ],
+     [
+      "CMTF",
+      "Habilitado em curso para Motofretista",
+      "-"
+     ],
+     [
+      "A",
+      "Obrigatório o uso de lentes corretivas",
+      "A"
+     ],
+     [
+      "B",
+      "Obrigatório o uso de prótese auditiva",
+      "B"
+     ],
+     [
+      "C",
+      "Obrigatório o uso de acelerador à esquerda",
+      "C"
+     ],
+     [
+      "D",
+      "Obrigatório o uso de veículo com transmissão automática",
+      "D"
+     ],
+     [
+      "E",
+      "Obrigatório o uso de empunhadura/manopla/pômo no volante",
+      "E"
+     ],
+     [
+      "F",
+      "Obrigatório o uso de veículo com direção hidráulica",
+      "F"
+     ],
+     [
+      "G",
+      "Obrigatório o uso de veículo com embreagem manual ou com automação de embreagem ou com transmissão automática",
+      "G"
+     ],
+     [
+      "H",
+      "Obrigatório o uso de acelerador e freio manual",
+      "H"
+     ],
+     [
+      "I",
+      "Obrigatório o uso de adaptação dos comandos de painel ao volante",
+      "I"
+     ],
+     [
+      "J",
+      "Obrigatório o uso de adaptação dos comandos de painel para os membros inferiores e/ou outras partes do corpo",
+      "J"
+     ],
+     [
+      "K",
+      "Obrigatório o uso de veículo com prolongamento da alavanca de câmbio e/ou almofadas (fixas) de compensação de altura e/ou profundidade",
+      "K"
+     ],
+     [
+      "L",
+      "Obrigatório o uso de veículo com prolongadores dos pedais e elevação do assoalho e/ou almofadas fixas de compensação de altura e/ou profundidade",
+      "L"
+     ],
+     [
+      "M",
+      "Obrigatório o uso de motocicleta com pedal de câmbio adaptado",
+      "M"
+     ],
+     [
+      "N",
+      "Obrigatório o uso de motocicleta com pedal do freio traseiro adaptado",
+      "N"
+     ],
+     [
+      "O",
+      "Obrigatório o uso de motocicleta com manopla do freio dianteiro adaptada",
+      "O"
+     ],
+     [
+      "P",
+      "Obrigatório o uso de motocicleta com manopla de embreagem adaptada",
+      "P"
+     ],
+     [
+      "Q",
+      "Obrigatório o uso de motocicleta com carro lateral ou triciclo",
+      "Q"
+     ],
+     [
+      "R",
+      "Obrigatório o uso de motoneta com carro lateral ou triciclo",
+      "R"
+     ],
+     [
+      "S",
+      "Obrigatório o uso de motocicleta com automação de troca de marchas",
+      "S"
+     ],
+     [
+      "T",
+      "Vedado dirigir em rodovias e vias de trânsito rápido",
+      "T"
+     ],
+     [
+      "U",
+      "Vedado dirigir após o pôr-do-sol",
+      "U"
+     ],
+     [
+      "X",
+      "Outras restrições",
+      "X"
+     ]
+    ]
+   }
+  ],
+  "505-34": [
+   {
+    "campo": "informacoesComplementares",
+    "item": 0,
+    "inicio": "TABELA DE CÓDIGOS",
+    "fim": "Outras restrições X",
+    "pagina": 58,
+    "titulo": "TABELA DE CÓDIGOS E ABREVIATURAS A CONSTAREM NA CNH",
+    "cabecalho": [
+     "ABREVIATURA",
+     "CURSOS E RESTRIÇÕES",
+     "CÓDIGO"
+    ],
+    "linhas": [
+     [
+      "CETPP",
+      "Habilitado em Curso Específico de Transporte Produtos Perigosos",
+      "-"
+     ],
+     [
+      "CETE",
+      "Habilitado em Curso Específico de Transporte Escolar",
+      "-"
+     ],
+     [
+      "CETCP",
+      "Habilitado em Curso Específico de Transporte Coletivo de Passageiros",
+      "-"
+     ],
+     [
+      "CETVE",
+      "Habilitado em Curso Específico de Transporte de Veículos de Emergência",
+      "-"
+     ],
+     [
+      "EAR",
+      "Exerce Atividade Remunerada",
+      "15"
+     ],
+     [
+      "CETCI",
+      "Habilitado em Curso Específico de Transporte de Carga Indivisível",
+      "-"
+     ],
+     [
+      "CMTX",
+      "Habilitado em curso para Mototaxista",
+      "-"
+     ],
+     [
+      "CMTF",
+      "Habilitado em curso para Motofretista",
+      "-"
+     ],
+     [
+      "A",
+      "Obrigatório o uso de lentes corretivas",
+      "A"
+     ],
+     [
+      "B",
+      "Obrigatório o uso de prótese auditiva",
+      "B"
+     ],
+     [
+      "C",
+      "Obrigatório o uso de acelerador à esquerda",
+      "C"
+     ],
+     [
+      "D",
+      "Obrigatório o uso de veículo com transmissão automática",
+      "D"
+     ],
+     [
+      "E",
+      "Obrigatório o uso de empunhadura/manopla/pômo no volante",
+      "E"
+     ],
+     [
+      "F",
+      "Obrigatório o uso de veículo com direção hidráulica",
+      "F"
+     ],
+     [
+      "G",
+      "Obrigatório o uso de veículo com embreagem manual ou com automação de embreagem ou com transmissão automática",
+      "G"
+     ],
+     [
+      "H",
+      "Obrigatório o uso de acelerador e freio manual",
+      "H"
+     ],
+     [
+      "I",
+      "Obrigatório o uso de adaptação dos comandos de painel ao volante",
+      "I"
+     ],
+     [
+      "J",
+      "Obrigatório o uso de adaptação dos comandos de painel para os membros inferiores e/ou outras partes do corpo",
+      "J"
+     ],
+     [
+      "K",
+      "Obrigatório o uso de veículo com prolongamento da alavanca de câmbio e/ou almofadas (fixas) de compensação de altura e/ou profundidade",
+      "K"
+     ],
+     [
+      "L",
+      "Obrigatório o uso de veículo com prolongadores dos pedais e elevação do assoalho e/ou almofadas fixas de compensação de altura e/ou profundidade",
+      "L"
+     ],
+     [
+      "M",
+      "Obrigatório o uso de motocicleta com pedal de câmbio adaptado",
+      "M"
+     ],
+     [
+      "N",
+      "Obrigatório o uso de motocicleta com pedal do freio traseiro adaptado",
+      "N"
+     ],
+     [
+      "O",
+      "Obrigatório o uso de motocicleta com manopla do freio dianteiro adaptada",
+      "O"
+     ],
+     [
+      "P",
+      "Obrigatório o uso de motocicleta com manopla de embreagem adaptada",
+      "P"
+     ],
+     [
+      "Q",
+      "Obrigatório o uso de motocicleta com carro lateral ou triciclo",
+      "Q"
+     ],
+     [
+      "R",
+      "Obrigatório o uso de motoneta com carro lateral ou triciclo",
+      "R"
+     ],
+     [
+      "S",
+      "Obrigatório o uso de motocicleta com automação de troca de marchas",
+      "S"
+     ],
+     [
+      "T",
+      "Vedado dirigir em rodovias e vias de trânsito rápido",
+      "T"
+     ],
+     [
+      "U",
+      "Vedado dirigir após o pôr-do-sol",
+      "U"
+     ],
+     [
+      "X",
+      "Outras restrições",
+      "X"
+     ]
+    ]
+   }
+  ],
+  "675-00": [
+   {
+    "campo": "informacoesComplementares",
+    "item": 1,
+    "inicio": "Resolução 562/80",
+    "fim": "( p a c ( p ( n",
+    "pagina": 610,
+    "imagens": [
+     {
+      "arquivo": "/tabelas/675-00-1.webp",
+      "pagina": 610,
+      "largura": 1441,
+      "altura": 1739
+     },
+     {
+      "arquivo": "/tabelas/675-00-2.webp",
+      "pagina": 611,
+      "largura": 1441,
+      "altura": 2036
+     },
+     {
+      "arquivo": "/tabelas/675-00-3.webp",
+      "pagina": 612,
+      "largura": 1441,
+      "altura": 173
+     }
+    ]
+   }
+  ]
+ }
 }

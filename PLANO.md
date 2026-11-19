@@ -23,7 +23,6 @@ Consulta ao MBFT (Res. CONTRAN nº 985/2022) para agentes de fiscalização de t
 
 - Cobrança ou acesso gratuito.
 - Domínio.
-- Tabelas desenhadas nas informações complementares (os desenhos já são recortados do PDF; tabelas em texto seguem no texto corrido).
 
 ## Registro de decisões
 
@@ -67,3 +66,4 @@ Consulta ao MBFT (Res. CONTRAN nº 985/2022) para agentes de fiscalização de t
 | 19/11/2026 | Fontes guardadas no projeto (`src/fontes`, OFL) no lugar do download do Google Fonts no build | o download falhou de forma intermitente no GitHub Actions e já tinha falhado uma vez localmente; poderia derrubar uma publicação na Vercel |
 | 19/11/2026 | Grafo no modo artigo: artigo repetido no mesmo grafo leva o código junto, em letra menor; cartão da ligação e listas mostram sempre artigo e código. Ligações entre vizinhas apagadas e sem seta. Botões de zoom numa barra acima do grafo | 243 das 411 fichas dividem o amparo com outra (o grafo mostrava "Art. 162, III → Art. 162, III"); as ligações entre vizinhas competiam com as da ficha; os botões cobriam fichas no canto |
 | 19/11/2026 | Texto do link do PDF no fim da ficha conforme o que a ficha tem: tabela (8 fichas, lista à mão em `tabelas.json`), desenhos, ou só o texto original | o texto antigo ("Figuras e tabelas da ficha estão no PDF oficial") aparecia em todas e sugeria conteúdo que a maioria não tem; a detecção automática de tabelas confunde a moldura da ficha com tabela |
+| 19/11/2026 | Tabelas do PDF na ficha no lugar do texto achatado: tabela da CNH (505-31 a 505-34) em HTML, com as células conferidas contra o texto; a de inscrição de tara (675-00, muitas células mescladas) em recorte da página; a da Res. 547/2015 (683-11 a 683-13) já estava num desenho. A lista é escolhida à mão em `extrair_tabelas.py` | o parágrafo corrido da tabela era ilegível no celular; montar em HTML uma tabela cheia de mesclas arriscaria trocar uma célula de lugar |

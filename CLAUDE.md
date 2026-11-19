@@ -32,7 +32,7 @@ Rode `typecheck`, `lint`, `verificar:dados` e `build` antes de cada commit (e `t
 - `ctb-artigos.json`: os 100 artigos do CTB citados nas fichas, em blocos (caput, inciso, alínea, parágrafo, sanção), gerado do `ctb.txt` por `tools/normas/extrair_artigos_ctb.py` (junta linhas quebradas, "Art." e "§" soltos).
 - `contran-indice.json`: índice das resoluções do CONTRAN no DOU (nº 700 em diante), de `tools/normas/dou/coletar.py`. Liga as resoluções citadas nas fichas ao DOU (seção "Resoluções citadas").
 - `mbft/figuras.json` e `public/figuras/`: desenhos das fichas recortados do PDF com a legenda colorida (WebP), por `tools/normas/mbft/extrair_figuras.py` (pdftohtml para as posições, pdftoppm para renderizar).
-- `mbft/tabelas.json`: as 8 fichas com tabela no PDF (conferidas à mão; citar tabela de outra norma não conta). Decide o texto do link "Abrir na página N" no fim da ficha: com tabela, "A tabela desta ficha está no PDF oficial"; sem figura nem tabela, "Texto original no PDF oficial".
+- `mbft/tabelas.json` e `public/tabelas/`: tabelas das fichas, por `tools/normas/mbft/extrair_tabelas.py` (lista das tabelas escolhida à mão no script, conferindo as páginas). O texto da ficha traz a tabela achatada num parágrafo; o site troca o trecho entre `inicio` e `fim` do item pela tabela: em HTML quando é simples (CNH, 505-31 a 505-34: células do pdfplumber, conferidas por `verificar:dados` contra o texto da ficha) ou em recorte WebP quando tem muitas células mescladas (675-00). A da Res. 547/2015 (683-11 a 683-13) já está num desenho. O fim da ficha diz o que veio do PDF (desenhos, tabela) antes do link "Abrir na página N".
 - `mbft/temas.json`: uma ou duas palavras de tema por ficha, escritas à mão com palavras da tipificação resumida, para os rótulos dos grafos (não substituem o texto da ficha).
 
 ## Estrutura
@@ -42,7 +42,7 @@ Rode `typecheck`, `lint`, `verificar:dados` e `build` antes de cada commit (e `t
 | `/` | catálogo: fichas agrupadas por artigo do CTB, com busca no título e no texto completo, filtros (gravidade, infrator, competência, constatação) e modo mapa (`?q=`, `?g=`, `?i=`, `?c=`, `?a=`, `?ver=mapa` no endereço) |
 | `/fichas/[codigo]` | ficha completa (ex.: `/fichas/552-50`), gerada no build para as 411 fichas; no topo, "Buscar nesta ficha" e "Ir para outra ficha ou tema" |
 | `/busca.json` | índice gerado no build (fichas, palavras do texto completo, citações com o tipo, seções da parte geral); o navegador só baixa ao buscar (~80 KB compactado) |
-| `/sw.js` | service worker do uso sem internet (gerado no build, sem bibliotecas): `/_next/static` cache primeiro; páginas rede primeiro com cópia salva (sem cópia: `/offline`); `/busca.json` cópia e atualização em segundo plano; pedidos RSC só rede (se falhar, o Next recarrega a página e ela sai do cache); "salvar-todas" baixa as fichas e os arquivos delas. Cache único `mbft-v1`, não apagado a cada versão |
+| `/sw.js` | service worker do uso sem internet (gerado no build, sem bibliotecas): `/_next/static`, `/figuras` e `/tabelas` cache primeiro; páginas rede primeiro com cópia salva (sem cópia: `/offline`); `/busca.json` cópia e atualização em segundo plano; pedidos RSC só rede (se falhar, o Next recarrega a página e ela sai do cache); "salvar-todas" baixa as fichas e os arquivos delas. Cache único `mbft-v1`, não apagado a cada versão |
 | `/offline`, `/manifest.webmanifest` | página para página não salva sem internet; manifesto do site instalável (ícones em `public/icones/`, gerados do `icon.svg`) |
 | `/parte-geral` | Parte Geral do manual numa página, com sumário (fixo ao lado no PC, recolhível no celular) e âncoras por seção (`#8-2`, `#infracoes-concorrentes`) |
 
@@ -72,7 +72,7 @@ src/lib/rotulos.ts           rotuloArtigo (amparo → "Art. 230, XVI"), linhasDo
 src/lib/resolucoes.ts        resoluções citadas no texto da ficha ("nº 882/2021", "nº 764, de 20 de dezembro de 2018"; Contran, DNIT, ANTT...), com link do DOU quando o índice tem o mesmo número e ano
 src/components/ResolucoesCitadas.tsx seção da ficha com essas resoluções
 src/components/UsoOffline.tsx registra o service worker (só em produção), mostra no rodapé quantas fichas estão salvas e o botão "Salvar todas" (~5 MB de download, ~40 MB no aparelho); AvisoSemRede: faixa abaixo do cabeçalho quando a conexão cai
-src/lib/figuras.ts           figurasDa(codigo): desenhos recortados do PDF, mostrados em "Informações complementares"
+src/lib/figuras.ts           figurasDa(codigo): desenhos recortados do PDF, mostrados em "Informações complementares"; tabelasDa(codigo): tabelas do PDF (Trecho/TabelaMbft na página da ficha)
 src/components/BotaoCopiar.tsx copiar texto (exemplos do campo de observações)
 src/lib/minhasFichas.ts      favoritas e vistas por último, só no aparelho (localStorage); Favoritar (estrela na ficha, registra a visita) e MinhasFichas (listas na página inicial)
 src/lib/imagemPrevia.tsx     imagem de prévia 1200 × 630 (opengraph-image da ficha e da página inicial), gerada no build
@@ -90,7 +90,7 @@ Em produção, defina `NEXT_PUBLIC_SITE_URL`.
 
 ## Atualização do manual
 
-- `.github/workflows/verificar-mbft.yml`: toda segunda baixa o PDF oficial (`.../mbvt20222.pdf/@@download/file`; sem o sufixo o gov.br devolve HTML) e compara o hash com `docs/normas/MBVT20222.pdf`. Se mudou, abre uma issue. Para atualizar: trocar o PDF, rodar os extratores de `tools/normas/mbft/` e `tools/normas/extrair_artigos_ctb.py`, dar tema às fichas novas em `temas.json`, `npm run verificar:dados` e os testes. O rodapé mostra a data do PDF (`extraidoEm` do `mbft.json`).
+- `.github/workflows/verificar-mbft.yml`: toda segunda baixa o PDF oficial (`.../mbvt20222.pdf/@@download/file`; sem o sufixo o gov.br devolve HTML) e compara o hash com `docs/normas/MBVT20222.pdf`. Se mudou, abre uma issue. Para atualizar: trocar o PDF, rodar os extratores de `tools/normas/mbft/` e `tools/normas/extrair_artigos_ctb.py`, dar tema às fichas novas em `temas.json`, rever a lista de tabelas em `extrair_tabelas.py` (páginas e recortes), `npm run verificar:dados` e os testes. O rodapé mostra a data do PDF (`extraidoEm` do `mbft.json`).
 
 ## Segurança e hospedagem
 

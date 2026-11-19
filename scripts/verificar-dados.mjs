@@ -28,7 +28,23 @@ const pg = ler('docs/normas/mbft/parte-geral.json');
 conferir(pg.secoes.length === 30, `parte-geral.json: esperava 30 seções, achei ${pg.secoes.length}`);
 
 const tabelas = ler('docs/normas/mbft/tabelas.json').fichas;
-for (const c of Object.keys(tabelas)) conferir(codigos.includes(c), `tabelas.json: ficha inexistente ${c}`);
+const fichaPorCodigo = new Map([...mbft.fichas].reverse().map((f) => [f.codigo, f]));
+const semEspaco = (t) => t.replace(/\s+/g, '');
+for (const [c, lista] of Object.entries(tabelas)) {
+  conferir(codigos.includes(c), `tabelas.json: ficha inexistente ${c}`);
+  for (const t of lista) {
+    const texto = fichaPorCodigo.get(c)?.[t.campo]?.[t.item] ?? '';
+    const i = texto.indexOf(t.inicio);
+    const j = texto.indexOf(t.fim, i);
+    conferir(i >= 0 && j >= 0, `tabelas.json: ${c} sem o trecho da tabela no item ${t.item}`);
+    if (t.linhas) {
+      // As células têm de ser o mesmo texto do trecho achatado, na mesma ordem
+      const celulas = [t.titulo ?? '', ...(t.cabecalho ?? []), ...t.linhas.flat()].join(' ');
+      conferir(semEspaco(celulas) === semEspaco(texto.slice(i, j + t.fim.length)), `tabelas.json: ${c} células diferentes do texto da ficha`);
+    }
+    for (const img of t.imagens ?? []) conferir(existsSync(new URL(`../public${img.arquivo}`, import.meta.url)), `tabela sem arquivo: ${img.arquivo}`);
+  }
+}
 const figuras = ler('docs/normas/mbft/figuras.json').figuras;
 for (const [c, lista] of Object.entries(figuras)) {
   conferir(codigos.includes(c), `figuras.json: ficha inexistente ${c}`);
@@ -64,4 +80,4 @@ if (erros.length) {
   console.error(`${erros.length} problema(s):\n- ${erros.slice(0, 40).join('\n- ')}`);
   process.exit(1);
 }
-console.log(`Dados ok: ${codigos.length} fichas, ${Object.keys(temas).length} temas, ${pg.secoes.length} seções da parte geral, ${Object.values(figuras).flat().length} desenhos.`);
+console.log(`Dados ok: ${codigos.length} fichas, ${Object.keys(temas).length} temas, ${pg.secoes.length} seções da parte geral, ${Object.values(figuras).flat().length} desenhos, ${Object.values(tabelas).flat().length} tabelas.`);

@@ -17,9 +17,24 @@ export function figurasDa(codigo: string): Figura[] {
   return FIGURAS[codigo] ?? [];
 }
 
-const TABELAS = tabelas.fichas as Record<string, string>;
+export interface Tabela {
+  campo: string;
+  /** Índice do item (na lista do campo, antes de tirar os vazios) cujo trecho vira tabela. */
+  item: number;
+  /** Começo e fim (inclusive) do trecho achatado no texto do item. */
+  inicio: string;
+  fim: string;
+  pagina: number;
+  titulo?: string;
+  cabecalho?: string[];
+  linhas?: string[][];
+  /** Tabela com muitas células mescladas: recortes da página. */
+  imagens?: Figura[];
+}
 
-/** A ficha tem tabela no PDF oficial (lista conferida à mão em docs/normas/mbft/tabelas.json). */
-export function temTabela(codigo: string): boolean {
-  return codigo in TABELAS;
+const TABELAS = tabelas.fichas as Record<string, Tabela[]>;
+
+/** Tabelas da ficha tiradas do PDF oficial (tools/normas/mbft/extrair_tabelas.py). */
+export function tabelasDa(codigo: string): Tabela[] {
+  return TABELAS[codigo] ?? [];
 }

@@ -18,7 +18,7 @@ async function salvar(cache, url) {
   const tipo = resposta.headers.get('content-type') || '';
   if (tipo.includes('text/html') || tipo.includes('text/css')) {
     const texto = await resposta.text();
-    const arquivos = new Set(Array.from(texto.matchAll(/\/(?:_next\/static|figuras)\/[^"'\s)\\]+/g), (m) => m[0]));
+    const arquivos = new Set(Array.from(texto.matchAll(/\/(?:_next\/static|figuras|tabelas)\/[^"'\s)\\]+/g), (m) => m[0]));
     for (const arquivo of arquivos) {
       if (!(await cache.match(arquivo))) await salvar(cache, arquivo).catch(() => false);
     }
@@ -81,7 +81,7 @@ self.addEventListener('fetch', (evento) => {
   if (pedido.headers.get('RSC') || url.searchParams.has('_rsc')) return;
   if (pedido.mode === 'navigate') return evento.respondWith(primeiroRede(pedido));
   if (url.pathname === '/busca.json') return evento.respondWith(salvoEAtualiza(pedido));
-  if (url.pathname.startsWith('/icones/') || url.pathname.startsWith('/figuras/') || url.pathname === '/manifest.webmanifest' || url.pathname === '/icon.svg') {
+  if (url.pathname.startsWith('/icones/') || url.pathname.startsWith('/figuras/') || url.pathname.startsWith('/tabelas/') || url.pathname === '/manifest.webmanifest' || url.pathname === '/icon.svg') {
     return evento.respondWith(primeiroCache(pedido));
   }
 });

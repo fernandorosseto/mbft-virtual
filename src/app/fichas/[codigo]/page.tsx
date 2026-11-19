@@ -9,7 +9,7 @@ import { BotaoCopiar } from '@/components/BotaoCopiar';
 import { Favoritar } from '@/components/Favoritar';
 import { trechosDoAmparo } from '@/lib/ctb';
 import { resolucoesDa } from '@/lib/resolucoes';
-import { figurasDa, temTabela, type Figura } from '@/lib/figuras';
+import { figurasDa, tabelasDa, type Figura, type Tabela } from '@/lib/figuras';
 import { BuscaNaFicha } from '@/components/BuscaNaFicha';
 import { ConexoesFicha } from '@/components/ConexoesFicha';
 import { IrPara } from '@/components/IrPara';
@@ -67,6 +67,7 @@ export default async function PaginaFicha({ params }: Props) {
   const { anterior, seguinte } = vizinhas(f.codigo);
   const ligadas = conexoes(f.codigo);
   const figuras = figurasDa(f.codigo);
+  const tabelas = tabelasDa(f.codigo);
   // Atalhos do botão flutuante: só as seções que esta ficha tem
   const secoes: Secao[] = [
     { id: 'enquadramento', rotulo: 'Enquadramento' },
@@ -168,6 +169,7 @@ export default async function PaginaFicha({ params }: Props) {
         titulo="Informações complementares"
         itens={f.informacoesComplementares}
         figuras={figuras}
+        tabelas={tabelas.filter((t) => t.campo === 'informacoesComplementares')}
       />
 
       <ConexoesFicha ficha={f} />
@@ -175,11 +177,13 @@ export default async function PaginaFicha({ params }: Props) {
       <AmparoCtb amparo={f.amparoLegal} />
 
       <p className={styles.fonte}>
-        {figuras.length
-          ? `Os desenhos acima são recortes do PDF oficial; ${temTabela(f.codigo) ? 'a tabela e ' : ''}o texto original ${temTabela(f.codigo) ? 'estão' : 'está'} lá.`
-          : temTabela(f.codigo)
-            ? 'A tabela desta ficha está no PDF oficial.'
-            : 'Texto original no PDF oficial.'}{' '}
+        {figuras.length && tabelas.length
+          ? 'Os desenhos e a tabela acima vêm do PDF oficial; o texto original está lá.'
+          : figuras.length
+            ? 'Os desenhos acima são recortes do PDF oficial; o texto original está lá.'
+            : tabelas.length
+              ? 'A tabela acima foi copiada do PDF oficial; o texto original está lá.'
+              : 'Texto original no PDF oficial.'}{' '}
         <a href={`${URL_MBFT_OFICIAL}#page=${f.pagina}`} target="_blank" rel="noopener noreferrer">
           Abrir na página {f.pagina} <ExternalLink aria-hidden size={14} />
         </a>
@@ -225,6 +229,7 @@ function Coluna({
   atual,
   copiar,
   figuras = [],
+  tabelas = [],
 }: {
   id: string;
   titulo: string;
@@ -235,30 +240,31 @@ function Coluna({
   copiar?: boolean;
   /** Desenhos recortados do PDF, depois dos itens. */
   figuras?: Figura[];
+  /** Tabelas do PDF que entram no lugar do trecho achatado do item. */
+  tabelas?: Tabela[];
 }) {
-  const validos = itens.filter((t) => t.trim());
+  const validos = itens.map((texto, indice) => ({ texto, indice })).filter((t) => t.texto.trim());
   return (
     <section id={id} className={`${styles.coluna} ${tom === 'sim' ? styles.sim : tom === 'nao' ? styles.nao : ''}`}>
       <h2>{titulo}</h2>
       {validos.length ? (
         <ol>
-          {validos.map((item, i) => {
+          {validos.map(({ texto: item, indice }) => {
             const { numero, texto, subitens } = dividirItem(item);
+            const doItem = tabelas.filter((t) => t.item === indice);
             return (
-              <li key={i}>
+              <li key={indice}>
                 {numero && <span className={styles.numero}>{numero}</span>}
                 <div>
-                  <p>
-                    <TextoMbft texto={texto} atual={atual} />
-                  </p>
+                  <Trecho texto={texto} atual={atual} tabelas={doItem} />
                   {subitens.length > 0 && (
                     <ol className={styles.subitens}>
                       {subitens.map((s, j) => (
                         <li key={j}>
                           <span className={styles.numero}>{s.numero}</span>
-                          <p>
-                            <TextoMbft texto={s.texto} atual={atual} />
-                          </p>
+                          <div>
+                            <Trecho texto={s.texto} atual={atual} tabelas={doItem} />
+                          </div>
                         </li>
                       ))}
                     </ol>
@@ -295,5 +301,90 @@ function Coluna({
         </figure>
       ))}
     </section>
+  );
+}
+
+/** Texto do item; o trecho em que o PDF tem uma tabela (achatada na extração) vira a tabela. */
+function Trecho({ texto, atual, tabelas }: { texto: string; atual: string; tabelas: Tabela[] }) {
+  const t = tabelas.find((x) => texto.includes(x.inicio) && texto.includes(x.fim));
+  if (!t) {
+    return (
+      <p>
+        <TextoMbft texto={texto} atual={atual} />
+      </p>
+    );
+  }
+  const i = texto.indexOf(t.inicio);
+  const j = texto.indexOf(t.fim, i) + t.fim.length;
+  const antes = texto.slice(0, i).trim();
+  const depois = texto.slice(j).trim();
+  return (
+    <>
+      {antes && (
+        <p>
+          <TextoMbft texto={antes} atual={atual} />
+        </p>
+      )}
+      <TabelaMbft tabela={t} atual={atual} />
+      {depois && (
+        <p>
+          <TextoMbft texto={depois} atual={atual} />
+        </p>
+      )}
+    </>
+  );
+}
+
+function TabelaMbft({ tabela: t, atual }: { tabela: Tabela; atual: string }) {
+  if (t.imagens) {
+    return (
+      <figure className={`${styles.figura} ${styles.tabelaImagem}`}>
+        {/* Uma imagem por página do PDF; cada uma abre inteira ao tocar (dá para ampliar) */}
+        {t.imagens.map((img) => (
+          <a key={img.arquivo} href={img.arquivo} target="_blank" rel="noopener">
+            {/* eslint-disable-next-line @next/next/no-img-element -- imagem estática já otimizada (WebP), sem servidor de imagens */}
+            <img
+              src={img.arquivo}
+              width={img.largura}
+              height={img.altura}
+              loading="lazy"
+              decoding="async"
+              alt={`Tabela da ficha ${atual}, recortada do PDF oficial (página ${img.pagina})`}
+            />
+          </a>
+        ))}
+        <figcaption>
+          Tabela recortada do PDF oficial, págs. {t.imagens[0].pagina} a {t.imagens[t.imagens.length - 1].pagina}. Toque
+          em cada parte para ampliar.
+        </figcaption>
+      </figure>
+    );
+  }
+  return (
+    <div className={styles.tabela}>
+      <table>
+        {t.titulo && <caption>{t.titulo}</caption>}
+        {t.cabecalho && (
+          <thead>
+            <tr>
+              {t.cabecalho.map((c, i) => (
+                <th key={i} scope="col">
+                  {c}
+                </th>
+              ))}
+            </tr>
+          </thead>
+        )}
+        <tbody>
+          {t.linhas?.map((linha, i) => (
+            <tr key={i}>
+              {linha.map((c, k) => (
+                <td key={k}>{c}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

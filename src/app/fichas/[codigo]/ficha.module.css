@@ -302,3 +302,99 @@
   font-size: 12px;
   color: var(--muted);
 }
+
+/* Tabelas do PDF (texto copiado das células) */
+.tabela {
+  margin: 10px 0;
+  overflow-x: auto;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 8px;
+}
+
+.tabela table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.tabela caption {
+  padding: 10px 12px;
+  text-align: left;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid var(--asphalt-3);
+}
+
+.tabela th,
+.tabela td {
+  padding: 7px 10px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--asphalt-3);
+  overflow-wrap: anywhere;
+}
+
+.tabela th {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  background: var(--asphalt);
+  overflow-wrap: normal;
+  hyphens: auto;
+}
+
+.tabela tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.tabela tbody tr:nth-child(even) td {
+  background: var(--asphalt);
+}
+
+/* Primeira e última coluna curtas (códigos): fonte de números, sem quebrar */
+.tabela td:first-child,
+.tabela td:last-child {
+  font-family: var(--f-num);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tabela td:last-child,
+.tabela th:last-child {
+  text-align: center;
+}
+
+.tabelaImagem {
+  margin: 10px 0;
+}
+
+.tabelaImagem a + a {
+  margin-top: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.tabelaImagem a:has(+ a) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+@media (max-width: 860px) {
+  .tabela table {
+    font-size: 13px;
+  }
+
+  .tabela th,
+  .tabela td {
+    padding: 6px 7px;
+  }
+
+  .tabela th {
+    font-size: 10px;
+    letter-spacing: 0;
+  }
+}

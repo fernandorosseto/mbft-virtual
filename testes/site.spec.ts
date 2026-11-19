@@ -37,6 +37,19 @@ test('ficha: seções, CTB, ligações, desenho e copiar', async ({ page }) => {
   await semRolagemLateral(page);
 });
 
+test('ficha: tabela do PDF em vez do texto achatado', async ({ page }) => {
+  await page.goto('/fichas/505-31');
+  const tabela = page.locator('#informacoes table');
+  await expect(tabela.locator('caption')).toHaveText('TABELA DE CÓDIGOS E ABREVIATURAS A CONSTAREM NA CNH');
+  await expect(tabela.locator('tbody tr')).toHaveCount(30);
+  await expect(tabela.locator('tbody tr').last()).toContainText('Outras restrições');
+  await expect(page.locator('#informacoes')).not.toContainText('CETPP Habilitado');
+  await semRolagemLateral(page);
+  await page.goto('/fichas/675-00');
+  await expect(page.locator('#informacoes img[src^="/tabelas/675-00-"]')).toHaveCount(3);
+  await expect(page.locator('#informacoes')).toContainText('(1) Conforme o art. 47');
+});
+
 test('ficha: favorita aparece na página inicial', async ({ page }) => {
   await page.goto('/fichas/552-50');
   await page.getByRole('button', { name: 'Guardar nas favoritas' }).click();
