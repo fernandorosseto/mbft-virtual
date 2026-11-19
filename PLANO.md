@@ -16,11 +16,14 @@ Consulta ao MBFT (Res. CONTRAN nº 985/2022) para agentes de fiscalização de t
 
 6. **Páginas de resolução** (`/resolucoes/[numero]`, ex.: `/resolucoes/960`): ementa, link do DOU, situação (em vigor, alterada por quem) e as fichas do MBFT ligadas a ela. Na ficha, seção "Resolução que regulamenta", separada de "Resoluções citadas". Exemplo: a ficha de película (670-00) não cita nenhuma resolução, mas o assunto é da Res. 960/2022 (alterada pela 989/2022). Essa ligação não está no texto do MBFT: precisa ser curadoria do site, marcada como tal, com o artigo da resolução como fonte e conferida quando houver revogação. Primeira candidata: Res. 960, já conferida no CTB Virtual.
 
+7. Feitos em 19/11/2026: desenhos das fichas, busca com sinônimos, copiar exemplo de observação, favoritas e recentes, modo escuro, prévia ao compartilhar, testes automáticos e verificação semanal do PDF (ver registro de decisões).
+8. **Domínio próprio**: quando houver, definir `NEXT_PUBLIC_SITE_URL` na Vercel; até lá, links e prévias usam o endereço `.vercel.app`.
+
 ## 3. Decisões em aberto
 
 - Cobrança ou acesso gratuito.
 - Domínio.
-- Figuras e tabelas das informações complementares (o extrator não as captura).
+- Tabelas desenhadas nas informações complementares (os desenhos já são recortados do PDF; tabelas em texto seguem no texto corrido).
 
 ## Registro de decisões
 
@@ -55,3 +58,9 @@ Consulta ao MBFT (Res. CONTRAN nº 985/2022) para agentes de fiscalização de t
 | 18/11/2026 | Next.js 14.2.35 → 15.5.29 (com React 19) e PostCSS forçado para 8.5.33: `npm audit` de 2 vulnerabilidades (1 crítica) para 0 | as falhas do Next 14 eram de recursos que o site não usa (otimização de imagem, Server Actions, middleware, rewrites), mas a versão estava fora de correção; Next 16 exigiria trocar o `next lint` |
 | 18/11/2026 | Cabeçalhos de segurança (CSP restrita ao próprio site, sem exibição em quadro de outro site, HSTS etc.) e manifesto do PWA com id, escopo e atalhos | o site não enviava nenhum cabeçalho de segurança; o manifesto já permitia instalar, os campos novos são os recomendados |
 | 18/11/2026 | Topo da ficha com dois selos do mesmo tamanho: o principal escuro e o outro (ficha ou artigo) em amarelo com texto escuro; no celular a letra acompanha a largura da tela para caber numa linha | a referência secundária em texto cinza pequeno ficava apagada e quebrava mal |
+| 19/11/2026 | Desenhos das fichas recortados do PDF oficial com a legenda colorida (168 recortes em 142 fichas, WebP, 4,2 MB), em "Informações complementares"; entram no "Salvar todas" | a legenda ("AUTUAR 552-50" com o quadradinho vermelho) é texto do PDF, fora da imagem: sem ela o agente não sabe qual veículo é qual |
+| 19/11/2026 | Busca com sinônimos do dia a dia (insulfilm → película, bafômetro → etilômetro, uber → transporte remunerado...), mostrando o termo usado | o agente digita a palavra da rua; o texto das fichas não muda |
+| 19/11/2026 | Botão de copiar nos exemplos do campo de observações; favoritas e vistas por último guardadas só no aparelho | preencher o AIT no celular; acesso rápido às fichas mais usadas, sem cadastro |
+| 19/11/2026 | Modo escuro (automático pelo aparelho, ou escolhido no painel Aa) | consulta à noite, na viatura |
+| 19/11/2026 | Imagem de prévia por ficha (código, artigo, gravidade, tipificação), gerada no build | link mandado no WhatsApp mostra a ficha; funciona com o endereço .vercel.app enquanto não houver domínio |
+| 19/11/2026 | Testes automáticos (dados + navegador no celular e no computador) e GitHub Actions a cada envio; verificação semanal do PDF oficial com aviso por issue | substitui a conferência manual de cada mudança; atualização do manual sem custo (GitHub Actions grátis); o gov.br só entrega o arquivo em `.../mbvt20222.pdf/@@download/file` |

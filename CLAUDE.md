@@ -11,9 +11,11 @@ npm run dev         # servidor de desenvolvimento
 npm run typecheck   # tsc --noEmit
 npm run lint        # ESLint (next/core-web-vitals)
 npm run build
+npm run verificar:dados  # confere fichas, temas, parte geral, desenhos, artigos do CTB e sinônimos
+npm run test:e2e         # testes no navegador (Playwright) contra o build; sobe o servidor sozinho
 ```
 
-Rode `typecheck`, `lint` e `build` antes de cada commit.
+Rode `typecheck`, `lint`, `verificar:dados` e `build` antes de cada commit (e `test:e2e` quando mexer em tela). O GitHub Actions roda tudo a cada envio (`.github/workflows/ci.yml`).
 
 ## Princípios
 
@@ -29,6 +31,7 @@ Rode `typecheck`, `lint` e `build` antes de cada commit.
 - `ctb.txt`: CTB vigente, extraído de `ctb-planalto.html` (página compilada do Planalto salva pelo navegador) por `tools/normas/extrair-ctb.py`, descartando redações revogadas. Serve para mostrar o artigo citado no amparo legal.
 - `ctb-artigos.json`: os 100 artigos do CTB citados nas fichas, em blocos (caput, inciso, alínea, parágrafo, sanção), gerado do `ctb.txt` por `tools/normas/extrair_artigos_ctb.py` (junta linhas quebradas, "Art." e "§" soltos).
 - `contran-indice.json`: índice das resoluções do CONTRAN no DOU (nº 700 em diante), de `tools/normas/dou/coletar.py`. Liga as resoluções citadas nas fichas ao DOU (seção "Resoluções citadas").
+- `mbft/figuras.json` e `public/figuras/`: desenhos das fichas recortados do PDF com a legenda colorida (WebP), por `tools/normas/mbft/extrair_figuras.py` (pdftohtml para as posições, pdftoppm para renderizar).
 - `mbft/temas.json`: uma ou duas palavras de tema por ficha, escritas à mão com palavras da tipificação resumida, para os rótulos dos grafos (não substituem o texto da ficha).
 
 ## Estrutura
@@ -45,6 +48,7 @@ Rode `typecheck`, `lint` e `build` antes de cada commit.
 ```
 src/lib/mbft.ts              lê docs/normas/mbft/mbft.json no build (server-only): Ficha, obterFicha, fichasPorArtigo, vizinhas, textoCompleto, citacoes (a cita b quando o texto de a traz o código de b), citacoesTipadas (com o tipo mais forte do par), conexoes, ligacoesDaFicha (itens que citam outras fichas, com o sentido: emVez = item do "quando não autuar"; tambem = "autuar também", "concomitantemente", "precedida pela lavratura", "lavrar outro auto"; referencia = o resto), categoriasDe (valores do PDF agrupados para os filtros: infrator em 4, competência por órgão citado, constatação em 3)
 src/components/Catalogo.tsx  lista, busca e filtros (cliente; opções em OU dentro do grupo, E entre grupos; valem para lista, busca e mapa): primeiro título/código/amparo; com o índice, também o texto completo (resultados separados). Códigos, números e romanos casam a palavra inteira; o resto, pelo começo (src/lib/texto.ts)
+src/lib/sinonimos.ts         termos do dia a dia → termos do manual (insulfilm → película); a busca usa os dois e o catálogo mostra o que usou
 src/lib/busca.ts             busca comum ao catálogo e à ficha: termosDe, buscarFichas (título/amparo, depois texto), buscarSecoes, carregarIndice (baixa /busca.json uma vez)
 src/components/BuscaNaFicha.tsx busca dentro da ficha, como o "Localizar" do navegador: marca as ocorrências com a CSS Custom Highlight API (sem mexer no HTML; sem suporte, seleciona a atual), sem diferenciar acentos; Enter/Shift+Enter andam; barra fixa no pé com ↑ ↓ ×. Fica de fora o que tem `data-fora-da-busca` e os rótulos do grafo
 src/components/AtalhosFicha.tsx botão flutuante (canto inferior direito) com atalhos para as seções que a ficha tem (ícone: seta que segue em frente ou vira à direita, como nas placas, de `public/icones/seta-atalhos.png`, imagem sem fundo usada como máscara com a cor do botão; ids: enquadramento, quando-autuar, quando-nao-autuar, definicoes, exemplos, informacoes, conexoes, resolucoes, ctb) e "Voltar ao topo"; o próprio botão é uma gota de líquido (AnelTinta: corpo redondo e 7 pontas da mesma cor fundidas por filtro "metaball" — desfoque + corte do alfa — que empurram a borda em lugares e ritmos aleatórios; a ponta nunca se solta do corpo; escuro, amarelo com o menu aberto; anima só visível e sem prefers-reduced-motion); aparece depois de rolar, marca a seção atual, sobe quando a barra de ocorrências da busca na ficha está aberta (`data-barra-ocorrencias`)
@@ -61,12 +65,16 @@ src/components/AmparoCtb.tsx seção "Texto do CTB" da ficha (#ctb): trecho com 
 src/lib/parteGeral.ts        lê docs/normas/mbft/parte-geral.json (server-only): SECOES, secoesDaMedida (medida administrativa da ficha → seção 8.x)
 src/components/Gravidade.tsx selo da natureza da infração
 src/components/Casco.tsx     cabeçalho e rodapé (no layout)
-src/components/Preferencias.tsx preferências de leitura (guardadas no navegador e aplicadas no <head> antes da pintura): guiar por código da ficha ou artigo do CTB (`data-ref` no <html>; no PC à vista, no celular no painel "Aa") e tamanho do texto (`data-fonte` 1/2: zoom 1,15/1,3 no <main>)
+src/components/Preferencias.tsx preferências de leitura (guardadas no navegador e aplicadas no <head> antes da pintura): guiar por código da ficha ou artigo do CTB (`data-ref` no <html>; no PC à vista, no celular no painel "Aa"), tamanho do texto (`data-fonte` 1/2: zoom 1,15/1,3 no <main>) e tema (`data-tema` claro/escuro; sem ele, segue o aparelho)
 src/components/Ref.tsx       Ref / RefOutra: desenham código e artigo; as classes globais so-codigo / so-artigo mostram só um (vale em SVG). Usar em todo lugar que identifica uma ficha
 src/lib/rotulos.ts           rotuloArtigo (amparo → "Art. 230, XVI"), linhasDoTema (até 2 linhas de ~14 caracteres)
 src/lib/resolucoes.ts        resoluções citadas no texto da ficha ("nº 882/2021", "nº 764, de 20 de dezembro de 2018"; Contran, DNIT, ANTT...), com link do DOU quando o índice tem o mesmo número e ano
 src/components/ResolucoesCitadas.tsx seção da ficha com essas resoluções
 src/components/UsoOffline.tsx registra o service worker (só em produção), mostra no rodapé quantas fichas estão salvas e o botão "Salvar todas" (~5 MB de download, ~40 MB no aparelho); AvisoSemRede: faixa abaixo do cabeçalho quando a conexão cai
+src/lib/figuras.ts           figurasDa(codigo): desenhos recortados do PDF, mostrados em "Informações complementares"
+src/components/BotaoCopiar.tsx copiar texto (exemplos do campo de observações)
+src/lib/minhasFichas.ts      favoritas e vistas por último, só no aparelho (localStorage); Favoritar (estrela na ficha, registra a visita) e MinhasFichas (listas na página inicial)
+src/lib/imagemPrevia.tsx     imagem de prévia 1200 × 630 (opengraph-image da ficha e da página inicial), gerada no build
 src/lib/site.ts              URL_SITE, NOME_SITE, URL_MBFT_OFICIAL
 src/lib/metadados.ts         metadataDe({ titulo, descricao, caminho })
 ```
@@ -78,6 +86,10 @@ src/lib/metadados.ts         metadataDe({ titulo, descricao, caminho })
 - Gravidade por cor: gravíssima vermelho, grave laranja, média amarelo, leve verde.
 
 Em produção, defina `NEXT_PUBLIC_SITE_URL`.
+
+## Atualização do manual
+
+- `.github/workflows/verificar-mbft.yml`: toda segunda baixa o PDF oficial (`.../mbvt20222.pdf/@@download/file`; sem o sufixo o gov.br devolve HTML) e compara o hash com `docs/normas/MBVT20222.pdf`. Se mudou, abre uma issue. Para atualizar: trocar o PDF, rodar os extratores de `tools/normas/mbft/` e `tools/normas/extrair_artigos_ctb.py`, dar tema às fichas novas em `temas.json`, `npm run verificar:dados` e os testes. O rodapé mostra a data do PDF (`extraidoEm` do `mbft.json`).
 
 ## Segurança e hospedagem
 
@@ -94,6 +106,6 @@ Em produção, defina `NEXT_PUBLIC_SITE_URL`.
 ## Identidade visual
 
 - Tema claro com acento amarelo de sinalização: `--sign: #eab308; --sign-text: #854d0e;`.
-- Tokens: `--asphalt: #f1f5f9` (fundo), `--asphalt-2: #ffffff` (superfícies), `--asphalt-3: #cbd5e1` (bordas), `--paint: #0f172a` (texto), `--muted: #475569`, `--ok: #15803d`, `--bad: #dc2626`.
+- Tokens: `--asphalt: #f1f5f9` (fundo), `--asphalt-2: #ffffff` (superfícies), `--asphalt-3: #cbd5e1` (bordas), `--paint: #0f172a` (texto), `--muted: #475569`, `--ok: #15803d`, `--bad: #dc2626`; e `--linha`, `--realce`, `--realce-2`, `--inverso-bg`/`--inverso-tx` (botões e selos escuros), `--sobre-amarelo` (texto sobre `--sign`), `--g-*` (gravidade). Todos têm versão escura em `globals.css`: **não usar cor fixa no CSS** (exceto o fundo branco dos desenhos do PDF).
 - Fontes: Barlow Condensed (títulos), Barlow (texto), Source Serif 4 (texto da norma), IBM Plex Mono (códigos e números).
 - Zero emojis na interface: só ícones `lucide-react` ou texto.
