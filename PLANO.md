@@ -12,6 +12,10 @@ Consulta ao MBFT (Res. CONTRAN nº 985/2022) para agentes de fiscalização de t
 4. **Parte geral** do manual (feita: `/parte-geral`).
 5. **Amparo legal** com o texto do artigo do CTB (feito: seção "Texto do CTB" na ficha).
 
+## Próximos passos (ideias registradas)
+
+6. **Páginas de resolução** (`/resolucoes/[numero]`, ex.: `/resolucoes/960`): ementa, link do DOU, situação (em vigor, alterada por quem) e as fichas do MBFT ligadas a ela. Na ficha, seção "Resolução que regulamenta", separada de "Resoluções citadas". Exemplo: a ficha de película (670-00) não cita nenhuma resolução, mas o assunto é da Res. 960/2022 (alterada pela 989/2022). Essa ligação não está no texto do MBFT: precisa ser curadoria do site, marcada como tal, com o artigo da resolução como fonte e conferida quando houver revogação. Primeira candidata: Res. 960, já conferida no CTB Virtual.
+
 ## 3. Decisões em aberto
 
 - Cobrança ou acesso gratuito.
