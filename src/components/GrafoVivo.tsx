@@ -130,7 +130,11 @@ export function GrafoVivo({
   const [telaCheia, setTelaCheia] = useState(false);
   const [arrastando, setArrastando] = useState(false);
   // Tipos de ligação visíveis (legenda) e ligação tocada (cartão com o motivo)
-  const [visiveis, setVisiveis] = useState<Record<TipoLigacao, boolean>>({ emVez: true, tambem: true, referencia: true });
+  const [visiveis, setVisiveis] = useState<Record<TipoLigacao, boolean>>({
+    emVez: true,
+    tambem: true,
+    referencia: true,
+  });
   const [ligacaoAberta, setLigacaoAberta] = useState<number | null>(null);
 
   const indice = useMemo(() => new Map(nos.map((n, i) => [n.id, i])), [nos]);
@@ -492,7 +496,14 @@ export function GrafoVivo({
         const [t1, t2] = Array.from(toques.current.values());
         const meio = noQuadro((t1.x + t2.x) / 2, (t1.y + t2.y) / 2);
         const c = camera.current;
-        pinca.current = { d0: Math.hypot(t1.x - t2.x, t1.y - t2.y) || 1, k0: c.k, cx: meio.x, cy: meio.y, tx: c.tx, ty: c.ty };
+        pinca.current = {
+          d0: Math.hypot(t1.x - t2.x, t1.y - t2.y) || 1,
+          k0: c.k,
+          cx: meio.x,
+          cy: meio.y,
+          tx: c.tx,
+          ty: c.ty,
+        };
         panoramica.current = null;
         return;
       }
@@ -508,8 +519,9 @@ export function GrafoVivo({
 
   // ---- desenho ----
   const destaque = foco ?? selecionado ?? nos.find((n) => n.papel === 'centro')?.id ?? null;
-  const ligadosAoDestaque = destaque ? vizinhos.get(destaque) ?? new Set<string>() : new Set<string>();
+  const ligadosAoDestaque = destaque ? (vizinhos.get(destaque) ?? new Set<string>()) : new Set<string>();
   const esmaecer = foco != null || selecionado != null;
+  const temCentro = nos.some((n) => n.papel === 'centro');
 
   return (
     <div className={`${styles.quadro} ${telaCheia ? styles.telaCheia : ''} ${className ?? ''}`}>
@@ -518,207 +530,226 @@ export function GrafoVivo({
           <span>{rotulo}</span>
         </div>
       )}
-      <div className={styles.legendaLigacoes} role="group" aria-label="Tipos de ligação">
-        {TIPOS_LIGACAO.filter((t) => contagem[t] > 0).map((t) => (
-          <button
-            key={t}
-            type="button"
-            aria-pressed={visiveis[t]}
-            className={styles.tipoLigacao}
-            onClick={() => setVisiveis((v) => ({ ...v, [t]: !v[t] }))}
-          >
-            <svg width="26" height="10" aria-hidden>
-              <line x1="1" y1="5" x2="19" y2="5" className={`${styles.amostra} ${styles[`l_${t}`]}`} />
-              {t !== 'referencia' && <path d="M17,1 L25,5 L17,9 z" className={`${styles.ponta} ${styles[`p_${t}`]}`} />}
-            </svg>
-            {NOME_LIGACAO[t]} <span className={styles.qtdLigacoes}>{contagem[t]}</span>
+      {/* Legenda dos tipos de ligação e controles numa barra acima do grafo (não cobrem as fichas) */}
+      <div className={styles.barraGrafo}>
+        <div className={styles.legendaLigacoes} role="group" aria-label="Tipos de ligação">
+          {TIPOS_LIGACAO.filter((t) => contagem[t] > 0).map((t) => (
+            <button
+              key={t}
+              type="button"
+              aria-pressed={visiveis[t]}
+              className={styles.tipoLigacao}
+              onClick={() => setVisiveis((v) => ({ ...v, [t]: !v[t] }))}
+            >
+              <svg width="26" height="10" aria-hidden>
+                <line x1="1" y1="5" x2="19" y2="5" className={`${styles.amostra} ${styles[`l_${t}`]}`} />
+                {t !== 'referencia' && (
+                  <path d="M17,1 L25,5 L17,9 z" className={`${styles.ponta} ${styles[`p_${t}`]}`} />
+                )}
+              </svg>
+              {NOME_LIGACAO[t]} <span className={styles.qtdLigacoes}>{contagem[t]}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className={styles.controles} role="toolbar" aria-label="Controles do grafo">
+          <button type="button" onClick={() => zoomEm(1.3)} aria-label="Aproximar">
+            <Plus size={18} />
           </button>
-        ))}
+          <button type="button" onClick={() => zoomEm(1 / 1.3)} aria-label="Afastar">
+            <Minus size={18} />
+          </button>
+          <button type="button" onClick={recentralizar} aria-label="Centralizar">
+            <LocateFixed size={18} />
+          </button>
+          <button
+            type="button"
+            onClick={() => setTelaCheia((t) => !t)}
+            aria-label={telaCheia ? 'Sair da tela cheia' : 'Tela cheia'}
+            aria-pressed={telaCheia}
+          >
+            {telaCheia ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+          </button>
+        </div>
       </div>
       <div className={styles.palco}>
-      <svg
-        ref={svg}
-        viewBox={`0 0 ${largura} ${altura}`}
-        className={`${styles.grafo} ${arrastando ? styles.arrastando : ''}`}
-        role="img"
-        aria-label={rotulo}
-        onPointerDown={aoApertarFundo}
-        onPointerMove={aoMover}
-        onPointerUp={aoSoltar}
-        onPointerCancel={aoSoltar}
-      >
-        <defs>
-          {TIPOS_LIGACAO.flatMap((t) =>
-            [false, true].map((ativa) => (
-              <marker
-                key={`${t}${ativa}`}
-                id={`${idMarcas}-${t}${ativa ? '-a' : ''}`}
-                viewBox="0 0 10 10"
-                refX="9"
-                refY="5"
-                markerWidth={ativa ? 9 : 7}
-                markerHeight={ativa ? 9 : 7}
-                markerUnits="userSpaceOnUse"
-                orient="auto-start-reverse"
-              >
-                <path d="M0,1 L10,5 L0,9 z" className={`${styles.ponta} ${styles[`p_${t}`]} ${ativa ? styles.pontaAtiva : ''}`} />
-              </marker>
-            )),
-          )}
-        </defs>
-        <g ref={camada}>
-          <g>
-            {ligacoes.map(([a, b], k) => {
-              const na = nos[a];
-              const nb = nos[b];
-              const ar = dados[k];
-              const tipo = tipoPrincipal(ar);
-              const mostrar = [ar.ab, ar.ba].some((t) => t && visiveis[t]);
-              if (!mostrar) return null;
-              const ativa = ligacaoAberta === k || (destaque != null && (na.id === destaque || nb.id === destaque));
-              const [x1, y1, x2, y2] = pontas(na.x, na.y, nb.x, nb.y, RAIO[na.papel], RAIO[nb.papel]);
-              const titulo = descreverLigacao(ar, nos[a], nos[b]);
-              return (
-                <g key={`${na.id}-${nb.id}`} className={styles.ligacao}>
-                  <line
-                    ref={(el) => {
-                      elLinhas.current[k] = el;
-                    }}
-                    x1={x1}
-                    y1={y1}
-                    x2={x2}
-                    y2={y2}
-                    className={`${styles.aresta} ${styles[`l_${tipo}`]} ${ativa ? styles.arestaAtiva : ''} ${
-                      esmaecer && !ativa ? styles.arestaApagada : ''
-                    }`}
-                    markerEnd={ar.ab ? `url(#${idMarcas}-${ar.ab}${ativa ? '-a' : ''})` : undefined}
-                    markerStart={ar.ba ? `url(#${idMarcas}-${ar.ba}${ativa ? '-a' : ''})` : undefined}
-                    style={
-                      {
-                        '--comprimento': Math.ceil(Math.hypot(x2 - x1, y2 - y1)),
-                        '--atraso': `${250 + Math.min(k * 6, 500)}ms`,
-                      } as CSSProperties
-                    }
+        <svg
+          ref={svg}
+          viewBox={`0 0 ${largura} ${altura}`}
+          className={`${styles.grafo} ${arrastando ? styles.arrastando : ''}`}
+          role="img"
+          aria-label={rotulo}
+          onPointerDown={aoApertarFundo}
+          onPointerMove={aoMover}
+          onPointerUp={aoSoltar}
+          onPointerCancel={aoSoltar}
+        >
+          <defs>
+            {TIPOS_LIGACAO.flatMap((t) =>
+              [false, true].map((ativa) => (
+                <marker
+                  key={`${t}${ativa}`}
+                  id={`${idMarcas}-${t}${ativa ? '-a' : ''}`}
+                  viewBox="0 0 10 10"
+                  refX="9"
+                  refY="5"
+                  markerWidth={ativa ? 9 : 7}
+                  markerHeight={ativa ? 9 : 7}
+                  markerUnits="userSpaceOnUse"
+                  orient="auto-start-reverse"
+                >
+                  <path
+                    d="M0,1 L10,5 L0,9 z"
+                    className={`${styles.ponta} ${styles[`p_${t}`]} ${ativa ? styles.pontaAtiva : ''}`}
                   />
-                  {/* Faixa invisível e larga: passar o mouse mostra o motivo; tocar abre o cartão */}
-                  <line
-                    ref={(el) => {
-                      elAlvos.current[k] = el;
-                    }}
-                    x1={x1}
-                    y1={y1}
-                    x2={x2}
-                    y2={y2}
-                    className={styles.alvoLigacao}
-                    onPointerDown={(e) => e.stopPropagation()}
-                    onClick={() => setLigacaoAberta((atual) => (atual === k ? null : k))}
-                  >
-                    <title>{titulo}</title>
-                  </line>
+                </marker>
+              )),
+            )}
+          </defs>
+          <g ref={camada}>
+            <g>
+              {ligacoes.map(([a, b], k) => {
+                const na = nos[a];
+                const nb = nos[b];
+                const ar = dados[k];
+                const tipo = tipoPrincipal(ar);
+                const mostrar = [ar.ab, ar.ba].some((t) => t && visiveis[t]);
+                if (!mostrar) return null;
+                const ativa = ligacaoAberta === k || (destaque != null && (na.id === destaque || nb.id === destaque));
+                // Secundária: entre vizinhas, sem passar pela ficha aberta (ou, no mapa, entre fichas
+                // menores). Fica discreta e sem seta, até uma das pontas ser destacada.
+                const secundaria =
+                  !ativa &&
+                  (temCentro
+                    ? na.papel !== 'centro' && nb.papel !== 'centro'
+                    : na.papel === 'vizinho' && nb.papel === 'vizinho');
+                const comSeta = !secundaria;
+                const [x1, y1, x2, y2] = pontas(na.x, na.y, nb.x, nb.y, RAIO[na.papel], RAIO[nb.papel]);
+                const titulo = descreverLigacao(ar, nos[a], nos[b]);
+                return (
+                  <g key={`${na.id}-${nb.id}`} className={styles.ligacao}>
+                    <line
+                      ref={(el) => {
+                        elLinhas.current[k] = el;
+                      }}
+                      x1={x1}
+                      y1={y1}
+                      x2={x2}
+                      y2={y2}
+                      className={`${styles.aresta} ${styles[`l_${tipo}`]} ${ativa ? styles.arestaAtiva : ''} ${
+                        secundaria ? styles.arestaSecundaria : ''
+                      } ${esmaecer && !ativa ? styles.arestaApagada : ''}`}
+                      markerEnd={comSeta && ar.ab ? `url(#${idMarcas}-${ar.ab}${ativa ? '-a' : ''})` : undefined}
+                      markerStart={comSeta && ar.ba ? `url(#${idMarcas}-${ar.ba}${ativa ? '-a' : ''})` : undefined}
+                      style={
+                        {
+                          '--comprimento': Math.ceil(Math.hypot(x2 - x1, y2 - y1)),
+                          '--atraso': `${250 + Math.min(k * 6, 500)}ms`,
+                        } as CSSProperties
+                      }
+                    />
+                    {/* Faixa invisível e larga: passar o mouse mostra o motivo; tocar abre o cartão */}
+                    <line
+                      ref={(el) => {
+                        elAlvos.current[k] = el;
+                      }}
+                      x1={x1}
+                      y1={y1}
+                      x2={x2}
+                      y2={y2}
+                      className={styles.alvoLigacao}
+                      onPointerDown={(e) => e.stopPropagation()}
+                      onClick={() => setLigacaoAberta((atual) => (atual === k ? null : k))}
+                    >
+                      <title>{titulo}</title>
+                    </line>
+                  </g>
+                );
+              })}
+            </g>
+            {nos.map((n, i) => {
+              const r = RAIO[n.papel];
+              const vizinho = n.papel === 'vizinho';
+              const linhas = linhasDoTema(n.tema);
+              const apagado = esmaecer && n.id !== destaque && !ligadosAoDestaque.has(n.id);
+              const corpo = (
+                <g
+                  className={`${styles.no} ${vizinho ? styles.vizinho : ''} ${apagado ? styles.apagado : ''} ${
+                    n.id === destaque ? styles.noDestaque : ''
+                  }`}
+                  style={{ '--atraso': `${Math.min(i * 15, 450)}ms` } as CSSProperties}
+                >
+                  <title>{n.titulo}</title>
+                  <circle r={Math.max(r, 16)} className={styles.alvo} />
+                  <circle r={r} fill={COR[n.gravidade] ?? '#94a3b8'} className={styles.bolinha} />
+                  <text y={r + 13} className={vizinho ? styles.rotuloVizinho : styles.rotulo}>
+                    <tspan className="so-codigo">{n.id}</tspan>
+                    <tspan className="so-artigo">
+                      {n.artigo.split(' · ')[0]}
+                      {n.artigo.includes(' · ') && <tspan className={styles.codigoJunto}> · {n.id}</tspan>}
+                    </tspan>
+                  </text>
+                  {linhas.length > 0 && (
+                    <text y={r + (vizinho ? 24 : 26)} className={vizinho ? styles.temaVizinho : styles.tema}>
+                      {linhas.map((l, j) => (
+                        <tspan key={j} x={0} dy={j === 0 ? 0 : vizinho ? 11 : 12}>
+                          {l}
+                        </tspan>
+                      ))}
+                    </text>
+                  )}
+                </g>
+              );
+              const comum = {
+                ref: (el: SVGGElement | null) => {
+                  if (el) elNos.current.set(n.id, el);
+                  else elNos.current.delete(n.id);
+                },
+                transform: `translate(${n.x} ${n.y})`,
+                className: styles.posicao,
+                onPointerDown: (e: ReactPointerEvent) => aoApertarNo(e, i),
+                onPointerEnter: (e: ReactPointerEvent) => e.pointerType === 'mouse' && setFoco(n.id),
+                onPointerLeave: () => setFoco((f) => (f === n.id ? null : f)),
+                onClick: (e: ReactMouseEvent) => {
+                  e.preventDefault();
+                  if (ignorarClique.current) {
+                    ignorarClique.current = false;
+                    return;
+                  }
+                  acionar(n);
+                },
+              };
+              if (n.href) {
+                // O link fica dentro do grupo posicionado: o clique sobe até `onClick` do grupo,
+                // que decide (arrastou ou tocou); sem JavaScript, o link funciona sozinho
+                return (
+                  <g key={n.id} {...comum}>
+                    <a href={n.href} aria-label={n.titulo}>
+                      {corpo}
+                    </a>
+                  </g>
+                );
+              }
+              return (
+                <g
+                  key={n.id}
+                  {...comum}
+                  role={onSelecionar ? 'button' : undefined}
+                  tabIndex={onSelecionar ? 0 : undefined}
+                  aria-label={onSelecionar ? n.titulo : undefined}
+                  onKeyDown={(e: KeyboardEvent) => {
+                    if (onSelecionar && (e.key === 'Enter' || e.key === ' ')) {
+                      e.preventDefault();
+                      onSelecionar(n.id);
+                    }
+                  }}
+                >
+                  {corpo}
                 </g>
               );
             })}
           </g>
-          {nos.map((n, i) => {
-            const r = RAIO[n.papel];
-            const vizinho = n.papel === 'vizinho';
-            const linhas = linhasDoTema(n.tema);
-            const apagado = esmaecer && n.id !== destaque && !ligadosAoDestaque.has(n.id);
-            const corpo = (
-              <g
-                className={`${styles.no} ${vizinho ? styles.vizinho : ''} ${apagado ? styles.apagado : ''} ${
-                  n.id === destaque ? styles.noDestaque : ''
-                }`}
-                style={{ '--atraso': `${Math.min(i * 15, 450)}ms` } as CSSProperties}
-              >
-                <title>{n.titulo}</title>
-                <circle r={Math.max(r, 16)} className={styles.alvo} />
-                <circle r={r} fill={COR[n.gravidade] ?? '#94a3b8'} className={styles.bolinha} />
-                <text y={r + 13} className={vizinho ? styles.rotuloVizinho : styles.rotulo}>
-                  <tspan className="so-codigo">{n.id}</tspan>
-                  <tspan className="so-artigo">{n.artigo}</tspan>
-                </text>
-                {linhas.length > 0 && (
-                  <text y={r + (vizinho ? 24 : 26)} className={vizinho ? styles.temaVizinho : styles.tema}>
-                    {linhas.map((l, j) => (
-                      <tspan key={j} x={0} dy={j === 0 ? 0 : vizinho ? 11 : 12}>
-                        {l}
-                      </tspan>
-                    ))}
-                  </text>
-                )}
-              </g>
-            );
-            const comum = {
-              ref: (el: SVGGElement | null) => {
-                if (el) elNos.current.set(n.id, el);
-                else elNos.current.delete(n.id);
-              },
-              transform: `translate(${n.x} ${n.y})`,
-              className: styles.posicao,
-              onPointerDown: (e: ReactPointerEvent) => aoApertarNo(e, i),
-              onPointerEnter: (e: ReactPointerEvent) => e.pointerType === 'mouse' && setFoco(n.id),
-              onPointerLeave: () => setFoco((f) => (f === n.id ? null : f)),
-              onClick: (e: ReactMouseEvent) => {
-                e.preventDefault();
-                if (ignorarClique.current) {
-                  ignorarClique.current = false;
-                  return;
-                }
-                acionar(n);
-              },
-            };
-            if (n.href) {
-              // O link fica dentro do grupo posicionado: o clique sobe até `onClick` do grupo,
-              // que decide (arrastou ou tocou); sem JavaScript, o link funciona sozinho
-              return (
-                <g key={n.id} {...comum}>
-                  <a href={n.href} aria-label={n.titulo}>
-                    {corpo}
-                  </a>
-                </g>
-              );
-            }
-            return (
-              <g
-                key={n.id}
-                {...comum}
-                role={onSelecionar ? 'button' : undefined}
-                tabIndex={onSelecionar ? 0 : undefined}
-                aria-label={onSelecionar ? n.titulo : undefined}
-                onKeyDown={(e: KeyboardEvent) => {
-                  if (onSelecionar && (e.key === 'Enter' || e.key === ' ')) {
-                    e.preventDefault();
-                    onSelecionar(n.id);
-                  }
-                }}
-              >
-                {corpo}
-              </g>
-            );
-          })}
-        </g>
-      </svg>
-
-      <div className={styles.controles} role="toolbar" aria-label="Controles do grafo">
-        <button type="button" onClick={() => zoomEm(1.3)} aria-label="Aproximar">
-          <Plus size={18} />
-        </button>
-        <button type="button" onClick={() => zoomEm(1 / 1.3)} aria-label="Afastar">
-          <Minus size={18} />
-        </button>
-        <button type="button" onClick={recentralizar} aria-label="Centralizar">
-          <LocateFixed size={18} />
-        </button>
-        <button
-          type="button"
-          onClick={() => setTelaCheia((t) => !t)}
-          aria-label={telaCheia ? 'Sair da tela cheia' : 'Tela cheia'}
-          aria-pressed={telaCheia}
-        >
-          {telaCheia ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
-        </button>
-      </div>
+        </svg>
       </div>
 
       {ligacaoAberta != null && dados[ligacaoAberta] && (
@@ -734,7 +765,14 @@ export function GrafoVivo({
 }
 
 /** Pontas da linha na borda das bolinhas (a seta encosta na bolinha, não no centro). */
-function pontas(x1: number, y1: number, x2: number, y2: number, r1: number, r2: number): [number, number, number, number] {
+function pontas(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  r1: number,
+  r2: number,
+): [number, number, number, number] {
   const d = Math.hypot(x2 - x1, y2 - y1) || 1;
   const ux = (x2 - x1) / d;
   const uy = (y2 - y1) / d;
@@ -759,7 +797,17 @@ function descreverLigacao(ar: ArestaGrafo, a: NoGrafo, b: NoGrafo): string {
 }
 
 /** Cartão aberto ao tocar numa linha: sentido de cada citação e o item que a faz. */
-function CartaoLigacao({ aresta, noA, noB, fechar }: { aresta: ArestaGrafo; noA: NoGrafo; noB: NoGrafo; fechar: () => void }) {
+function CartaoLigacao({
+  aresta,
+  noA,
+  noB,
+  fechar,
+}: {
+  aresta: ArestaGrafo;
+  noA: NoGrafo;
+  noB: NoGrafo;
+  fechar: () => void;
+}) {
   const sentidos: { de: NoGrafo; para: NoGrafo; tipo: TipoLigacao }[] = [];
   if (aresta.ab) sentidos.push({ de: noA, para: noB, tipo: aresta.ab });
   if (aresta.ba) sentidos.push({ de: noB, para: noA, tipo: aresta.ba });
@@ -776,12 +824,16 @@ function CartaoLigacao({ aresta, noA, noB, fechar }: { aresta: ArestaGrafo; noA:
               <span className={`${styles.seloLigacao} ${styles[`s_${tipo}`]}`}>{NOME_LIGACAO[tipo]}</span>
               <Link href={`/fichas/${de.id}`}>
                 <span className="so-codigo">{de.id}</span>
-                <span className="so-artigo">{de.artigo}</span>
+                <span className="so-artigo">
+                  {de.artigo.split(' · ')[0]} <small>({de.id})</small>
+                </span>
               </Link>
               <span aria-hidden>→</span>
               <Link href={`/fichas/${para.id}`}>
                 <span className="so-codigo">{para.id}</span>
-                <span className="so-artigo">{para.artigo}</span>
+                <span className="so-artigo">
+                  {para.artigo.split(' · ')[0]} <small>({para.id})</small>
+                </span>
               </Link>
             </p>
             {motivos.map((m, i) => (

@@ -195,3 +195,11 @@
     white-space: normal;
   }
 }
+
+/* No modo artigo, o código vai junto (várias fichas têm o mesmo artigo) */
+.codigoJunto {
+  margin-left: 6px;
+  font-size: 0.82em;
+  font-weight: 500;
+  color: var(--muted);
+}

@@ -27,7 +27,10 @@ export function tamanhoDoNo(no: Pick<NoGrafo, 'id' | 'artigo' | 'tema' | 'papel'
   const r = RAIO[no.papel];
   const linhas = linhasDoTema(no.tema);
   if (no.papel === 'vizinho') {
-    const l = Math.max(Math.max(no.id.length, no.artigo.length) * 6.1, Math.max(0, ...linhas.map((x) => x.length)) * 5.2);
+    const l = Math.max(
+      Math.max(no.id.length, no.artigo.length) * 6.1,
+      Math.max(0, ...linhas.map((x) => x.length)) * 5.2,
+    );
     return { l: l + 8, a: r + 22 + linhas.length * 11 };
   }
   const larguraTema = Math.max(0, ...linhas.map((l) => l.length)) * 5.7;
@@ -102,4 +105,15 @@ export function juntarArestas(
 export function tipoPrincipal(aresta: ArestaGrafo): TipoLigacao {
   const tipos = [aresta.ab, aresta.ba].filter((t): t is TipoLigacao => !!t);
   return tipos.sort((x, y) => PRIORIDADE_LIGACAO[y] - PRIORIDADE_LIGACAO[x])[0] ?? 'referencia';
+}
+
+/**
+ * Várias fichas têm o mesmo amparo (243 das 411; ex.: 503-71 e 503-72, Art. 162, III). No modo
+ * artigo, quando o artigo se repete no mesmo grafo, o rótulo leva o código junto ("Art. 162, III ·
+ * 503-71", o código em letra menor no desenho); artigo único fica só com o artigo.
+ */
+export function desambiguarArtigos<T extends { id: string; artigo: string }>(nos: T[]): T[] {
+  const vezes = new Map<string, number>();
+  for (const n of nos) vezes.set(n.artigo, (vezes.get(n.artigo) ?? 0) + 1);
+  return nos.map((n) => ((vezes.get(n.artigo) ?? 0) > 1 ? { ...n, artigo: `${n.artigo} · ${n.id}` } : n));
 }

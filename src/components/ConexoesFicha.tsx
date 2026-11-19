@@ -1,5 +1,5 @@
 import { GrafoVivo } from './GrafoVivo';
-import { juntarArestas, tamanhoDoNo, type Motivo, type NoGrafo } from '@/lib/noGrafo';
+import { desambiguarArtigos, juntarArestas, tamanhoDoNo, type Motivo, type NoGrafo } from '@/lib/noGrafo';
 import { citacoesTipadas, conexoes, ligacoesDaFicha, obterFicha, type Ficha } from '@/lib/mbft';
 import { posicionarComAltura } from '@/lib/grafo';
 import styles from './ConexoesFicha.module.css';
@@ -33,28 +33,34 @@ export function ConexoesFicha({ ficha }: { ficha: Ficha }) {
       <h2 id="conexoes">Conexões</h2>
       <p className={styles.legenda}>
         Fichas ligadas a esta por citação de código. A seta aponta para a ficha indicada: vermelha, autuar lá em vez
-        daqui; verde, autuar também; cinza tracejada, referência. Toque na linha para ver o motivo; arraste as
-        bolinhas; toque nelas para abrir a ficha.
+        daqui; verde, autuar também; cinza tracejada, referência. Toque na linha para ver o motivo; arraste as bolinhas;
+        toque nelas para abrir a ficha.
       </p>
       {(() => {
-        const base = ids.map((id) => {
-          const f = obterFicha(id)!;
-          return {
-            id,
-            artigo: f.rotuloArtigo,
-            tema: f.tema,
-            gravidade: f.gravidade,
-            papel: (id === ficha.codigo ? 'centro' : 'principal') as NoGrafo['papel'],
-            titulo: `${f.codigo} · ${f.rotuloArtigo} · ${f.tipificacaoResumida}`,
-            href: id === ficha.codigo ? undefined : `/fichas/${id}`,
-          };
-        });
+        const base = desambiguarArtigos(
+          ids.map((id) => {
+            const f = obterFicha(id)!;
+            return {
+              id,
+              artigo: f.rotuloArtigo,
+              tema: f.tema,
+              gravidade: f.gravidade,
+              papel: (id === ficha.codigo ? 'centro' : 'principal') as NoGrafo['papel'],
+              titulo: `${f.codigo} · ${f.rotuloArtigo} · ${f.tipificacaoResumida}`,
+              href: id === ficha.codigo ? undefined : `/fichas/${id}`,
+            };
+          }),
+        );
         const tamanhos = new Map(base.map((b) => [b.id, tamanhoDoNo(b)]));
         const [pc, cel] = FORMATOS.map((formato) =>
           posicionarComAltura(ids, pares, { ...formato, centro: ficha.codigo, tamanhos }),
         );
         const arred = (v: number) => Math.round(v * 10) / 10;
-        const nos: NoGrafo[] = base.map((b) => ({ ...b, x: arred(pc.pos.get(b.id)!.x), y: arred(pc.pos.get(b.id)!.y) }));
+        const nos: NoGrafo[] = base.map((b) => ({
+          ...b,
+          x: arred(pc.pos.get(b.id)!.x),
+          y: arred(pc.pos.get(b.id)!.y),
+        }));
         return (
           <GrafoVivo
             nos={nos}

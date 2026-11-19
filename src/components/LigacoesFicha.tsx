@@ -47,6 +47,7 @@ function Destino({ ficha }: { ficha: Ficha }) {
       <ArrowRight aria-hidden size={16} className={styles.seta} />
       <b>
         <Ref codigo={ficha.codigo} artigo={ficha.rotuloArtigo} />
+        <span className={`so-artigo ${styles.codigoJunto}`}>{ficha.codigo}</span>
       </b>
       <span>{ficha.tipificacaoResumida}</span>
     </Link>
@@ -123,13 +124,18 @@ function Recebidas({ lista, atual }: { lista: { origem: Ficha; itens: ItemLigado
           <Link href={`/fichas/${origem.codigo}`} className={styles.origem}>
             <b>
               <Ref codigo={origem.codigo} artigo={origem.rotuloArtigo} />
+              <span className={`so-artigo ${styles.codigoJunto}`}>{origem.codigo}</span>
             </b>
             <span>{origem.tipificacaoResumida}</span>
           </Link>
           {itens.map((i, k) => (
             <div key={k} className={styles.citacao}>
               <span className={`${styles.selo} ${styles[`selo_${i.tipo}`]}`}>
-                {i.tipo === 'emVez' ? 'Autuar aqui em vez de lá' : i.tipo === 'tambem' ? 'Autuar também aqui' : 'Referência'}
+                {i.tipo === 'emVez'
+                  ? 'Autuar aqui em vez de lá'
+                  : i.tipo === 'tambem'
+                    ? 'Autuar também aqui'
+                    : 'Referência'}
               </span>
               <Situacao item={i.item} atual={atual} />
             </div>

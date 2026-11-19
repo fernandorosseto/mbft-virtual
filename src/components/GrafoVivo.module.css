@@ -61,6 +61,16 @@
   animation: fluir 0.8s linear infinite;
 }
 
+.arestaSecundaria {
+  opacity: 0.16;
+  stroke-width: 0.9;
+  stroke-dasharray: none;
+}
+
+.ligacao:hover .arestaSecundaria {
+  opacity: 0.6;
+}
+
 .arestaApagada {
   opacity: 0.12;
 }
@@ -197,10 +207,7 @@
   overflow-wrap: anywhere;
 }
 
-.telaCheia .legendaLigacoes {
-  padding: 8px 64px 0 12px;
-  margin: 0;
-}
+
 
 .telaCheia .cartaoLigacao {
   position: absolute;
@@ -296,6 +303,13 @@
   fill: var(--muted);
 }
 
+/* Código ao lado do artigo, quando outro nó do grafo tem o mesmo artigo */
+.codigoJunto {
+  font-size: 0.82em;
+  font-weight: 500;
+  fill: var(--muted);
+}
+
 .tema,
 .temaVizinho {
   font-family: var(--f-body);
@@ -323,31 +337,60 @@
 
 /* ---- controles ---- */
 
-.controles {
-  position: absolute;
-  top: 8px;
-  right: 8px;
+.barraGrafo {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 10px;
+  margin-bottom: 8px;
+}
+
+.barraGrafo .legendaLigacoes {
+  margin-bottom: 0;
+}
+
+.controles {
+  display: flex;
+  margin-left: auto;
 }
 
 .controles button {
+  /* Área de toque grande, desenho pequeno e semitransparente (não cobre as fichas) */
   display: grid;
   place-items: center;
   width: 36px;
   height: 36px;
-  border: 1px solid var(--asphalt-3);
-  border-radius: 8px;
-  background: var(--asphalt-2);
+  padding: 0;
+  border: none;
+  background: none;
   color: var(--paint);
+  opacity: 0.8;
+  transition: opacity 0.15s;
 }
 
-.controles button:hover {
+.controles button svg {
+  box-sizing: content-box;
+  width: 16px;
+  height: 16px;
+  padding: 6px;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--asphalt-2) 70%, transparent);
+}
+
+.controles button:hover,
+.controles button:focus-visible,
+.controles button[aria-pressed='true'] {
+  opacity: 1;
+}
+
+.controles button:hover svg {
   border-color: var(--paint);
 }
 
 @media (pointer: coarse) {
+
   .controles button {
     width: 44px;
     height: 44px;
@@ -382,8 +425,8 @@
   touch-action: none;
 }
 
-.telaCheia .controles {
-  top: 8px;
+.telaCheia .barraGrafo {
+  padding: 4px 8px 0 12px;
 }
 
 .barraTelaCheia {
