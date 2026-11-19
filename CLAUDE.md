@@ -11,7 +11,7 @@ npm run dev         # servidor de desenvolvimento
 npm run typecheck   # tsc --noEmit
 npm run lint        # ESLint (next/core-web-vitals)
 npm run build
-npm run verificar:dados  # confere fichas, temas, parte geral, desenhos, artigos do CTB e sinônimos
+npm run verificar:dados  # confere fichas (campos, glifos quebrados), temas, parte geral, desenhos, tabelas, artigos do CTB e sinônimos
 npm run test:e2e         # testes no navegador (Playwright) contra o build; sobe o servidor sozinho
 ```
 
@@ -27,7 +27,7 @@ Rode `typecheck`, `lint`, `verificar:dados` e `build` antes de cada commit (e `t
 
 - `MBVT20222.pdf`: PDF oficial do MBFT.
 - `mbft/parte-geral.json`: a Parte Geral (págs. 5 a 30) em seções e blocos (parágrafo, item com marcador, sigla), gerada do `mbft.txt` por `tools/normas/mbft/extrair_parte_geral.py`, que reconhece os títulos pelo sumário do manual. O texto por página do `mbft.json` não serve para isso: o pdfplumber cola palavras nas linhas justificadas.
-- `mbft/mbft.json`: o MBFT convertido (parte geral por página e as 412 fichas, com os campos do PDF); `mbft/mbft.txt`: texto corrido para conferência. Formato e limitações em `docs/normas/mbft/README.md`; gerado por `tools/normas/mbft/extrair_mbft.py`.
+- `mbft/mbft.json`: o MBFT convertido (parte geral por página e as 412 fichas, com os campos do PDF); `mbft/mbft.txt`: texto corrido para conferência. Formato e limitações em `docs/normas/mbft/README.md`; gerado por `tools/normas/mbft/extrair_mbft.py` (lê também o texto fora das molduras e cada coluna pela largura dela; correções feitas à vista em `CORRECOES`). `tools/normas/mbft/conferir_mbft.py` confere o JSON contra o PDF palavra por palavra, ficha por ficha (em 19/11/2026: 0 diferenças fora das conferidas à vista).
 - `ctb.txt`: CTB vigente, extraído de `ctb-planalto.html` (página compilada do Planalto salva pelo navegador) por `tools/normas/extrair-ctb.py`, descartando redações revogadas. Serve para mostrar o artigo citado no amparo legal.
 - `ctb-artigos.json`: os 100 artigos do CTB citados nas fichas, em blocos (caput, inciso, alínea, parágrafo, sanção), gerado do `ctb.txt` por `tools/normas/extrair_artigos_ctb.py` (junta linhas quebradas, "Art." e "§" soltos).
 - `contran-indice.json`: índice das resoluções do CONTRAN no DOU (nº 700 em diante), de `tools/normas/dou/coletar.py`. Liga as resoluções citadas nas fichas ao DOU (seção "Resoluções citadas").
@@ -90,7 +90,7 @@ Em produção, defina `NEXT_PUBLIC_SITE_URL`.
 
 ## Atualização do manual
 
-- `.github/workflows/verificar-mbft.yml`: toda segunda baixa o PDF oficial (`.../mbvt20222.pdf/@@download/file`; sem o sufixo o gov.br devolve HTML) e compara o hash com `docs/normas/MBVT20222.pdf`. Se mudou, abre uma issue. Para atualizar: trocar o PDF, rodar os extratores de `tools/normas/mbft/` e `tools/normas/extrair_artigos_ctb.py`, dar tema às fichas novas em `temas.json`, rever a lista de tabelas em `extrair_tabelas.py` (páginas e recortes), `npm run verificar:dados` e os testes. O rodapé mostra a data do PDF (`extraidoEm` do `mbft.json`).
+- `.github/workflows/verificar-mbft.yml`: toda segunda baixa o PDF oficial (`.../mbvt20222.pdf/@@download/file`; sem o sufixo o gov.br devolve HTML) e compara o hash com `docs/normas/MBVT20222.pdf`. Se mudou, abre uma issue. Para atualizar: trocar o PDF, rodar os extratores de `tools/normas/mbft/` e `tools/normas/extrair_artigos_ctb.py`, dar tema às fichas novas em `temas.json`, rever a lista de tabelas em `extrair_tabelas.py` (páginas e recortes), `python3 tools/normas/mbft/conferir_mbft.py docs/normas/MBVT20222.pdf docs/normas/mbft/mbft.json` (tem de dar 0 diferenças; diferença nova é texto perdido ou lixo a corrigir no extrator), `npm run verificar:dados` e os testes. O rodapé mostra a data do PDF (`extraidoEm` do `mbft.json`).
 
 ## Segurança e hospedagem
 

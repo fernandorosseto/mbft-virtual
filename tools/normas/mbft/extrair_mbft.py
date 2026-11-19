@@ -49,6 +49,24 @@ COLUNAS = [
 CABECALHO = ('CONSELHO NACIONAL DE TRÂNSITO', 'MANUAL BRASILEIRO DE FISCALIZAÇÃO', 'FICHA DE FISCALIZAÇÃO')
 
 
+# Correções conferidas à vista no PDF (págs. 94, 96, 98, 313 e 383): o pdfplumber devolve
+# glifos sem tradução (cid) e separa letras com espaçamento maior.
+CORRECOES = [
+    ('e(cid:373) rodovias', 'em rodovias'),
+    ('ap(cid:383)s o p(cid:384)r-do-sol', 'após o pôr-do-sol'),
+    ('restrições”(cid:856)', 'restrições”.'),
+    ('transitava e ntre as faixas', 'transitava entre as faixas'),
+    ('mantendo d istância segura', 'mantendo distância segura'),
+    ('deverá s e r feita', 'deverá ser feita'),
+]
+
+
+def corrigir(texto: str) -> str:
+    for errado, certo in CORRECOES:
+        texto = texto.replace(errado, certo)
+    return texto
+
+
 def juntar_linhas(texto: str) -> str:
     """Desfaz a quebra de linha do PDF: hífen no fim da linha é mantido e colado à linha seguinte."""
     linhas = [l.strip() for l in texto.split('\n')]
@@ -62,7 +80,7 @@ def juntar_linhas(texto: str) -> str:
             saida += l
         else:
             saida += ' ' + l
-    return re.sub(r'\s+', ' ', saida).strip()
+    return corrigir(re.sub(r'\s+', ' ', saida).strip())
 
 
 ITEM = re.compile(r'^(\d+)\s?\.\s')
@@ -87,6 +105,23 @@ def em_itens(texto: str) -> list[str]:
     return [juntar_linhas('\n'.join(b)) for b in blocos]
 
 
+def dentro_de(a, b) -> bool:
+    return a[0] >= b[0] - 1 and a[1] >= b[1] - 1 and a[2] <= b[2] + 1 and a[3] <= b[3] + 1
+
+
+def separar_rotulo(t: str) -> tuple[str, str]:
+    """Rótulo e valor da célula. Normalmente separados por ':'; sem ele, o rótulo são as primeiras
+    linhas que formam um rótulo conhecido (na 679-30: "Pode Configurar Crime de / Trânsito / NÃO")."""
+    if ':' in t:
+        rotulo, resto = t.split(':', 1)
+        return rotulo, resto
+    linhas = t.split('\n')
+    for i in range(1, len(linhas)):
+        if any(re.fullmatch(rot, chave(' '.join(linhas[:i]))) for rot, _ in ROTULOS):
+            return ' '.join(linhas[:i]), '\n'.join(linhas[i:])
+    return t, ''
+
+
 def normalizar_rotulo(t: str) -> str:
     return re.sub(r'\s+', ' ', t.replace('‘', '').replace('’', '').replace("'", '')).strip()
 
@@ -103,9 +138,30 @@ def tabelas_externas(page):
     return [t for t in tabs if not any(o is not t and dentro(t, o) for o in tabs)]
 
 
+def linhas_soltas(page) -> list[tuple[float, str]]:
+    """Linhas de texto fora de qualquer tabela (sem a numeração da página no rodapé)."""
+    caixas = [t.bbox for t in page.find_tables()]
+    linhas: dict[int, list] = {}
+    for w in page.extract_words():
+        cx, cy = (w['x0'] + w['x1']) / 2, (w['top'] + w['bottom']) / 2
+        if any(b[0] - 1 <= cx <= b[2] + 1 and b[1] - 1 <= cy <= b[3] + 1 for b in caixas):
+            continue
+        chave_linha = next((k for k in linhas if abs(k - w['top']) <= 3), round(w['top']))
+        linhas.setdefault(chave_linha, []).append(w)
+    saida = []
+    for topo in sorted(linhas):
+        texto = ' '.join(w['text'] for w in sorted(linhas[topo], key=lambda w: w['x0']))
+        if re.fullmatch(r'\d{1,3}', texto) and topo > page.height - 70:
+            continue  # número da página ou de imagem no pé
+        saida.append((topo, texto))
+    return saida
+
+
 def texto_celula(page, bbox) -> str:
     x0, y0, x1, y1 = bbox
-    area = page.crop((max(x0, 0), max(y0, 0), min(x1, page.width), min(y1, page.height)))
+    # Só os caracteres dentro da célula (com 1 pt de folga): o crop pegava letras de células
+    # vizinhas que encostam na borda ("N Não há. ." na 722-61)
+    area = page.within_bbox((max(x0 - 1, 0), max(y0 - 1, 0), min(x1 + 1, page.width), min(y1 + 1, page.height)))
     return area.extract_text() or ''
 
 
@@ -116,9 +172,42 @@ def extrair_fichas(pdf, primeira_pagina: int):
     modo = None  # 'colunas' | 'info'
     for n in range(primeira_pagina, len(pdf.pages)):
         page = pdf.pages[n]
-        for tab in tabelas_externas(page):
-            for row in tab.rows:
-                celulas = [c for c in row.cells if c]
+        # Linhas das tabelas e texto solto fora delas, na ordem em que aparecem na página
+        trechos = [(row.bbox[1], row) for tab in tabelas_externas(page) for row in tab.rows]
+        trechos += linhas_soltas(page)
+        trechos.sort(key=lambda t: t[0])
+        faixa = None  # [topo, fundo] do corpo em colunas nesta página
+        lidas: list[tuple] = []  # células já lidas nesta página
+
+        def descarregar():
+            # Corpo em colunas: cada coluna é lida pela largura dela, de cima a baixo da faixa,
+            # e não célula por célula (o PDF nem sempre fecha as bordas: na 584-34 a célula de
+            # "Definições e procedimentos" tinha 13 pt e os itens 2 a 4 ficavam de fora)
+            nonlocal faixa
+            if faixa and atual is not None and colunas:
+                for x0, x1, campo in colunas:
+                    t = texto_celula(page, (x0, faixa[0], x1, faixa[1]))
+                    if t.strip():
+                        atual.setdefault('_' + campo, []).append(t)
+            faixa = None
+
+        for _, row in trechos:
+            if isinstance(row, str):
+                # Texto fora das molduras: continuação das informações complementares (págs. de
+                # texto corrido, como as listas de resoluções da 664-50) ou trecho sem campo
+                if atual is None:
+                    continue
+                if modo == 'info':
+                    atual['_info'].append(row)
+                else:
+                    descarregar()
+                    atual.setdefault('_sobra', []).append(row)
+                continue
+            if True:
+                # Célula dentro de outra já lida nesta página (tabela aninhada cuja célula de fora
+                # já traz o texto): ficaria repetida (518-52, resumo do cinto de segurança)
+                celulas = [c for c in row.cells if c and not any(dentro_de(c, v) for v in lidas)]
+                lidas.extend(celulas)
                 textos = [(c, texto_celula(page, c)) for c in celulas]
                 textos = [(c, t) for c, t in textos if t.strip()]
                 if not textos:
@@ -138,13 +227,18 @@ def extrair_fichas(pdf, primeira_pagina: int):
                     modo = 'colunas'
                     continue
                 rotulada = False
+                if modo == 'colunas' and colunas and not any(
+                    re.fullmatch(rot, chave(separar_rotulo(t)[0])) for _, t in textos for rot, _ in ROTULOS
+                ):
+                    faixa = [min(faixa[0], row.bbox[1]), max(faixa[1], row.bbox[3])] if faixa else [row.bbox[1], row.bbox[3]]
+                    continue
+                descarregar()
                 for c, t in textos:
-                    plano = chave(t.split(':')[0] if ':' in t else t)
+                    rotulo, resto = separar_rotulo(t)
+                    plano = chave(rotulo)
                     for rot, campo in ROTULOS:
                         if re.fullmatch(rot, plano):
                             rotulada = True
-                            # Valor: o que vem depois do rótulo (que pode ocupar duas linhas)
-                            resto = t.split(':', 1)[1] if ':' in t else ''
                             if campo == 'tipificacaoResumida':
                                 atual = {'pagina': n + 1}
                                 fichas.append(atual)
@@ -161,13 +255,9 @@ def extrair_fichas(pdf, primeira_pagina: int):
                     continue
                 if modo == 'info':
                     atual['_info'].extend(t for _, t in textos)
-                elif modo == 'colunas' and colunas:
-                    for c, t in textos:
-                        meio = (c[0] + c[2]) / 2
-                        alvo = min(colunas, key=lambda col: 0 if col[0] <= meio <= col[1] else min(abs(meio - col[0]), abs(meio - col[1])))
-                        atual.setdefault('_' + alvo[2], []).append(t)
                 else:
                     atual.setdefault('_sobra', []).append('\n'.join(t for _, t in textos))
+        descarregar()
     # Pós-processamento
     for f in fichas:
         for _, campo in COLUNAS:

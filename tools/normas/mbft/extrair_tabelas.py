@@ -41,7 +41,7 @@ TABELAS = {
             'campo': 'informacoesComplementares',
             'item': 1,
             'inicio': 'Resolução 562/80',
-            'fim': '( p a c ( p ( n',
+            'fim': 'LOTAÇÃO (nova) PBT (novo) LOTAÇÃO (nova) PBT (novo) PESO P/ EIXO (novo)',
             'tipo': 'transcrita',
             'arquivo': 'docs/normas/mbft/tabelas-transcritas/675-00.json',
         }
@@ -125,7 +125,8 @@ def principal(pdf_caminho, mbft, pasta, destino):
                 item.update(pagina=t['paginas'][0], **celulas(pdf, t['paginas']))
             elif t['tipo'] == 'transcrita':
                 dados = json.load(open(t['arquivo'], encoding='utf-8'))
-                conferir_transcricao(codigo, dados, texto[texto.index(t['inicio']) : texto.index(t['fim'])])
+                i = texto.index(t['inicio'])
+                conferir_transcricao(codigo, dados, texto[i : texto.index(t['fim'], i) + len(t['fim'])])
                 item.update(pagina=dados['pagina'], consulta={k: dados[k] for k in ('cantoColunas', 'cantoLinhas', 'colunas', 'linhas')})
             else:
                 item.update(pagina=t['recortes'][0][0], imagens=imagens(pdf_caminho, codigo, t['recortes'], pasta))
