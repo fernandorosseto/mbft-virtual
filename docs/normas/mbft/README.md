@@ -37,6 +37,7 @@ Manual Brasileiro de Fiscalização de Trânsito (MBFT), anexo da Resolução CO
 - Os textos são os do PDF, com as quebras de linha desfeitas. Valores como `gravidade`, `pontuacao` e `crime` não foram padronizados (o PDF alterna "Não computável" e "Não Computável", "NÃO" e "Não").
 - Figuras e tabelas desenhadas nas Informações complementares não são extraídas; tabelas em texto vêm como texto corrido.
 - O texto fora das molduras da ficha (páginas de texto corrido que continuam as Informações complementares, como a lista de resoluções da 664-50) entra no campo, na ordem da página. No corpo em colunas, cada coluna é lida pela largura dela, de cima a baixo (o PDF nem sempre fecha as bordas das células). Célula aninhada já lida dentro de outra não é lida de novo.
+- Itens de lista dentro de um item (resoluções "nº 037/1998: ...", marcadores "- ", incisos "I - ", alíneas "a) ", "Art. 105.", "§ 1º", "Parágrafo único", "Pena:") ficam em linha própria: o texto traz "\n" antes deles (`LISTA` e `comeca_item` no extrator), só quando a linha anterior do PDF fecha frase ou item (".", ":", ";", "(...)"; alínea também depois de título). O site mostra a quebra (`white-space: pre-line`).
 - Correções feitas à vista no PDF, em `CORRECOES` do extrator: glifos sem tradução ("e(cid:373) rodovias" nas 515-01 a 515-03) e letras separadas pelo espaçamento ("e ntre", "d istância" na 580-00; "s e r" na 600-92).
 
 ## Conferência

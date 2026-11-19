@@ -67,20 +67,55 @@ def corrigir(texto: str) -> str:
     return texto
 
 
-def juntar_linhas(texto: str) -> str:
-    """Desfaz a quebra de linha do PDF: hífen no fim da linha é mantido e colado à linha seguinte."""
+# Começo de linha que, no PDF, é item de lista (resoluções "nº 037/1998: ...", marcadores "- ",
+# incisos "I - ", alíneas "a) ", títulos de artigo "Art. 105. São", parágrafos "§ 1º", "Pena:").
+# Nos campos em lista, a linha fica separada (quebra "\n") em vez de colada no parágrafo.
+LISTA = re.compile(
+    r'^(?:'
+    r'(?:Resolução (?:do )?Contran |Portaria [\w ]+?|Deliberação (?:do )?Contran )?[nN][º°o]\.?\s*\d[\d.]*/\d{2,4}\s*[:–-]'
+    r'|[-–•]\s+\S'
+    r'|[IVXL]+\s*[-–]\s'
+    r'|[a-z]\)\s'
+    r'|Art\.\s*\d+[º°]?(?:-[A-Z])?\.?\s+[A-ZÀ-Ú]'
+    r'|§\s*\d+[º°]?\s'
+    r'|Parágrafo único'
+    r'|\*\s'
+    r'|Pena\s*[:–-]'
+    r')'
+)
+ALINEA = re.compile(r'^[a-z]\)\s')
+# ...e só quando a linha anterior fecha uma frase ou um item (senão é frase que só mudou de linha:
+# "TÍTULO / - definição", "art. 95, caput / - 751-02.")
+FIM_DE_ITEM = re.compile(r'([.:;*]|\[\.{3,4}\]|\(\.{3}\)|\d{4}\)|\bou|\be)\s*$')
+
+
+def comeca_item(anterior: str, linha: str) -> bool:
+    if not LISTA.match(linha):
+        return False
+    if ALINEA.match(linha):
+        return not anterior.endswith(',')  # alínea depois de título ("PLACA R-17 / a) ...")
+    return bool(FIM_DE_ITEM.search(anterior))
+
+
+def juntar_linhas(texto: str, listas: bool = False) -> str:
+    """Desfaz a quebra de linha do PDF: hífen no fim da linha é mantido e colado à linha seguinte.
+    Com `listas`, linha que começa item de lista fica em linha própria ("\n")."""
     linhas = [l.strip() for l in texto.split('\n')]
     saida = ''
+    anterior = ''
     for l in linhas:
         if not l:
             continue
         if not saida:
             saida = l
+        elif listas and comeca_item(anterior, l):
+            saida += '\n' + l
         elif saida.endswith('-'):
             saida += l
         else:
             saida += ' ' + l
-    return corrigir(re.sub(r'\s+', ' ', saida).strip())
+        anterior = l
+    return corrigir(re.sub(r'[ \t]+', ' ', re.sub(r'[ \t]*\n[ \t]*', '\n', saida)).strip())
 
 
 ITEM = re.compile(r'^(\d+)\s?\.\s')
@@ -102,7 +137,7 @@ def em_itens(texto: str) -> list[str]:
             blocos[-1].append(l)
         else:
             blocos.append([l])
-    return [juntar_linhas('\n'.join(b)) for b in blocos]
+    return [juntar_linhas('\n'.join(b), listas=True) for b in blocos]
 
 
 def dentro_de(a, b) -> bool:

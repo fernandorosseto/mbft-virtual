@@ -185,6 +185,8 @@
 .coluna li p {
   line-height: 1.5;
   overflow-wrap: anywhere;
+  /* Itens de lista do PDF (resoluções "nº ...:", "- ", incisos, alíneas) vêm em linhas próprias */
+  white-space: pre-line;
 }
 
 .numero {

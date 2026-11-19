@@ -67,6 +67,14 @@ test('ficha: tabela longa abre em página própria', async ({ page }) => {
   await semRolagemLateral(page);
 });
 
+test('ficha: itens de lista do PDF em linhas próprias', async ({ page }) => {
+  await page.goto('/fichas/666-10');
+  const item = page.locator('#informacoes ol > li').nth(1).locator('p').first();
+  const texto = await item.innerText();
+  expect(texto).toMatch(/veículos automotores\.\nnº 129\/2006:/);
+  await semRolagemLateral(page);
+});
+
 test('ficha: favorita aparece na página inicial', async ({ page }) => {
   await page.goto('/fichas/552-50');
   await page.getByRole('button', { name: 'Guardar nas favoritas' }).click();
