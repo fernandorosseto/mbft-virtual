@@ -2,6 +2,9 @@ import type { IndiceBusca } from '@/app/busca.json/route';
 import { alternativasDe } from './sinonimos';
 import { casa, normalizar, TERMO_EXATO } from './texto';
 
+/** Formato do /busca.json: subir quando o índice ganhar ou mudar campos que a busca usa. */
+export const VERSAO_INDICE = 2;
+
 /** Palavras da consulta, normalizadas. */
 export function termosDe(consulta: string): string[] {
   return normalizar(consulta).split(' ').filter(Boolean);
@@ -80,7 +83,7 @@ export function buscarNoTexto(indice: IndiceBusca, termos: string[]): number[] {
     for (const alt of alternativas) {
       if (alt.length > 1) {
         // Frase (sinônimo ou palavra composta): fichas com as palavras juntas, calculadas no build
-        indice.frases[alt.join(' ')]?.forEach((f) => deste.add(f));
+        indice.frases?.[alt.join(' ')]?.forEach((f) => deste.add(f));
         continue;
       }
       if (buscavel(alt[0])) comPalavra(alt[0]).forEach((f) => deste.add(f));
@@ -111,11 +114,17 @@ export function buscarSecoes(indice: IndiceBusca, consulta: string): [string, st
 
 let carregamento: Promise<IndiceBusca> | null = null;
 
-/** Baixa o índice uma vez por visita (o navegador ainda guarda em cache entre páginas). */
+/**
+ * Baixa o índice uma vez por visita. O uso sem internet entrega primeiro a cópia salva no aparelho;
+ * se ela for de uma versão anterior do índice (sem os campos novos), pede a atual à rede
+ * (`?versao=`, que o service worker busca na rede).
+ */
 export function carregarIndice(): Promise<IndiceBusca> {
   if (!carregamento) {
-    carregamento = fetch('/busca.json')
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+    const baixar = (url: string) =>
+      fetch(url).then((r) => (r.ok ? (r.json() as Promise<IndiceBusca>) : Promise.reject(new Error(String(r.status)))));
+    carregamento = baixar('/busca.json')
+      .then((indice) => (indice.versao === VERSAO_INDICE ? indice : baixar(`/busca.json?versao=${VERSAO_INDICE}`)))
       .catch((erro) => {
         carregamento = null;
         throw erro;

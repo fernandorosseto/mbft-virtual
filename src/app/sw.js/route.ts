@@ -80,6 +80,8 @@ self.addEventListener('fetch', (evento) => {
   if (url.pathname.startsWith('/_next/static/')) return evento.respondWith(primeiroCache(pedido));
   if (pedido.headers.get('RSC') || url.searchParams.has('_rsc')) return;
   if (pedido.mode === 'navigate') return evento.respondWith(primeiroRede(pedido));
+  // /busca.json?versao=N: a página viu que a cópia salva é de formato antigo; vai à rede
+  if (url.pathname === '/busca.json' && url.searchParams.has('versao')) return evento.respondWith(primeiroRede(pedido));
   if (url.pathname === '/busca.json') return evento.respondWith(salvoEAtualiza(pedido));
   if (url.pathname.startsWith('/icones/') || url.pathname.startsWith('/figuras/') || url.pathname.startsWith('/tabelas/') || url.pathname === '/manifest.webmanifest' || url.pathname === '/icon.svg') {
     return evento.respondWith(primeiroCache(pedido));

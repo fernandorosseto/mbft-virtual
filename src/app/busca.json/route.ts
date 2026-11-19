@@ -3,13 +3,15 @@ import { citacoesTipadas, compostosDoManual, textoCompleto, todasAsFichas } from
 import { SECOES } from '@/lib/parteGeral';
 import { paginasDeTabela } from '@/lib/figuras';
 import { normalizar } from '@/lib/texto';
-import { temFrase } from '@/lib/busca';
+import { temFrase, VERSAO_INDICE } from '@/lib/busca';
 import { SINONIMOS } from '@/lib/sinonimos';
 
 // Gerado no build: o navegador só baixa quando a pessoa começa a buscar
 export const dynamic = 'force-static';
 
 export interface IndiceBusca {
+  /** Formato do índice (VERSAO_INDICE): cópia salva de formato antigo é trocada pela da rede. */
+  versao?: number;
   /** Fichas na ordem do manual: código, tipificação resumida, amparo legal, gravidade, rótulo do artigo, tema. */
   fichas: [string, string, string, string, string, string][];
   /** Palavras (normalizadas) do texto completo das fichas, em ordem alfabética. */
@@ -21,11 +23,11 @@ export interface IndiceBusca {
   /** Seções da parte geral: âncora e título ("8.2. Remoção do Veículo"). */
   secoes: [string, string][];
   /** Sinônimos de mais de uma palavra ("descarga livre") e palavras compostas ("para choque"): fichas que têm as palavras juntas, na ordem. */
-  frases: Record<string, number[]>;
+  frases?: Record<string, number[]>;
   /** Palavras compostas do manual, normalizadas ("para choque", "meio fio"): digitadas juntas, buscam como frase. */
-  compostos: string[];
+  compostos?: string[];
   /** Outras páginas que o "Salvar todas" baixa (tabelas em página própria). */
-  extras: string[];
+  extras?: string[];
 }
 
 export function GET() {
@@ -52,6 +54,7 @@ export function GET() {
     frases[frase.join(' ')] = textos.flatMap((t, i) => (temFrase(frase, t) ? [i] : []));
   }
   const corpo: IndiceBusca = {
+    versao: VERSAO_INDICE,
     fichas: fichas.map((f) => [f.codigo, f.tipificacaoResumida, f.amparoLegal, f.gravidade, f.rotuloArtigo, f.tema]),
     palavras,
     ocorrencias: palavras.map((p) => porPalavra.get(p)!),
