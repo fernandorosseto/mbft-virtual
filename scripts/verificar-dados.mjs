@@ -57,7 +57,7 @@ for (const c of codigos) conferir(temas[c], `temas.json: falta o tema da ficha $
 const pg = ler('docs/normas/mbft/parte-geral.json');
 conferir(pg.secoes.length === 30, `parte-geral.json: esperava 30 seções, achei ${pg.secoes.length}`);
 
-const tabelas = ler('docs/normas/mbft/tabelas.json').fichas;
+const { fichas: tabelas, paginas: paginasTabela } = ler('docs/normas/mbft/tabelas.json');
 const fichaPorCodigo = new Map([...mbft.fichas].reverse().map((f) => [f.codigo, f]));
 const semEspaco = (t) => t.replace(/\s+/g, '');
 for (const [c, lista] of Object.entries(tabelas)) {
@@ -65,13 +65,18 @@ for (const [c, lista] of Object.entries(tabelas)) {
   for (const t of lista) {
     const texto = fichaPorCodigo.get(c)?.[t.campo]?.[t.item] ?? '';
     const i = texto.indexOf(t.inicio);
-    const j = texto.indexOf(t.fim, i);
-    conferir(i >= 0 && j >= 0, `tabelas.json: ${c} sem o trecho da tabela no item ${t.item}`);
+    // fim do trecho (exclusive): antes de `ate`, ou depois de `fim`
+    const j = t.ate ? texto.indexOf(t.ate, i) : texto.indexOf(t.fim, i) + (t.fim ?? '').length;
+    conferir(i >= 0 && j > i, `tabelas.json: ${c} sem o trecho da tabela no item ${t.item}`);
+    if (t.link) {
+      const p = paginasTabela?.[t.link];
+      conferir(p && p.fichas.includes(c), `tabelas.json: ${c} aponta para a página ${t.link}, que não lista a ficha`);
+    }
     if (t.linhas) {
       // As células têm de ser o mesmo texto do trecho achatado, na mesma ordem
       const celulas = [t.titulo ?? '', ...(t.cabecalho ?? []), ...t.linhas.flat()].join(' ');
       conferir(
-        semEspaco(celulas) === semEspaco(texto.slice(i, j + t.fim.length)),
+        semEspaco(celulas) === semEspaco(texto.slice(i, j)),
         `tabelas.json: ${c} células diferentes do texto da ficha`,
       );
     }
@@ -85,7 +90,7 @@ for (const [c, lista] of Object.entries(tabelas)) {
       }
       const palavras = (x) => x.replace(/:/g, ' ').replace(/---/g, ' ').split(/\s+/).filter(Boolean).sort().join(' ');
       conferir(
-        palavras(textos.join(' ')) === palavras(texto.slice(i, j + t.fim.length)),
+        palavras(textos.join(' ')) === palavras(texto.slice(i, j)),
         `tabelas.json: ${c} transcrição diferente do texto da ficha`,
       );
       conferir(
@@ -96,6 +101,11 @@ for (const [c, lista] of Object.entries(tabelas)) {
     for (const img of t.imagens ?? [])
       conferir(existsSync(new URL(`../public${img.arquivo}`, import.meta.url)), `tabela sem arquivo: ${img.arquivo}`);
   }
+}
+for (const [slug, p] of Object.entries(paginasTabela ?? {})) {
+  conferir(p.imagens.length > 0, `tabelas.json: página ${slug} sem imagens`);
+  for (const img of p.imagens)
+    conferir(existsSync(new URL(`../public${img.arquivo}`, import.meta.url)), `tabela sem arquivo: ${img.arquivo}`);
 }
 const figuras = ler('docs/normas/mbft/figuras.json').figuras;
 for (const [c, lista] of Object.entries(figuras)) {

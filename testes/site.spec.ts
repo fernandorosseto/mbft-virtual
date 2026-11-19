@@ -56,6 +56,17 @@ test('ficha: tabela do PDF em vez do texto achatado', async ({ page }) => {
   await semRolagemLateral(page);
 });
 
+test('ficha: tabela longa abre em página própria', async ({ page }) => {
+  await page.goto('/fichas/518-51');
+  await expect(page.locator('#informacoes')).not.toContainText('DIANTEIROS LATERAIS');
+  await expect(page.locator('#informacoes')).toContainText('III - OBSERVAÇÕES');
+  await page.getByRole('link', { name: /Resumo das normas e requisitos do cinto de segurança/ }).click();
+  await expect(page).toHaveURL(/\/tabela\/cinto-de-seguranca$/);
+  await expect(page.locator('main figure img')).toHaveCount(5);
+  await expect(page.getByRole('link', { name: 'Voltar à ficha 518-52' })).toBeVisible();
+  await semRolagemLateral(page);
+});
+
 test('ficha: favorita aparece na página inicial', async ({ page }) => {
   await page.goto('/fichas/552-50');
   await page.getByRole('button', { name: 'Guardar nas favoritas' }).click();

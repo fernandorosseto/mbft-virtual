@@ -1,0 +1,81 @@
+.pagina {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px 16px 48px;
+}
+
+.trilha {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.trilhaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.trilha a,
+.intro a,
+.fonte a {
+  color: var(--sign-text);
+  font-weight: 600;
+}
+
+.trilha a {
+  padding: 10px 0;
+  text-decoration: none;
+}
+
+.pagina h1 {
+  margin-top: 4px;
+  font-family: var(--f-display);
+  font-size: clamp(26px, 5vw, 38px);
+  line-height: 1.1;
+}
+
+.intro {
+  margin: 8px 0 16px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Páginas do PDF com fundo branco, como no original (também no modo escuro) */
+.folha {
+  margin: 0 0 12px;
+}
+
+.folha a {
+  display: block;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 8px;
+}
+
+.folha img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.folha figcaption {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.fonte {
+  font-size: 14px;
+}
+
+.fonte a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 44px;
+}

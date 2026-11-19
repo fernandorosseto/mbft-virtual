@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { paginasDeTabela } from '@/lib/figuras';
 import { todasAsFichas } from '@/lib/mbft';
 import { URL_SITE } from '@/lib/site';
 
@@ -11,6 +12,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${URL_SITE}/fichas/${f.codigo}`,
       changeFrequency: 'monthly' as const,
       priority: 0.8,
+    })),
+    ...paginasDeTabela().map((p) => ({
+      url: `${URL_SITE}/tabela/${p.slug}`,
+      changeFrequency: 'monthly' as const,
+      priority: 0.5,
     })),
   ];
 }

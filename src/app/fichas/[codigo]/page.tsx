@@ -2,14 +2,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Fragment } from 'react';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ExternalLink, Table2 } from 'lucide-react';
 import { AmparoCtb } from '@/components/AmparoCtb';
 import { AtalhosFicha, type Secao } from '@/components/AtalhosFicha';
 import { BotaoCopiar } from '@/components/BotaoCopiar';
 import { Favoritar } from '@/components/Favoritar';
 import { trechosDoAmparo } from '@/lib/ctb';
 import { resolucoesDa } from '@/lib/resolucoes';
-import { figurasDa, tabelasDa, type Figura, type Tabela } from '@/lib/figuras';
+import { figurasDa, fimDoTrecho, paginaDeTabela, tabelasDa, type Figura, type Tabela } from '@/lib/figuras';
 import { BuscaNaFicha } from '@/components/BuscaNaFicha';
 import { ConexoesFicha } from '@/components/ConexoesFicha';
 import { ConsultaTabela } from '@/components/ConsultaTabela';
@@ -69,6 +69,7 @@ export default async function PaginaFicha({ params }: Props) {
   const ligadas = conexoes(f.codigo);
   const figuras = figurasDa(f.codigo);
   const tabelas = tabelasDa(f.codigo);
+  const tabelasNaFicha = tabelas.filter((t) => !t.link);
   // Atalhos do botão flutuante: só as seções que esta ficha tem
   const secoes: Secao[] = [
     { id: 'enquadramento', rotulo: 'Enquadramento' },
@@ -190,11 +191,11 @@ export default async function PaginaFicha({ params }: Props) {
       <AmparoCtb amparo={f.amparoLegal} />
 
       <p className={styles.fonte}>
-        {figuras.length && tabelas.length
+        {figuras.length && tabelasNaFicha.length
           ? 'Os desenhos e a tabela acima vêm do PDF oficial; o texto original está lá.'
           : figuras.length
             ? 'Os desenhos acima são recortes do PDF oficial; o texto original está lá.'
-            : tabelas.length
+            : tabelasNaFicha.length
               ? 'A tabela acima foi copiada do PDF oficial; o texto original está lá.'
               : 'Texto original no PDF oficial.'}{' '}
         <a href={`${URL_MBFT_OFICIAL}#page=${f.pagina}`} target="_blank" rel="noopener noreferrer">
@@ -328,7 +329,7 @@ const RECUO_ITEM = 22 + 10;
 const RECUO_SUBITEM = 4 + 34 + 10;
 
 function Trecho({ texto, atual, tabelas, recuo }: { texto: string; atual: string; tabelas: Tabela[]; recuo: number }) {
-  const t = tabelas.find((x) => texto.includes(x.inicio) && texto.includes(x.fim));
+  const t = tabelas.find((x) => texto.includes(x.inicio) && fimDoTrecho(texto, x, texto.indexOf(x.inicio)) >= 0);
   if (!t) {
     return (
       <p>
@@ -337,7 +338,7 @@ function Trecho({ texto, atual, tabelas, recuo }: { texto: string; atual: string
     );
   }
   const i = texto.indexOf(t.inicio);
-  const j = texto.indexOf(t.fim, i) + t.fim.length;
+  const j = fimDoTrecho(texto, t, i);
   const antes = texto.slice(0, i).trim();
   const depois = texto.slice(j).trim();
   return (
@@ -358,6 +359,23 @@ function Trecho({ texto, atual, tabelas, recuo }: { texto: string; atual: string
 }
 
 function TabelaMbft({ tabela: t, atual, recuo }: { tabela: Tabela; atual: string; recuo: number }) {
+  if (t.link) {
+    const pagina = paginaDeTabela(t.link);
+    if (!pagina) return null;
+    const pags = pagina.imagens.map((img) => img.pagina);
+    return (
+      <Link href={`/tabela/${t.link}`} className={styles.tabelaLink}>
+        <Table2 aria-hidden size={22} />
+        <span>
+          <strong>{pagina.titulo}</strong>
+          <small>
+            Tabela do PDF em página própria ({pags.length} páginas). Abrir a tabela
+          </small>
+        </span>
+        <ArrowRight aria-hidden size={18} />
+      </Link>
+    );
+  }
   if (t.consulta) return <ConsultaTabela consulta={t.consulta} pagina={t.pagina} recuo={recuo} />;
   if (t.imagens) {
     return (

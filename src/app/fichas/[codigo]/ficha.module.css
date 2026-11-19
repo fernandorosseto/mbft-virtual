@@ -398,3 +398,47 @@
     letter-spacing: 0;
   }
 }
+
+/* Tabela longa em página própria (ex.: cinto de segurança na 518-51) */
+.tabelaLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0;
+  padding: 12px 14px;
+  min-height: 56px;
+  color: var(--paint);
+  text-decoration: none;
+  background: var(--asphalt);
+  border: 1px solid var(--asphalt-3);
+  border-left: 4px solid var(--sign);
+  border-radius: 8px;
+}
+
+.tabelaLink:hover {
+  border-color: var(--paint);
+  border-left-color: var(--sign);
+}
+
+.tabelaLink > span {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tabelaLink strong {
+  font-family: var(--f-display);
+  font-size: 17px;
+  line-height: 1.2;
+}
+
+.tabelaLink small {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.tabelaLink svg {
+  flex: none;
+  color: var(--sign-text);
+}

@@ -1,6 +1,7 @@
 import { TIPOS_LIGACAO } from '@/lib/noGrafo';
 import { citacoesTipadas, textoCompleto, todasAsFichas } from '@/lib/mbft';
 import { SECOES } from '@/lib/parteGeral';
+import { paginasDeTabela } from '@/lib/figuras';
 import { normalizar } from '@/lib/texto';
 
 // Gerado no build: o navegador só baixa quando a pessoa começa a buscar
@@ -17,6 +18,8 @@ export interface IndiceBusca {
   citacoes: [number, number, number][];
   /** Seções da parte geral: âncora e título ("8.2. Remoção do Veículo"). */
   secoes: [string, string][];
+  /** Outras páginas que o "Salvar todas" baixa (tabelas em página própria). */
+  extras: string[];
 }
 
 export function GET() {
@@ -40,6 +43,7 @@ export function GET() {
     ocorrencias: palavras.map((p) => porPalavra.get(p)!),
     citacoes: citacoesTipadas().map(({ de, para, tipo }) => [indice.get(de)!, indice.get(para)!, TIPOS_LIGACAO.indexOf(tipo)]),
     secoes: SECOES.map((s) => [s.id, s.numero ? `${s.numero}. ${s.titulo}` : s.titulo]),
+    extras: paginasDeTabela().map((p) => `/tabela/${p.slug}`),
   };
   return Response.json(corpo);
 }

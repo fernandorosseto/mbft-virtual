@@ -47,6 +47,25 @@ TABELAS = {
         }
     ],
 }
+CINTO = {
+    'campo': 'informacoesComplementares',
+    'item': 0,
+    'inicio': 'RESUMO DAS NORMAS E REQUISITOS DO CINTO DE SEGURANÇA',
+    'ate': 'III - OBSERVAÇÕES',  # fim exclusivo: as observações continuam como texto
+    'tipo': 'pagina',
+    'slug': 'cinto-de-seguranca',
+}
+TABELAS['518-51'] = [{**CINTO, 'pagina': 120}]
+TABELAS['518-52'] = [{**CINTO, 'pagina': 128}]  # o mesmo quadro, repetido no PDF
+# Tabelas longas demais para a ficha (várias páginas, quadros de formatos diferentes): página
+# própria com os recortes do PDF (/tabela/<slug>); a ficha mostra um link no lugar do texto.
+PAGINAS = {
+    'cinto-de-seguranca': {
+        'titulo': 'Resumo das normas e requisitos do cinto de segurança',
+        # página, topo e fim do recorte em pontos do PDF (595 × 841), da ficha 518-51
+        'recortes': [[120, 233, 766], [121, 37, 779], [122, 37, 785], [123, 37, 775], [124, 37, 794]],
+    },
+}
 ESCALA = 2.75  # 595 pt → ~1636 px, a mesma largura dos desenhos
 
 
@@ -115,13 +134,18 @@ def principal(pdf_caminho, mbft, pasta, destino):
             os.remove(os.path.join(pasta, antigo))
     pdf = pdfplumber.open(pdf_caminho)
     resultado = {}
+    paginas: dict[str, list[str]] = {}
     for codigo, lista in TABELAS.items():
         for t in lista:
             texto = fichas[codigo][t['campo']][t['item']]
-            if t['inicio'] not in texto or t['fim'] not in texto:
+            fim = t.get('fim') or t['ate']
+            if t['inicio'] not in texto or fim not in texto:
                 raise SystemExit(f'{codigo}: início ou fim da tabela não está no texto da ficha')
-            item = {k: t[k] for k in ('campo', 'item', 'inicio', 'fim')}
-            if t['tipo'] == 'celulas':
+            item = {k: t[k] for k in ('campo', 'item', 'inicio', 'fim', 'ate') if k in t}
+            if t['tipo'] == 'pagina':
+                item.update(pagina=t['pagina'], link=t['slug'])
+                paginas.setdefault(t['slug'], []).append(codigo)
+            elif t['tipo'] == 'celulas':
                 item.update(pagina=t['paginas'][0], **celulas(pdf, t['paginas']))
             elif t['tipo'] == 'transcrita':
                 dados = json.load(open(t['arquivo'], encoding='utf-8'))
@@ -131,11 +155,16 @@ def principal(pdf_caminho, mbft, pasta, destino):
             else:
                 item.update(pagina=t['recortes'][0][0], imagens=imagens(pdf_caminho, codigo, t['recortes'], pasta))
             resultado.setdefault(codigo, []).append(item)
+    saida_paginas = {
+        slug: {**{k: v for k, v in d.items() if k != 'recortes'}, 'fichas': paginas.get(slug, []), 'imagens': imagens(pdf_caminho, slug, d['recortes'], pasta)}
+        for slug, d in PAGINAS.items()
+    }
     with open(destino, 'w', encoding='utf-8') as f:
         json.dump(
             {
-                'aviso': 'Tabelas das fichas, do PDF oficial (tools/normas/mbft/extrair_tabelas.py). O site troca o trecho entre inicio e fim do item pela tabela.',
+                'aviso': 'Tabelas das fichas, do PDF oficial (tools/normas/mbft/extrair_tabelas.py). O site troca o trecho do item entre inicio e fim (inclusive) ou ate (exclusive) pela tabela; tabela com link vai para /tabela/<slug> (paginas).',
                 'fichas': resultado,
+                'paginas': saida_paginas,
             },
             f,
             ensure_ascii=False,

@@ -68,7 +68,7 @@ export function UsoOffline({ total }: { total: number }) {
     const reg = await navigator.serviceWorker.ready;
     const indice = await carregarIndice();
     setEstado({ fase: 'salvando', feitas: 0, total: indice.fichas.length });
-    reg.active?.postMessage({ tipo: 'salvar-todas', urls: ['/parte-geral', ...indice.fichas.map(([c]) => `/fichas/${c}`)] });
+    reg.active?.postMessage({ tipo: 'salvar-todas', urls: ['/parte-geral', ...(indice.extras ?? []), ...indice.fichas.map(([c]) => `/fichas/${c}`)] });
   };
 
   return (

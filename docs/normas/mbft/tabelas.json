@@ -1,5 +1,5 @@
 {
- "aviso": "Tabelas das fichas, do PDF oficial (tools/normas/mbft/extrair_tabelas.py). O site troca o trecho entre inicio e fim do item pela tabela.",
+ "aviso": "Tabelas das fichas, do PDF oficial (tools/normas/mbft/extrair_tabelas.py). O site troca o trecho do item entre inicio e fim (inclusive) ou ate (exclusive) pela tabela; tabela com link vai para /tabela/<slug> (paginas).",
  "fichas": {
   "505-31": [
    {
@@ -1411,6 +1411,67 @@
      ]
     }
    }
+  ],
+  "518-51": [
+   {
+    "campo": "informacoesComplementares",
+    "item": 0,
+    "inicio": "RESUMO DAS NORMAS E REQUISITOS DO CINTO DE SEGURANÇA",
+    "ate": "III - OBSERVAÇÕES",
+    "pagina": 120,
+    "link": "cinto-de-seguranca"
+   }
+  ],
+  "518-52": [
+   {
+    "campo": "informacoesComplementares",
+    "item": 0,
+    "inicio": "RESUMO DAS NORMAS E REQUISITOS DO CINTO DE SEGURANÇA",
+    "ate": "III - OBSERVAÇÕES",
+    "pagina": 128,
+    "link": "cinto-de-seguranca"
+   }
   ]
+ },
+ "paginas": {
+  "cinto-de-seguranca": {
+   "titulo": "Resumo das normas e requisitos do cinto de segurança",
+   "fichas": [
+    "518-51",
+    "518-52"
+   ],
+   "imagens": [
+    {
+     "arquivo": "/tabelas/cinto-de-seguranca-1.webp",
+     "pagina": 120,
+     "largura": 1441,
+     "altura": 1466
+    },
+    {
+     "arquivo": "/tabelas/cinto-de-seguranca-2.webp",
+     "pagina": 121,
+     "largura": 1441,
+     "altura": 2042
+    },
+    {
+     "arquivo": "/tabelas/cinto-de-seguranca-3.webp",
+     "pagina": 122,
+     "largura": 1441,
+     "altura": 2058
+    },
+    {
+     "arquivo": "/tabelas/cinto-de-seguranca-4.webp",
+     "pagina": 123,
+     "largura": 1441,
+     "altura": 2031
+    },
+    {
+     "arquivo": "/tabelas/cinto-de-seguranca-5.webp",
+     "pagina": 124,
+     "largura": 1441,
+     "altura": 2083
+    }
+   ]
+  }
  }
 }
