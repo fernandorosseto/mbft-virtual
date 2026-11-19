@@ -9,7 +9,7 @@ import { BotaoCopiar } from '@/components/BotaoCopiar';
 import { Favoritar } from '@/components/Favoritar';
 import { trechosDoAmparo } from '@/lib/ctb';
 import { resolucoesDa } from '@/lib/resolucoes';
-import { figurasDa, type Figura } from '@/lib/figuras';
+import { figurasDa, temTabela, type Figura } from '@/lib/figuras';
 import { BuscaNaFicha } from '@/components/BuscaNaFicha';
 import { ConexoesFicha } from '@/components/ConexoesFicha';
 import { IrPara } from '@/components/IrPara';
@@ -176,8 +176,10 @@ export default async function PaginaFicha({ params }: Props) {
 
       <p className={styles.fonte}>
         {figuras.length
-          ? 'Os desenhos acima são recortes do PDF oficial; tabelas e o texto original estão lá.'
-          : 'Figuras e tabelas da ficha estão no PDF oficial.'}{' '}
+          ? `Os desenhos acima são recortes do PDF oficial; ${temTabela(f.codigo) ? 'a tabela e ' : ''}o texto original ${temTabela(f.codigo) ? 'estão' : 'está'} lá.`
+          : temTabela(f.codigo)
+            ? 'A tabela desta ficha está no PDF oficial.'
+            : 'Texto original no PDF oficial.'}{' '}
         <a href={`${URL_MBFT_OFICIAL}#page=${f.pagina}`} target="_blank" rel="noopener noreferrer">
           Abrir na página {f.pagina} <ExternalLink aria-hidden size={14} />
         </a>

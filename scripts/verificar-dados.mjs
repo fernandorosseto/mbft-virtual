@@ -27,6 +27,8 @@ for (const c of codigos) conferir(temas[c], `temas.json: falta o tema da ficha $
 const pg = ler('docs/normas/mbft/parte-geral.json');
 conferir(pg.secoes.length === 30, `parte-geral.json: esperava 30 seções, achei ${pg.secoes.length}`);
 
+const tabelas = ler('docs/normas/mbft/tabelas.json').fichas;
+for (const c of Object.keys(tabelas)) conferir(codigos.includes(c), `tabelas.json: ficha inexistente ${c}`);
 const figuras = ler('docs/normas/mbft/figuras.json').figuras;
 for (const [c, lista] of Object.entries(figuras)) {
   conferir(codigos.includes(c), `figuras.json: ficha inexistente ${c}`);

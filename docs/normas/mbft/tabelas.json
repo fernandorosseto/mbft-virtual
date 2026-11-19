@@ -1,0 +1,13 @@
+{
+  "aviso": "Fichas com tabela no PDF oficial (conferido à mão nas páginas da ficha). Uma ficha que só cita tabela de outra norma não entra. O site usa a lista para o texto do link do PDF.",
+  "fichas": {
+    "505-31": "Tabela de códigos e abreviaturas a constarem na CNH",
+    "505-32": "Tabela de códigos e abreviaturas a constarem na CNH",
+    "505-33": "Tabela de códigos e abreviaturas a constarem na CNH",
+    "505-34": "Tabela de códigos e abreviaturas a constarem na CNH",
+    "675-00": "Tabela dos dados técnicos a inscrever, ao final da ficha",
+    "683-11": "Tabela da Res. Contran nº 547/2015 para identificar o infrator (item 1 das informações complementares)",
+    "683-12": "Tabela da Res. Contran nº 547/2015 para identificar o infrator (item 1 das informações complementares)",
+    "683-13": "Tabela da Res. Contran nº 547/2015 para identificar o infrator (item 1 das informações complementares)"
+  }
+}

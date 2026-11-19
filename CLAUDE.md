@@ -32,6 +32,7 @@ Rode `typecheck`, `lint`, `verificar:dados` e `build` antes de cada commit (e `t
 - `ctb-artigos.json`: os 100 artigos do CTB citados nas fichas, em blocos (caput, inciso, alínea, parágrafo, sanção), gerado do `ctb.txt` por `tools/normas/extrair_artigos_ctb.py` (junta linhas quebradas, "Art." e "§" soltos).
 - `contran-indice.json`: índice das resoluções do CONTRAN no DOU (nº 700 em diante), de `tools/normas/dou/coletar.py`. Liga as resoluções citadas nas fichas ao DOU (seção "Resoluções citadas").
 - `mbft/figuras.json` e `public/figuras/`: desenhos das fichas recortados do PDF com a legenda colorida (WebP), por `tools/normas/mbft/extrair_figuras.py` (pdftohtml para as posições, pdftoppm para renderizar).
+- `mbft/tabelas.json`: as 8 fichas com tabela no PDF (conferidas à mão; citar tabela de outra norma não conta). Decide o texto do link "Abrir na página N" no fim da ficha: com tabela, "A tabela desta ficha está no PDF oficial"; sem figura nem tabela, "Texto original no PDF oficial".
 - `mbft/temas.json`: uma ou duas palavras de tema por ficha, escritas à mão com palavras da tipificação resumida, para os rótulos dos grafos (não substituem o texto da ficha).
 
 ## Estrutura
