@@ -31,7 +31,8 @@ export const SINONIMOS: Record<string, string[]> = {
   carteira: ['cnh', 'habilitacao'],
   habilitacao: ['cnh', 'ppd', 'acc'],
   permissao: ['ppd'],
-  ipva: ['licenciado', 'licenciamento'],
+  // "licenciado" sozinho achava o transporte remunerado "não licenciado para esse fim"
+  ipva: ['devidamente licenciado', 'licenciamento anual'],
   documento: ['crlv'],
   documentos: ['crlv'],
   licenciamento: ['licenciado'],
@@ -78,6 +79,13 @@ export const SINONIMOS: Record<string, string[]> = {
   pedagio: ['pelo uso de rodovias'],
   // "evadir" achava a evasão de pedágio
   fuga: ['fugir', 'acao policial'],
+  tacografo: ['cronotacografo', 'registrador instan'],
+  careca: ['banda de rodagem', 'indicadores de desgaste'],
+  carreta: ['semirreboque'],
+  patinete: ['autopropelido'],
+  cinquentinha: ['ciclomotor'],
+  rebaixado: ['caracteristica alterada'],
+  tunado: ['caracteristica alterada'],
   vidro: ['para brisa'],
   parabrisa: ['para brisa'],
 };
