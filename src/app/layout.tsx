@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Barlow_Condensed, Barlow, Source_Serif_4, IBM_Plex_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 import { URL_SITE } from '@/lib/site';
 import { metadataDe } from '@/lib/metadados';
@@ -7,31 +7,44 @@ import { Analytics } from '@vercel/analytics/next';
 import { Cabecalho, Rodape } from '@/components/Casco';
 import { SCRIPT_PREFERENCIAS } from '@/components/Preferencias';
 
-const barlowCondensed = Barlow_Condensed({
-  subsets: ['latin'],
-  weight: ['500', '600', '700'],
+// Fontes guardadas no projeto (src/fontes, licença OFL): a montagem não depende do Google Fonts,
+// que às vezes falha no download e derrubava o build
+const barlowCondensed = localFont({
+  src: [
+    { path: '../fontes/barlow-condensed-latin-500-normal.woff2', weight: '500' },
+    { path: '../fontes/barlow-condensed-latin-600-normal.woff2', weight: '600' },
+    { path: '../fontes/barlow-condensed-latin-700-normal.woff2', weight: '700' },
+  ],
   variable: '--font-barlow-condensed',
   display: 'swap',
 });
 
-const barlow = Barlow({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
+const barlow = localFont({
+  src: [
+    { path: '../fontes/barlow-latin-400-normal.woff2', weight: '400' },
+    { path: '../fontes/barlow-latin-500-normal.woff2', weight: '500' },
+    { path: '../fontes/barlow-latin-600-normal.woff2', weight: '600' },
+  ],
   variable: '--font-barlow',
   display: 'swap',
 });
 
-const sourceSerif = Source_Serif_4({
-  subsets: ['latin'],
-  weight: ['400', '600'],
-  style: ['normal', 'italic'],
+const sourceSerif = localFont({
+  src: [
+    { path: '../fontes/source-serif-4-latin-400-normal.woff2', weight: '400', style: 'normal' },
+    { path: '../fontes/source-serif-4-latin-400-italic.woff2', weight: '400', style: 'italic' },
+    { path: '../fontes/source-serif-4-latin-600-normal.woff2', weight: '600', style: 'normal' },
+    { path: '../fontes/source-serif-4-latin-600-italic.woff2', weight: '600', style: 'italic' },
+  ],
   variable: '--font-source-serif',
   display: 'swap',
 });
 
-const ibmPlexMono = IBM_Plex_Mono({
-  subsets: ['latin'],
-  weight: ['500', '600'],
+const ibmPlexMono = localFont({
+  src: [
+    { path: '../fontes/ibm-plex-mono-latin-500-normal.woff2', weight: '500' },
+    { path: '../fontes/ibm-plex-mono-latin-600-normal.woff2', weight: '600' },
+  ],
   variable: '--font-ibm-plex-mono',
   display: 'swap',
 });

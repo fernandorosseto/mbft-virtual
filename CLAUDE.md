@@ -107,5 +107,5 @@ Em produção, defina `NEXT_PUBLIC_SITE_URL`.
 
 - Tema claro com acento amarelo de sinalização: `--sign: #eab308; --sign-text: #854d0e;`.
 - Tokens: `--asphalt: #f1f5f9` (fundo), `--asphalt-2: #ffffff` (superfícies), `--asphalt-3: #cbd5e1` (bordas), `--paint: #0f172a` (texto), `--muted: #475569`, `--ok: #15803d`, `--bad: #dc2626`; e `--linha`, `--realce`, `--realce-2`, `--inverso-bg`/`--inverso-tx` (botões e selos escuros), `--sobre-amarelo` (texto sobre `--sign`), `--g-*` (gravidade). Todos têm versão escura em `globals.css`: **não usar cor fixa no CSS** (exceto o fundo branco dos desenhos do PDF).
-- Fontes: Barlow Condensed (títulos), Barlow (texto), Source Serif 4 (texto da norma), IBM Plex Mono (códigos e números).
+- Fontes: Barlow Condensed (títulos), Barlow (texto), Source Serif 4 (texto da norma), IBM Plex Mono (códigos e números). Arquivos em `src/fontes/` (woff2 latin dos pesos usados, licença OFL), carregados com `next/font/local`: o build não baixa nada do Google Fonts.
 - Zero emojis na interface: só ícones `lucide-react` ou texto.
