@@ -54,3 +54,7 @@ Desktop.ini
 # Cache das coletas no DOU
 tools/normas/dou/.cache/
 __pycache__/
+
+# Testes no navegador
+/test-results/
+/playwright-report/

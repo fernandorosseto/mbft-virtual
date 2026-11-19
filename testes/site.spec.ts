@@ -1,0 +1,72 @@
+import { expect, test, type Page } from '@playwright/test';
+
+/** Nada passa da largura da tela (o bug de 1 px em 320 px foi pego assim). */
+async function semRolagemLateral(page: Page) {
+  const { largura, conteudo } = await page.evaluate(() => ({
+    largura: window.innerWidth,
+    conteudo: document.documentElement.scrollWidth,
+  }));
+  expect(conteudo, 'conteúdo mais largo que a tela').toBeLessThanOrEqual(largura);
+}
+
+test('catálogo: busca no título, no texto e por sinônimo', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: 'Fichas de fiscalização' })).toBeVisible();
+  const busca = page.getByRole('searchbox', { name: 'Buscar ficha' });
+  await busca.fill('230 XVI');
+  await expect(page.locator('main ul a[href="/fichas/670-00"]').first()).toBeVisible();
+  await busca.fill('insulfilm');
+  await expect(page.getByText('“insulfilm” também busca')).toBeVisible();
+  await expect(page.locator('main ul a[href="/fichas/670-00"]').first()).toBeVisible();
+  await busca.fill('alcool');
+  await expect(page.getByText('No texto da ficha')).toBeVisible();
+  await page.getByRole('button', { name: 'Mapa' }).click();
+  await expect(page.locator('svg[role="img"]')).toBeVisible();
+  await semRolagemLateral(page);
+});
+
+test('ficha: seções, CTB, ligações, desenho e copiar', async ({ page }) => {
+  await page.goto('/fichas/539-80');
+  for (const id of ['enquadramento', 'quando-autuar', 'quando-nao-autuar', 'exemplos', 'informacoes', 'ctb']) {
+    await expect(page.locator(`#${id}`)).toHaveCount(1);
+  }
+  await expect(page.locator('#informacoes figure img').first()).toHaveAttribute('src', /\/figuras\/539-80-1\.webp/);
+  await expect(page.locator('#ctb')).toContainText('Art. 181');
+  await expect(page.getByText('Não autue aqui, use')).toBeVisible();
+  await expect(page.locator('#exemplos').getByRole('button', { name: /Copiar/ }).first()).toBeVisible();
+  await semRolagemLateral(page);
+});
+
+test('ficha: favorita aparece na página inicial', async ({ page }) => {
+  await page.goto('/fichas/552-50');
+  await page.getByRole('button', { name: 'Guardar nas favoritas' }).click();
+  await page.goto('/');
+  await expect(page.getByRole('region', { name: 'Favoritas' }).getByRole('link')).toContainText('552-50');
+});
+
+test('preferências: guiar por artigo e tema escuro', async ({ page, isMobile }) => {
+  await page.goto('/fichas/516-91');
+  await page.getByRole('button', { name: /Preferências de leitura/ }).click();
+  await page.locator('#painel-preferencias').getByRole('button', { name: 'Artigo do CTB' }).click();
+  await page.locator('#painel-preferencias').getByRole('button', { name: 'Escuro' }).click();
+  await page.reload();
+  await expect(page.locator('html')).toHaveAttribute('data-ref', 'artigo');
+  await expect(page.locator('html')).toHaveAttribute('data-tema', 'escuro');
+  if (!isMobile) await expect(page.locator('[class*="linhaCodigo"]')).toContainText('Art. 165');
+});
+
+test('páginas leves sem estouro de largura', async ({ page }) => {
+  for (const caminho of ['/', '/parte-geral', '/fichas/510-01', '/fichas/626-20', '/fichas/669-61', '/offline']) {
+    await page.goto(caminho);
+    await semRolagemLateral(page);
+  }
+});
+
+test('cabeçalhos de segurança e arquivos gerados', async ({ request }) => {
+  const r = await request.get('/fichas/552-50');
+  expect(r.headers()['content-security-policy']).toContain("frame-ancestors 'none'");
+  expect(r.headers()['x-content-type-options']).toBe('nosniff');
+  for (const arquivo of ['/busca.json', '/sw.js', '/manifest.webmanifest', '/fichas/552-50/opengraph-image', '/sitemap.xml']) {
+    expect((await request.get(arquivo)).ok(), arquivo).toBeTruthy();
+  }
+});

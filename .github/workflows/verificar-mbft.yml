@@ -1,0 +1,55 @@
+# Toda segunda-feira (grátis no GitHub Actions): baixa o PDF oficial do MBFT e compara com a cópia
+# do projeto (docs/normas/MBVT20222.pdf). Se mudou, abre uma issue avisando (uma só por vez).
+name: Verificar atualização do MBFT
+
+on:
+  schedule:
+    - cron: '17 12 * * 1' # segunda, 9h17 em Brasília
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  comparar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Baixar o PDF oficial
+        run: |
+          curl -fsSL --retry 3 --retry-delay 10 -A "Mozilla/5.0 (verificador de atualizacao)" \
+            -o /tmp/mbft-oficial.pdf \
+            "https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-contran/resolucoes/mbvt20222.pdf/@@download/file"
+          # Sem /@@download/file o gov.br devolve uma página HTML, não o arquivo
+          file /tmp/mbft-oficial.pdf | grep -q PDF
+      - name: Comparar com a cópia do projeto
+        id: comparar
+        run: |
+          novo=$(sha256sum /tmp/mbft-oficial.pdf | cut -d' ' -f1)
+          atual=$(sha256sum docs/normas/MBVT20222.pdf | cut -d' ' -f1)
+          echo "novo=$novo" >> "$GITHUB_OUTPUT"
+          if [ "$novo" = "$atual" ]; then
+            echo "mudou=nao" >> "$GITHUB_OUTPUT"
+            echo "O PDF oficial é o mesmo da cópia do projeto."
+          else
+            echo "mudou=sim" >> "$GITHUB_OUTPUT"
+            echo "O PDF oficial mudou."
+          fi
+      - name: Abrir aviso
+        if: steps.comparar.outputs.mudou == 'sim'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          titulo="O PDF oficial do MBFT mudou"
+          if gh issue list --state open --search "$titulo in:title" --json number --jq 'length' | grep -qv '^0$'; then
+            echo "Já existe uma issue aberta sobre isso."
+            exit 0
+          fi
+          gh issue create --title "$titulo" --body "A verificação semanal encontrou um PDF diferente do usado no site (docs/normas/MBVT20222.pdf).
+
+          - Hash novo (SHA-256): \`${{ steps.comparar.outputs.novo }}\`
+          - Fonte: https://www.gov.br/transportes/pt-br/assuntos/transito/conteudo-contran/resolucoes/mbvt20222.pdf/@@download/file
+
+          Para atualizar: baixar o PDF novo para docs/normas/MBVT20222.pdf e rodar os extratores de tools/normas/mbft/ (fichas, parte geral, desenhos) e de tools/normas/ (artigos do CTB); depois \`npm run verificar:dados\` e os testes. Fichas novas precisam de tema em docs/normas/mbft/temas.json."

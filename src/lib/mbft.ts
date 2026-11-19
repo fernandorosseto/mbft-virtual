@@ -255,3 +255,9 @@ export function citacoesTipadas(): { de: string; para: string; tipo: TipoLigacao
     return { de, para, tipo };
   });
 }
+
+/** Data em que o PDF oficial usado no site foi obtido (dd/mm/aaaa). */
+export function versaoDoManual(): string {
+  const [a, m, d] = String((dados as { extraidoEm?: string }).extraidoEm ?? '').split('-');
+  return a && m && d ? `${d}/${m}/${a}` : 'data não informada';
+}
