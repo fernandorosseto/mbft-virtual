@@ -6,6 +6,13 @@ import styles from './Preferencias.module.css';
 
 type Ref = 'codigo' | 'artigo';
 type Fonte = '0' | '1' | '2';
+type Tema = 'auto' | 'claro' | 'escuro';
+
+const TEMAS: { valor: Tema; rotulo: string }[] = [
+  { valor: 'auto', rotulo: 'Automático' },
+  { valor: 'claro', rotulo: 'Claro' },
+  { valor: 'escuro', rotulo: 'Escuro' },
+];
 
 const FONTES: { valor: Fonte; rotulo: string; descricao: string }[] = [
   { valor: '0', rotulo: 'A', descricao: 'Normal' },
@@ -17,10 +24,12 @@ const FONTES: { valor: Fonte; rotulo: string; descricao: string }[] = [
  * Lido no <head> antes da página aparecer (sem piscar): aplica as preferências guardadas.
  * `data-ref` troca código ↔ artigo em todo o site só com CSS; `data-fonte` amplia o conteúdo.
  */
-export const SCRIPT_PREFERENCIAS = `try{var d=document.documentElement,r=localStorage.getItem('mbft_ref'),f=localStorage.getItem('mbft_fonte');if(r==='artigo')d.dataset.ref='artigo';if(f==='1'||f==='2')d.dataset.fonte=f;}catch(e){}`;
+export const SCRIPT_PREFERENCIAS = `try{var d=document.documentElement,r=localStorage.getItem('mbft_ref'),f=localStorage.getItem('mbft_fonte'),t=localStorage.getItem('mbft_tema');if(r==='artigo')d.dataset.ref='artigo';if(f==='1'||f==='2')d.dataset.fonte=f;if(t==='claro'||t==='escuro')d.dataset.tema=t;}catch(e){}`;
 
-function aplicar(ref: Ref, fonte: Fonte) {
+function aplicar(ref: Ref, fonte: Fonte, tema: Tema) {
   const d = document.documentElement;
+  if (tema === 'auto') delete d.dataset.tema;
+  else d.dataset.tema = tema;
   if (ref === 'artigo') d.dataset.ref = 'artigo';
   else delete d.dataset.ref;
   if (fonte === '0') delete d.dataset.fonte;
@@ -28,6 +37,7 @@ function aplicar(ref: Ref, fonte: Fonte) {
   try {
     localStorage.setItem('mbft_ref', ref);
     localStorage.setItem('mbft_fonte', fonte);
+    localStorage.setItem('mbft_tema', tema);
   } catch {
     // navegador sem armazenamento: vale só nesta visita
   }
@@ -46,10 +56,11 @@ function Alternador({ atual, mudar, compacto }: { atual: Ref; mudar: (r: Ref) =>
   );
 }
 
-/** Preferências de leitura no cabeçalho: guiar por código ou artigo e tamanho do texto. */
+/** Preferências de leitura no cabeçalho: guiar por código ou artigo, tamanho do texto e tema (claro, escuro ou do aparelho). */
 export function Preferencias() {
   const [ref, setRef] = useState<Ref>('codigo');
   const [fonte, setFonte] = useState<Fonte>('0');
+  const [tema, setTema] = useState<Tema>('auto');
   const [aberto, setAberto] = useState(false);
   const caixa = useRef<HTMLDivElement>(null);
 
@@ -57,6 +68,7 @@ export function Preferencias() {
     const d = document.documentElement;
     setRef(d.dataset.ref === 'artigo' ? 'artigo' : 'codigo');
     setFonte((d.dataset.fonte as Fonte) ?? '0');
+    setTema((d.dataset.tema as Tema) ?? 'auto');
     const fora = (e: PointerEvent) => {
       if (!caixa.current?.contains(e.target as Node)) setAberto(false);
     };
@@ -66,11 +78,15 @@ export function Preferencias() {
 
   const mudarRef = (r: Ref) => {
     setRef(r);
-    aplicar(r, fonte);
+    aplicar(r, fonte, tema);
   };
   const mudarFonte = (f: Fonte) => {
     setFonte(f);
-    aplicar(ref, f);
+    aplicar(ref, f, tema);
+  };
+  const mudarTema = (t: Tema) => {
+    setTema(t);
+    aplicar(ref, fonte, t);
   };
 
   return (
@@ -84,7 +100,7 @@ export function Preferencias() {
         className={styles.botao}
         aria-expanded={aberto}
         aria-controls="painel-preferencias"
-        aria-label="Preferências de leitura: guiar por código ou artigo e tamanho do texto"
+        aria-label="Preferências de leitura: guiar por código ou artigo, tamanho do texto e tema"
         onClick={() => setAberto((a) => !a)}
       >
         <ALargeSmall aria-hidden size={20} />
@@ -111,6 +127,14 @@ export function Preferencias() {
               >
                 {f.rotulo}
                 {fonte === f.valor && <Check aria-hidden size={14} />}
+              </button>
+            ))}
+          </div>
+          <p className={styles.titulo}>Tema</p>
+          <div className={styles.temas} role="group" aria-label="Tema">
+            {TEMAS.map((t) => (
+              <button key={t.valor} type="button" aria-pressed={tema === t.valor} onClick={() => mudarTema(t.valor)}>
+                {t.rotulo}
               </button>
             ))}
           </div>

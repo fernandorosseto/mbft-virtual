@@ -54,13 +54,13 @@
 }
 
 .codigo {
-  background: var(--paint);
-  color: #fff;
+  background: var(--inverso-bg);
+  color: var(--inverso-tx);
 }
 
 .outraRef {
   background: var(--sign);
-  color: var(--paint);
+  color: var(--sobre-amarelo);
 }
 
 @media (max-width: 860px) {
@@ -77,7 +77,7 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1px;
   /* As linhas entre os campos são o fundo aparecendo no espaço de 1 px */
-  background: #e2e8f0;
+  background: var(--linha);
   border: 1px solid var(--asphalt-3);
   border-radius: 10px;
   overflow: hidden;

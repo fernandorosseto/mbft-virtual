@@ -66,8 +66,8 @@
   gap: 2px;
   max-width: calc(100% - 24px);
   padding: 4px 4px 4px 14px;
-  background: var(--paint);
-  color: #fff;
+  background: var(--inverso-bg);
+  color: var(--inverso-tx);
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.3);
 }
@@ -122,7 +122,7 @@
 }
 
 .sugestoes li + li {
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--linha);
 }
 
 .sugestoes li a {
@@ -138,7 +138,7 @@
 
 .sugestoes li a:hover,
 .sugestaoAtiva {
-  background: #fef9c3;
+  background: var(--realce);
 }
 
 .sugestoes b {

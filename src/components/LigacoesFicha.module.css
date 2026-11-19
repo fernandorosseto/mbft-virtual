@@ -52,7 +52,7 @@
 
 .itens > li {
   padding: 10px 0;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--linha);
 }
 
 .situacao {
@@ -108,7 +108,7 @@
 
 .destino:hover {
   border-color: var(--sign);
-  background: #fefce8;
+  background: var(--realce-2);
 }
 
 .origem:hover span {
@@ -157,17 +157,17 @@
 }
 
 .selo_emVez {
-  background: #fee2e2;
-  color: #991b1b;
+  background: var(--g-gravissima-fundo);
+  color: var(--g-gravissima-texto);
 }
 
 .selo_tambem {
-  background: #dcfce7;
-  color: #166534;
+  background: var(--g-leve-fundo);
+  color: var(--g-leve-texto);
 }
 
 .selo_referencia {
-  background: #f1f5f9;
+  background: var(--asphalt);
   color: var(--muted);
 }
 
@@ -179,7 +179,7 @@
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--linha);
 }
 
 @media (max-width: 860px) {

@@ -45,6 +45,7 @@
   background: var(--sign);
   font-family: var(--f-num);
   font-size: 12px;
+  color: var(--sobre-amarelo);
 }
 
 .painel {
@@ -86,9 +87,9 @@
 }
 
 .opcao[aria-pressed='true'] {
-  background: var(--paint);
+  background: var(--inverso-bg);
   border-color: var(--paint);
-  color: #fff;
+  color: var(--inverso-tx);
 }
 
 .painelRodape {
@@ -112,6 +113,7 @@
   border-radius: 8px;
   background: var(--sign);
   font-weight: 600;
+  color: var(--sobre-amarelo);
 }
 
 .ativos {
@@ -128,8 +130,8 @@
   min-height: 36px;
   padding: 0 12px;
   border-radius: 18px;
-  background: var(--paint);
-  color: #fff;
+  background: var(--inverso-bg);
+  color: var(--inverso-tx);
   font-size: 13px;
 }
 
@@ -214,8 +216,8 @@
 }
 
 .modos button[aria-pressed='true'] {
-  background: var(--paint);
-  color: #fff;
+  background: var(--inverso-bg);
+  color: var(--inverso-tx);
 }
 
 .grupo h2 {
@@ -236,7 +238,7 @@
 }
 
 .lista li + li {
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--linha);
 }
 
 .linha {
@@ -250,7 +252,7 @@
 }
 
 .linha:hover {
-  background: #fefce8;
+  background: var(--realce-2);
 }
 
 .codigo {

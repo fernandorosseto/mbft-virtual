@@ -44,7 +44,7 @@
   border-radius: 50%;
   /* O fundo é a gota de líquido (AnelTinta), desenhada atrás */
   background: transparent;
-  color: #fff;
+  color: var(--inverso-tx);
 }
 
 .seta {
@@ -59,7 +59,7 @@
 }
 
 .aberto .botao {
-  color: var(--paint);
+  color: var(--sobre-amarelo);
 }
 
 .aberto :global(svg) circle {
@@ -107,14 +107,14 @@
 }
 
 .atual {
-  background: #fef9c3;
+  background: var(--realce);
   font-weight: 600;
   box-shadow: inset 3px 0 0 var(--sign);
 }
 
 .topo {
   margin-top: 4px;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--linha);
   padding-top: 4px;
 }
 

@@ -55,8 +55,8 @@
 }
 
 .citado {
-  background: #fef9c3;
-  box-shadow: -6px 0 0 #fef9c3, 6px 0 0 #fef9c3;
+  background: var(--realce);
+  box-shadow: -6px 0 0 var(--realce), 6px 0 0 var(--realce);
   border-radius: 2px;
 }
 

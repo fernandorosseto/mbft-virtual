@@ -50,7 +50,7 @@
 }
 
 .menu a:hover {
-  background: #fef9c3;
+  background: var(--realce);
 }
 
 @media (max-width: 860px) {

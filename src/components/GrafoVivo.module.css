@@ -12,7 +12,7 @@
   width: 100%;
   height: auto;
   background:
-    radial-gradient(circle at 1px 1px, #e2e8f0 1px, transparent 0) 0 0 / 22px 22px,
+    radial-gradient(circle at 1px 1px, var(--linha) 1px, transparent 0) 0 0 / 22px 22px,
     var(--asphalt-2);
   border: 1px solid var(--asphalt-3);
   border-radius: 10px;
@@ -175,17 +175,17 @@
 }
 
 .s_emVez {
-  background: #fee2e2;
-  color: #991b1b;
+  background: var(--g-gravissima-fundo);
+  color: var(--g-gravissima-texto);
 }
 
 .s_tambem {
-  background: #dcfce7;
-  color: #166534;
+  background: var(--g-leve-fundo);
+  color: var(--g-leve-texto);
 }
 
 .s_referencia {
-  background: #f1f5f9;
+  background: var(--asphalt);
   color: var(--muted);
 }
 
@@ -256,7 +256,7 @@
 }
 
 .bolinha {
-  stroke: #fff;
+  stroke: var(--asphalt-2);
   stroke-width: 2;
   transition: r 0.15s;
 }
@@ -274,7 +274,7 @@
 .temaVizinho {
   text-anchor: middle;
   paint-order: stroke;
-  stroke: #fff;
+  stroke: var(--asphalt-2);
   stroke-width: 3px;
   stroke-linejoin: round;
   transition: opacity 0.2s;
@@ -339,7 +339,7 @@
   height: 36px;
   border: 1px solid var(--asphalt-3);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--asphalt-2);
   color: var(--paint);
 }
 

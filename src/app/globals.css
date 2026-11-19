@@ -9,12 +9,102 @@
   --ok: #15803d;           /* verde aprovado */
   --bad: #dc2626;          /* vermelho infração */
 
+  /* Tema (claro aqui, escuro abaixo) */
+  --linha: #e2e8f0;          /* divisórias finas */
+  --realce: #fef9c3;         /* destaque amarelo claro (selecionado, citado) */
+  --realce-2: #fefce8;       /* passar o mouse */
+  --inverso-bg: #0f172a;     /* fundo escuro de botões e selos */
+  --inverso-tx: #ffffff;     /* texto sobre esse fundo */
+  --sobre-amarelo: #0f172a;  /* texto sobre --sign (sempre escuro) */
+  --g-gravissima-fundo: #fee2e2;
+  --g-gravissima-texto: #991b1b;
+  --g-gravissima-borda: #fecaca;
+  --g-grave-fundo: #ffedd5;
+  --g-grave-texto: #9a3412;
+  --g-grave-borda: #fed7aa;
+  --g-media-fundo: #fef9c3;
+  --g-media-texto: #854d0e;
+  --g-media-borda: #fef08a;
+  --g-leve-fundo: #dcfce7;
+  --g-leve-texto: #166534;
+  --g-leve-borda: #bbf7d0;
+  --g-outra-fundo: #f1f5f9;
+  --g-outra-texto: #475569;
+  --g-outra-borda: #cbd5e1;
+
   --f-display: var(--font-barlow-condensed, 'Barlow Condensed', 'Arial Narrow', sans-serif);
   --f-body: var(--font-barlow, 'Barlow', system-ui, sans-serif);
   --f-law: var(--font-source-serif, 'Source Serif 4', Georgia, serif);
   --f-num: var(--font-ibm-plex-mono, 'IBM Plex Mono', ui-monospace, monospace);
 
   color-scheme: light;
+}
+
+/* Tema escuro: segue o aparelho (sem escolha) ou a escolha do painel "Aa" (data-tema no <html>) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema='claro']) {
+    --asphalt: #0b1220;
+    --asphalt-2: #111a2e;
+    --asphalt-3: #2a3650;
+    --paint: #e5e9f0;
+    --muted: #9aa6b8;
+    --sign-text: #facc15;
+    --ok: #4ade80;
+    --bad: #f87171;
+    --linha: #1e293b;
+    --realce: rgba(234, 179, 8, 0.18);
+    --realce-2: rgba(234, 179, 8, 0.1);
+    --inverso-bg: #e5e9f0;
+    --inverso-tx: #0b1220;
+    --g-gravissima-fundo: rgba(220, 38, 38, 0.2);
+    --g-gravissima-texto: #fca5a5;
+    --g-gravissima-borda: rgba(220, 38, 38, 0.4);
+    --g-grave-fundo: rgba(234, 88, 12, 0.2);
+    --g-grave-texto: #fdba74;
+    --g-grave-borda: rgba(234, 88, 12, 0.4);
+    --g-media-fundo: rgba(234, 179, 8, 0.18);
+    --g-media-texto: #fde047;
+    --g-media-borda: rgba(234, 179, 8, 0.4);
+    --g-leve-fundo: rgba(22, 163, 74, 0.2);
+    --g-leve-texto: #86efac;
+    --g-leve-borda: rgba(22, 163, 74, 0.4);
+    --g-outra-fundo: #1e293b;
+    --g-outra-texto: #9aa6b8;
+    --g-outra-borda: #2a3650;
+    color-scheme: dark;
+  }
+}
+
+:root[data-tema='escuro'] {
+  --asphalt: #0b1220;
+  --asphalt-2: #111a2e;
+  --asphalt-3: #2a3650;
+  --paint: #e5e9f0;
+  --muted: #9aa6b8;
+  --sign-text: #facc15;
+  --ok: #4ade80;
+  --bad: #f87171;
+  --linha: #1e293b;
+  --realce: rgba(234, 179, 8, 0.18);
+  --realce-2: rgba(234, 179, 8, 0.1);
+  --inverso-bg: #e5e9f0;
+  --inverso-tx: #0b1220;
+  --g-gravissima-fundo: rgba(220, 38, 38, 0.2);
+  --g-gravissima-texto: #fca5a5;
+  --g-gravissima-borda: rgba(220, 38, 38, 0.4);
+  --g-grave-fundo: rgba(234, 88, 12, 0.2);
+  --g-grave-texto: #fdba74;
+  --g-grave-borda: rgba(234, 88, 12, 0.4);
+  --g-media-fundo: rgba(234, 179, 8, 0.18);
+  --g-media-texto: #fde047;
+  --g-media-borda: rgba(234, 179, 8, 0.4);
+  --g-leve-fundo: rgba(22, 163, 74, 0.2);
+  --g-leve-texto: #86efac;
+  --g-leve-borda: rgba(22, 163, 74, 0.4);
+  --g-outra-fundo: #1e293b;
+  --g-outra-texto: #9aa6b8;
+  --g-outra-borda: #2a3650;
+  color-scheme: dark;
 }
 
 * {
@@ -66,11 +156,11 @@ button {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: var(--asphalt);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: var(--asphalt-3);
   border-radius: 3px;
 }
 
@@ -93,7 +183,7 @@ button {
 /* Ocorrências da busca dentro da ficha (CSS Custom Highlight API) */
 ::highlight(busca-ficha) {
   background-color: #fde68a;
-  color: inherit;
+  color: #0f172a;
 }
 
 ::highlight(busca-ficha-atual) {

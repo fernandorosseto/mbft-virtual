@@ -11,6 +11,6 @@
 
 /* Mesma cor do botão: escuro; amarelo com o menu aberto; um pouco mais claro ao passar o mouse */
 .liquido {
-  fill: var(--paint);
+  fill: var(--inverso-bg);
   transition: fill 0.2s;
 }

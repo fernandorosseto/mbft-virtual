@@ -38,8 +38,8 @@
 }
 
 .alternador button[aria-pressed='true'] {
-  background: var(--paint);
-  color: #fff;
+  background: var(--inverso-bg);
+  color: var(--inverso-tx);
 }
 
 .painel {
@@ -95,7 +95,7 @@
 
 .fontes button[aria-pressed='true'] {
   border-color: var(--paint);
-  background: #fef9c3;
+  background: var(--realce);
 }
 
 .fonte0 {
@@ -114,4 +114,23 @@
   .soPc {
     display: none;
   }
+}
+
+.temas {
+  display: flex;
+  gap: 6px;
+}
+
+.temas button {
+  flex: 1;
+  min-height: 44px;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.temas button[aria-pressed='true'] {
+  border-color: var(--paint);
+  background: var(--realce);
 }
