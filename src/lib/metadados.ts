@@ -22,6 +22,6 @@ export function metadataDe({ titulo, descricao, caminho }: Tela): Metadata {
       title: titulo,
       description: descricao,
     },
-    twitter: { card: 'summary', title: titulo, description: descricao },
+    twitter: { card: 'summary_large_image', title: titulo, description: descricao },
   };
 }
