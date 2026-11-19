@@ -99,7 +99,7 @@ export function UsoOffline({ total }: { total: number }) {
               <button type="button" className={styles.botao} onClick={salvarTodas} disabled={semRede}>
                 <CloudDownload aria-hidden size={16} /> Salvar todas
               </button>
-              <span className={styles.nota}>Baixa ~5 MB e ocupa ~40 MB no aparelho.</span>
+              <span className={styles.nota}>Baixa ~11 MB (fichas e desenhos) e ocupa ~50 MB no aparelho.</span>
             </>
           )}
         </div>

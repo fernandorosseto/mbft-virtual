@@ -9,6 +9,7 @@ import { BotaoCopiar } from '@/components/BotaoCopiar';
 import { Favoritar } from '@/components/Favoritar';
 import { trechosDoAmparo } from '@/lib/ctb';
 import { resolucoesDa } from '@/lib/resolucoes';
+import { figurasDa, type Figura } from '@/lib/figuras';
 import { BuscaNaFicha } from '@/components/BuscaNaFicha';
 import { ConexoesFicha } from '@/components/ConexoesFicha';
 import { IrPara } from '@/components/IrPara';
@@ -65,6 +66,7 @@ export default async function PaginaFicha({ params }: Props) {
   if (!f) notFound();
   const { anterior, seguinte } = vizinhas(f.codigo);
   const ligadas = conexoes(f.codigo);
+  const figuras = figurasDa(f.codigo);
   // Atalhos do botão flutuante: só as seções que esta ficha tem
   const secoes: Secao[] = [
     { id: 'enquadramento', rotulo: 'Enquadramento' },
@@ -72,7 +74,7 @@ export default async function PaginaFicha({ params }: Props) {
     { id: 'quando-nao-autuar', rotulo: 'Quando não autuar' },
     { id: 'definicoes', rotulo: 'Definições e procedimentos' },
     { id: 'exemplos', rotulo: 'Exemplos do campo de observações' },
-    { id: 'informacoes', rotulo: 'Informações complementares' },
+    { id: 'informacoes', rotulo: figuras.length ? 'Informações e desenhos' : 'Informações complementares' },
     ...(ligadas.cita.length || ligadas.citadaPor.length ? [{ id: 'conexoes', rotulo: 'Conexões' }] : []),
     ...(resolucoesDa(f).length ? [{ id: 'resolucoes', rotulo: 'Resoluções citadas' }] : []),
     ...(trechosDoAmparo(f.amparoLegal).length ? [{ id: 'ctb', rotulo: 'Texto do CTB' }] : []),
@@ -160,14 +162,22 @@ export default async function PaginaFicha({ params }: Props) {
       </div>
       <Coluna id="definicoes" atual={f.codigo} titulo="Definições e procedimentos" itens={f.definicoesEProcedimentos} />
       <Coluna id="exemplos" atual={f.codigo} titulo="Exemplos do campo de observações" itens={f.exemplosObservacoes} copiar />
-      <Coluna id="informacoes" atual={f.codigo} titulo="Informações complementares" itens={f.informacoesComplementares} />
+      <Coluna
+        id="informacoes"
+        atual={f.codigo}
+        titulo="Informações complementares"
+        itens={f.informacoesComplementares}
+        figuras={figuras}
+      />
 
       <ConexoesFicha ficha={f} />
       <ResolucoesCitadas ficha={f} />
       <AmparoCtb amparo={f.amparoLegal} />
 
       <p className={styles.fonte}>
-        Figuras e tabelas da ficha estão no PDF oficial.{' '}
+        {figuras.length
+          ? 'Os desenhos acima são recortes do PDF oficial; tabelas e o texto original estão lá.'
+          : 'Figuras e tabelas da ficha estão no PDF oficial.'}{' '}
         <a href={`${URL_MBFT_OFICIAL}#page=${f.pagina}`} target="_blank" rel="noopener noreferrer">
           Abrir na página {f.pagina} <ExternalLink aria-hidden size={14} />
         </a>
@@ -212,6 +222,7 @@ function Coluna({
   tom,
   atual,
   copiar,
+  figuras = [],
 }: {
   id: string;
   titulo: string;
@@ -220,6 +231,8 @@ function Coluna({
   atual: string;
   /** Botão de copiar em cada item (exemplos para o campo de observações do AIT). */
   copiar?: boolean;
+  /** Desenhos recortados do PDF, depois dos itens. */
+  figuras?: Figura[];
 }) {
   const validos = itens.filter((t) => t.trim());
   return (
@@ -262,6 +275,23 @@ function Coluna({
       ) : (
         <p className={styles.semConteudo}>Campo em branco no PDF.</p>
       )}
+      {figuras.map((fig) => (
+        <figure key={fig.arquivo} className={styles.figura}>
+          {/* Toque abre a imagem inteira (dá para ampliar) */}
+          <a href={fig.arquivo} target="_blank" rel="noopener">
+            {/* eslint-disable-next-line @next/next/no-img-element -- imagem estática já otimizada (WebP), sem servidor de imagens */}
+            <img
+              src={fig.arquivo}
+              width={fig.largura}
+              height={fig.altura}
+              loading="lazy"
+              decoding="async"
+              alt={`Desenho ilustrativo da ficha ${atual}, recortado do PDF oficial (página ${fig.pagina})`}
+            />
+          </a>
+          <figcaption>Recorte do PDF oficial, pág. {fig.pagina}. Toque para ampliar.</figcaption>
+        </figure>
+      ))}
     </section>
   );
 }
