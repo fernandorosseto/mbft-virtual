@@ -42,6 +42,18 @@ for (const [c, lista] of Object.entries(tabelas)) {
       const celulas = [t.titulo ?? '', ...(t.cabecalho ?? []), ...t.linhas.flat()].join(' ');
       conferir(semEspaco(celulas) === semEspaco(texto.slice(i, j + t.fim.length)), `tabelas.json: ${c} células diferentes do texto da ficha`);
     }
+    if (t.consulta) {
+      // Transcrição à mão: mesmas palavras do trecho achatado (sem contar ':' e '---')
+      const q = t.consulta;
+      const textos = [q.cantoColunas, q.cantoLinhas, ...q.colunas.map((c) => `${c.resolucao} ${c.periodo}`)];
+      for (const l of q.linhas) {
+        textos.push(l.situacao);
+        for (const cel of l.celulas) for (const b of cel) textos.push(...(b.titulo ? [b.titulo] : []), ...b.itens);
+      }
+      const palavras = (x) => x.replace(/:/g, ' ').replace(/---/g, ' ').split(/\s+/).filter(Boolean).sort().join(' ');
+      conferir(palavras(textos.join(' ')) === palavras(texto.slice(i, j)), `tabelas.json: ${c} transcrição diferente do texto da ficha`);
+      conferir(q.linhas.every((l) => l.celulas.length === q.colunas.length), `tabelas.json: ${c} linha com número errado de células`);
+    }
     for (const img of t.imagens ?? []) conferir(existsSync(new URL(`../public${img.arquivo}`, import.meta.url)), `tabela sem arquivo: ${img.arquivo}`);
   }
 }

@@ -676,26 +676,740 @@
     "inicio": "Resolução 562/80",
     "fim": "( p a c ( p ( n",
     "pagina": 610,
-    "imagens": [
-     {
-      "arquivo": "/tabelas/675-00-1.webp",
-      "pagina": 610,
-      "largura": 1441,
-      "altura": 1739
-     },
-     {
-      "arquivo": "/tabelas/675-00-2.webp",
-      "pagina": 611,
-      "largura": 1441,
-      "altura": 2036
-     },
-     {
-      "arquivo": "/tabelas/675-00-3.webp",
-      "pagina": 612,
-      "largura": 1441,
-      "altura": 173
-     }
-    ]
+    "consulta": {
+     "cantoColunas": "Resolução Contran",
+     "cantoLinhas": "Período de fabricação, complementação, alteração ou modificação do veículo",
+     "colunas": [
+      {
+       "resolucao": "562/80",
+       "periodo": "até 31/08/1998 (1)"
+      },
+      {
+       "resolucao": "49/98",
+       "periodo": "entre 01/09/1998 e 31/12/2008 (1)"
+      },
+      {
+       "resolucao": "290/08",
+       "periodo": "entre 01/01/2009 e 02/01/2022"
+      },
+      {
+       "resolucao": "882/21",
+       "periodo": "entre 03/02/2022 e 30/06/2022"
+      },
+      {
+       "resolucao": "882/21",
+       "periodo": "a partir de 01/07/2022"
+      }
+     ],
+     "linhas": [
+      {
+       "situacao": "Veículo automotor novo acabado:",
+       "celulas": [
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "CMT"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "PBTC (3)",
+           "CMT (2)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "CMT"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "PESO P/ EIXO",
+           "CMT"
+          ]
+         }
+        ]
+       ]
+      },
+      {
+       "situacao": "Veículo automotor novo acabado (caminhão ou caminhão-trator que possua condições técnicas para instalação de 3º eixo ou capacidade para tracionar reboque ou semirreboque)",
+       "celulas": [
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "PBT C/ 3º EIXO",
+           "PBTC (3)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "PBT C/ 3º EIXO",
+           "CMT"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "PBTC (3)",
+           "CMT (2)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "CMT"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "PESO P/ EIXO",
+           "CMT"
+          ]
+         }
+        ]
+       ]
+      },
+      {
+       "situacao": "Veículo automotor novo inacabado:",
+       "celulas": [
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "PBT",
+           "CMT"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "PBT",
+           "PBTC (3)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "PBT",
+           "PBTC (3)",
+           "CMT (2)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "PBT",
+           "CMT"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "PBT",
+           "PESO P/ EIXO",
+           "CMT"
+          ]
+         }
+        ]
+       ]
+      },
+      {
+       "situacao": "Veículo automotor novo que recebeu carroçaria ou implemento:",
+       "celulas": [
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "CMT"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "PBTC (3)",
+           "CMT (2)"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "CMT"
+          ]
+         },
+         {
+          "titulo": null,
+          "itens": [
+           "TARA (nova)"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "LOTAÇÃO (nova)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "PESO P/ EIXO",
+           "CMT"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)"
+          ]
+         }
+        ]
+       ]
+      },
+      {
+       "situacao": "Veículo automotor novo que teve alterado o número de eixos ou sua(s) capacidade(s):",
+       "celulas": [
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "CMT"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "PBTC (3)",
+           "CMT (2)"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "CMT"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "PESO P/ EIXO",
+           "CMT"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)"
+          ]
+         }
+        ]
+       ]
+      },
+      {
+       "situacao": "Veículo automotor já licenciado (em circulação) que teve alterada sua estrutura, número de eixos ou sua(s) capacidade(s):",
+       "celulas": [
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "observar norma vigente da data de fabricação"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "observar norma vigente da data de fabricação"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "observar norma vigente da data de fabricação"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)",
+           "PBT P/ EIXO"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "observar norma vigente da data de fabricação"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)",
+           "PESO P/ EIXO"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "observar norma vigente da data de fabricação"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)",
+           "P/ EIXO (novo)"
+          ]
+         }
+        ]
+       ]
+      },
+      {
+       "situacao": "Reboque ou semirreboque novo:",
+       "celulas": [
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "PESO P/ EIXO"
+          ]
+         }
+        ]
+       ]
+      },
+      {
+       "situacao": "Reboque ou semirreboque novo, que tenha sido alterado ou modificado:",
+       "celulas": [
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL",
+          "itens": [
+           "TARA",
+           "LOTAÇÃO",
+           "PBT",
+           "PESO P/ EIXO"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)",
+           "PESO P/ EIXO (novo)"
+          ]
+         }
+        ]
+       ]
+      },
+      {
+       "situacao": "Reboque ou semirreboque já licenciado (em circulação), que tenha sido alterado ou modificado:",
+       "celulas": [
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "observar norma vigente da data de fabricação"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "observar norma vigente da data de fabricação"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "observar norma vigente da data de fabricação"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "observar norma vigente da data de fabricação"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)"
+          ]
+         }
+        ],
+        [
+         {
+          "titulo": "INSCRIÇÃO ORIGINAL:",
+          "itens": [
+           "observar norma vigente da data de fabricação"
+          ]
+         },
+         {
+          "titulo": "INSCRIÇÃO COMPLEMENTAR:",
+          "itens": [
+           "TARA (nova)",
+           "LOTAÇÃO (nova)",
+           "PBT (novo)",
+           "PESO P/ EIXO (novo)"
+          ]
+         }
+        ]
+       ]
+      }
+     ]
+    }
    }
   ]
  }

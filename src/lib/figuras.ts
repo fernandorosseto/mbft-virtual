@@ -28,8 +28,23 @@ export interface Tabela {
   titulo?: string;
   cabecalho?: string[];
   linhas?: string[][];
-  /** Tabela com muitas células mescladas: recortes da página. */
+  /** Recortes da página (tipo sem uso hoje). */
   imagens?: Figura[];
+  /** Tabela situação × período transcrita (mostrada como consulta). */
+  consulta?: Consulta;
+}
+
+export interface BlocoCelula {
+  /** "INSCRIÇÃO ORIGINAL:", "INSCRIÇÃO COMPLEMENTAR:" ou null (itens soltos, como no PDF). */
+  titulo: string | null;
+  itens: string[];
+}
+
+export interface Consulta {
+  cantoColunas: string;
+  cantoLinhas: string;
+  colunas: { resolucao: string; periodo: string }[];
+  linhas: { situacao: string; celulas: BlocoCelula[][] }[];
 }
 
 const TABELAS = tabelas.fichas as Record<string, Tabela[]>;

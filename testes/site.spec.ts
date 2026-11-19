@@ -46,8 +46,14 @@ test('ficha: tabela do PDF em vez do texto achatado', async ({ page }) => {
   await expect(page.locator('#informacoes')).not.toContainText('CETPP Habilitado');
   await semRolagemLateral(page);
   await page.goto('/fichas/675-00');
-  await expect(page.locator('#informacoes img[src^="/tabelas/675-00-"]')).toHaveCount(3);
+  const consulta = page.getByLabel('Situação do veículo');
+  await expect(page.locator('#informacoes ol[aria-live] > li')).toHaveCount(5);
+  await consulta.selectOption({ label: 'Reboque ou semirreboque novo' });
+  await expect(page.locator('#informacoes ol[aria-live] > li').last()).toContainText('PESO P/ EIXO');
+  await page.getByText('Ver a tabela completa').click();
+  await expect(page.locator('#informacoes [role="region"] tbody tr')).toHaveCount(9);
   await expect(page.locator('#informacoes')).toContainText('(1) Conforme o art. 47');
+  await semRolagemLateral(page);
 });
 
 test('ficha: favorita aparece na página inicial', async ({ page }) => {

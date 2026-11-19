@@ -8,8 +8,10 @@ TABELAS (escolhidas à mão, conferindo as páginas da ficha), o site troca o tr
 e `fim` do item pela tabela:
 - tabela simples (linhas e colunas sem mesclas): células lidas com pdfplumber, juntando a
   continuação na página seguinte (mesmo número de colunas, no topo da página);
-- tabela com muitas células mescladas: recorte da página em WebP (como os desenhos), porque
-  montar em HTML arriscaria trocar uma célula de lugar.
+- tabela com células mescladas (situação × período, ex.: 675-00): transcrita à mão em
+  docs/normas/mbft/tabelas-transcritas/, conferida aqui palavra por palavra com o trecho do texto
+  da ficha (o site mostra como consulta: escolher a situação e ver os períodos);
+- tipo 'imagem' (sem uso hoje): recorte da página em WebP, como os desenhos.
 Tabela que já aparece num desenho recortado (ex.: 683-11, Res. 547/2015) não entra.
 """
 import json
@@ -17,6 +19,7 @@ import os
 import subprocess
 import sys
 import tempfile
+from collections import Counter
 
 import pdfplumber
 from PIL import Image
@@ -39,9 +42,8 @@ TABELAS = {
             'item': 1,
             'inicio': 'Resolução 562/80',
             'fim': '( p a c ( p ( n',
-            'tipo': 'imagem',
-            # página, topo e fim do recorte em pontos do PDF (595 × 841)
-            'recortes': [[610, 135, 767], [611, 39, 779], [612, 39, 102]],
+            'tipo': 'transcrita',
+            'arquivo': 'docs/normas/mbft/tabelas-transcritas/675-00.json',
         }
     ],
 }
@@ -88,6 +90,23 @@ def imagens(pdf_caminho, codigo, recortes, pasta):
     return saida
 
 
+def palavras(t):
+    return Counter(w for w in t.replace(':', ' ').replace('---', ' ').split() if w)
+
+
+def conferir_transcricao(codigo, d, trecho):
+    """As palavras da transcrição são as do trecho achatado (sem contar ':' e '---')."""
+    textos = [d['cantoColunas'], d['cantoLinhas']] + [f"{c['resolucao']} {c['periodo']}" for c in d['colunas']]
+    for linha in d['linhas']:
+        textos.append(linha['situacao'])
+        for celula in linha['celulas']:
+            for bloco in celula:
+                textos += ([bloco['titulo']] if bloco['titulo'] else []) + bloco['itens']
+    a, b = palavras(trecho), palavras(' '.join(textos))
+    if a != b:
+        raise SystemExit(f'{codigo}: transcrição diferente do PDF; falta {dict(a - b)}, sobra {dict(b - a)}')
+
+
 def principal(pdf_caminho, mbft, pasta, destino):
     fichas = {f['codigo']: f for f in reversed(json.load(open(mbft, encoding='utf-8'))['fichas'])}
     os.makedirs(pasta, exist_ok=True)
@@ -104,6 +123,10 @@ def principal(pdf_caminho, mbft, pasta, destino):
             item = {k: t[k] for k in ('campo', 'item', 'inicio', 'fim')}
             if t['tipo'] == 'celulas':
                 item.update(pagina=t['paginas'][0], **celulas(pdf, t['paginas']))
+            elif t['tipo'] == 'transcrita':
+                dados = json.load(open(t['arquivo'], encoding='utf-8'))
+                conferir_transcricao(codigo, dados, texto[texto.index(t['inicio']) : texto.index(t['fim'])])
+                item.update(pagina=dados['pagina'], consulta={k: dados[k] for k in ('cantoColunas', 'cantoLinhas', 'colunas', 'linhas')})
             else:
                 item.update(pagina=t['recortes'][0][0], imagens=imagens(pdf_caminho, codigo, t['recortes'], pasta))
             resultado.setdefault(codigo, []).append(item)

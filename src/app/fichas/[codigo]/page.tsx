@@ -12,6 +12,7 @@ import { resolucoesDa } from '@/lib/resolucoes';
 import { figurasDa, tabelasDa, type Figura, type Tabela } from '@/lib/figuras';
 import { BuscaNaFicha } from '@/components/BuscaNaFicha';
 import { ConexoesFicha } from '@/components/ConexoesFicha';
+import { ConsultaTabela } from '@/components/ConsultaTabela';
 import { IrPara } from '@/components/IrPara';
 import { Ref, RefOutra } from '@/components/Ref';
 import { ResolucoesCitadas } from '@/components/ResolucoesCitadas';
@@ -159,10 +160,22 @@ export default async function PaginaFicha({ params }: Props) {
 
       <div className={styles.autuar}>
         <Coluna id="quando-autuar" atual={f.codigo} titulo="Quando autuar" itens={f.quandoAutuar} tom="sim" />
-        <Coluna id="quando-nao-autuar" atual={f.codigo} titulo="Quando não autuar" itens={f.quandoNaoAutuar} tom="nao" />
+        <Coluna
+          id="quando-nao-autuar"
+          atual={f.codigo}
+          titulo="Quando não autuar"
+          itens={f.quandoNaoAutuar}
+          tom="nao"
+        />
       </div>
       <Coluna id="definicoes" atual={f.codigo} titulo="Definições e procedimentos" itens={f.definicoesEProcedimentos} />
-      <Coluna id="exemplos" atual={f.codigo} titulo="Exemplos do campo de observações" itens={f.exemplosObservacoes} copiar />
+      <Coluna
+        id="exemplos"
+        atual={f.codigo}
+        titulo="Exemplos do campo de observações"
+        itens={f.exemplosObservacoes}
+        copiar
+      />
       <Coluna
         id="informacoes"
         atual={f.codigo}
@@ -256,14 +269,19 @@ function Coluna({
               <li key={indice}>
                 {numero && <span className={styles.numero}>{numero}</span>}
                 <div>
-                  <Trecho texto={texto} atual={atual} tabelas={doItem} />
+                  <Trecho texto={texto} atual={atual} tabelas={doItem} recuo={numero ? RECUO_ITEM : 0} />
                   {subitens.length > 0 && (
                     <ol className={styles.subitens}>
                       {subitens.map((s, j) => (
                         <li key={j}>
                           <span className={styles.numero}>{s.numero}</span>
                           <div>
-                            <Trecho texto={s.texto} atual={atual} tabelas={doItem} />
+                            <Trecho
+                              texto={s.texto}
+                              atual={atual}
+                              tabelas={doItem}
+                              recuo={(numero ? RECUO_ITEM : 0) + RECUO_SUBITEM}
+                            />
                           </div>
                         </li>
                       ))}
@@ -305,7 +323,11 @@ function Coluna({
 }
 
 /** Texto do item; o trecho em que o PDF tem uma tabela (achatada na extração) vira a tabela. */
-function Trecho({ texto, atual, tabelas }: { texto: string; atual: string; tabelas: Tabela[] }) {
+/** Recuo do texto de um item e de um subitem (largura mínima do número + espaço; ver ficha.module.css). */
+const RECUO_ITEM = 22 + 10;
+const RECUO_SUBITEM = 4 + 34 + 10;
+
+function Trecho({ texto, atual, tabelas, recuo }: { texto: string; atual: string; tabelas: Tabela[]; recuo: number }) {
   const t = tabelas.find((x) => texto.includes(x.inicio) && texto.includes(x.fim));
   if (!t) {
     return (
@@ -325,7 +347,7 @@ function Trecho({ texto, atual, tabelas }: { texto: string; atual: string; tabel
           <TextoMbft texto={antes} atual={atual} />
         </p>
       )}
-      <TabelaMbft tabela={t} atual={atual} />
+      <TabelaMbft tabela={t} atual={atual} recuo={recuo} />
       {depois && (
         <p>
           <TextoMbft texto={depois} atual={atual} />
@@ -335,7 +357,8 @@ function Trecho({ texto, atual, tabelas }: { texto: string; atual: string; tabel
   );
 }
 
-function TabelaMbft({ tabela: t, atual }: { tabela: Tabela; atual: string }) {
+function TabelaMbft({ tabela: t, atual, recuo }: { tabela: Tabela; atual: string; recuo: number }) {
+  if (t.consulta) return <ConsultaTabela consulta={t.consulta} pagina={t.pagina} recuo={recuo} />;
   if (t.imagens) {
     return (
       <figure className={`${styles.figura} ${styles.tabelaImagem}`}>
