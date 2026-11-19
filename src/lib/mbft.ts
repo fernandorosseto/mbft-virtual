@@ -2,6 +2,7 @@ import 'server-only';
 import dados from '../../docs/normas/mbft/mbft.json';
 import temas from '../../docs/normas/mbft/temas.json';
 import { rotuloArtigo } from './rotulos';
+import { normalizar } from './texto';
 import { PRIORIDADE_LIGACAO, type TipoLigacao } from './noGrafo';
 
 /** Ficha de fiscalização do MBFT, com os campos como estão no PDF (ver docs/normas/mbft/README.md). */
@@ -261,3 +262,27 @@ export function versaoDoManual(): string {
   const [a, m, d] = String((dados as { extraidoEm?: string }).extraidoEm ?? '').split('-');
   return a && m && d ? `${d}/${m}/${a}` : 'data não informada';
 }
+
+/** Segunda parte que faz da palavra hifenizada uma forma verbal ("aproximar-se", "fazê-lo"), não um composto. */
+const PRONOMES = new Set(['se', 'lo', 'la', 'los', 'las', 'o', 'a', 'os', 'as', 'e', 'lhe', 'lhes', 'me', 'te', 'nos']);
+
+/**
+ * Palavras compostas com hífen que aparecem nas fichas ("para-choque", "meio-fio", "pôr-do-sol"),
+ * normalizadas ("para choque"). A busca trata essas palavras digitadas juntas como frase.
+ */
+export const compostosDoManual = (() => {
+  let cache: string[] | undefined;
+  return () => {
+    if (cache) return cache;
+    const achados = new Set<string>();
+    for (const f of todasAsFichas()) {
+      for (const m of textoCompleto(f).matchAll(/\p{L}+(?:-\p{L}+)+/gu)) {
+        const partes = normalizar(m[0]).split(' ');
+        if (partes.length < 2 || partes.slice(1).some((p) => PRONOMES.has(p)) || partes.some((p) => p.length < 2)) continue;
+        achados.add(partes.join(' '));
+      }
+    }
+    cache = Array.from(achados).sort();
+    return cache;
+  };
+})();

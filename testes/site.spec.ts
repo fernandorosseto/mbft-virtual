@@ -41,6 +41,18 @@ test('catálogo: sinônimo em frase não acha outro sentido', async ({ page }) =
   await expect(page.getByText(/^\d+ de 411 fichas \((\d) só no texto\)/)).toBeVisible();
 });
 
+test('busca: palavra composta do manual vale junta', async ({ page }) => {
+  for (const q of ['para choque', 'parachoque', 'para-choque']) {
+    await page.goto(`/?q=${encodeURIComponent(q)}`);
+    await expect(page.locator('main ul a[href="/fichas/664-50"]').first()).toBeVisible();
+    // "choque emocional" com "para" em outro lugar não conta
+    await expect(page.locator('main ul a[href="/fichas/517-70"]')).toHaveCount(0);
+  }
+  await page.goto('/fichas/664-50');
+  await page.getByRole('searchbox', { name: 'Buscar nesta ficha' }).fill('para choque');
+  await expect(page.locator('[data-barra-ocorrencias]')).toContainText(/1 de [1-9]/);
+});
+
 test('ficha: seções, CTB, ligações, desenho e copiar', async ({ page }) => {
   await page.goto('/fichas/539-80');
   for (const id of ['enquadramento', 'quando-autuar', 'quando-nao-autuar', 'exemplos', 'informacoes', 'ctb']) {

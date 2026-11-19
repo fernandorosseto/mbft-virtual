@@ -91,12 +91,13 @@ export const SINONIMOS: Record<string, string[]> = {
 };
 
 /**
- * Cada termo da busca vira uma lista de alternativas (cada alternativa, uma lista de palavras que
- * precisam aparecer juntas). Sem sinônimo, a única alternativa é o próprio termo.
+ * Cada termo (ou grupo de palavras de uma composta, ex. ["para", "brisa"]) vira uma lista de
+ * alternativas; cada alternativa, uma lista de palavras (mais de uma = frase, palavras juntas).
+ * Sem sinônimo, a única alternativa é o próprio termo.
  */
-export function alternativasDe(termos: string[]): string[][][] {
-  return termos.map((t) => {
-    const extras = SINONIMOS[t] ?? [];
-    return [[t], ...extras.map((e) => normalizar(e).split(' '))];
+export function alternativasDe(grupos: string[][]): string[][][] {
+  return grupos.map((g) => {
+    const extras = SINONIMOS[g.join('')] ?? [];
+    return [g, ...extras.map((e) => normalizar(e).split(' '))];
   });
 }

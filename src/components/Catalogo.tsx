@@ -76,7 +76,16 @@ function passa(item: ItemCatalogo, selecao: Selecao): boolean {
   });
 }
 
-export function Catalogo({ grupos, total }: { grupos: GrupoCatalogo[]; total: number }) {
+export function Catalogo({
+  grupos,
+  total,
+  compostos,
+}: {
+  grupos: GrupoCatalogo[];
+  total: number;
+  /** Palavras compostas do manual ("para choque"): digitadas juntas, buscam como frase. */
+  compostos: string[];
+}) {
   const [consulta, setConsulta] = useState('');
   const [modo, setModo] = useState<Modo>('lista');
   const [selecao, setSelecao] = useState<Selecao>({});
@@ -161,7 +170,7 @@ export function Catalogo({ grupos, total }: { grupos: GrupoCatalogo[]; total: nu
     if (!termos.length) return null;
 
     const titulo = indiceTitulo
-      .filter(({ item, palavras }) => passa(item, selecao) && casaTodos(termos, palavras))
+      .filter(({ item, palavras }) => passa(item, selecao) && casaTodos(termos, palavras, compostos))
       .map(({ item }) => item);
 
     // No texto completo: todas as palavras buscadas na mesma ficha
@@ -172,7 +181,7 @@ export function Catalogo({ grupos, total }: { grupos: GrupoCatalogo[]; total: nu
           .filter((item): item is ItemCatalogo => !!item && !noTitulo.has(item.codigo) && passa(item, selecao))
       : [];
     return { titulo, texto };
-  }, [consulta, indiceTitulo, indiceTexto, porCodigo, selecao]);
+  }, [consulta, indiceTitulo, indiceTexto, porCodigo, selecao, compostos]);
 
   // Sem busca: a lista por artigo, só com as fichas que passam nos filtros
   const gruposFiltrados = useMemo(

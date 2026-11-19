@@ -8,8 +8,10 @@ import styles from './BarraFicha.module.css';
 const MARCA = 'busca-ficha';
 const MARCA_ATUAL = 'busca-ficha-atual';
 
-/** Um caractere sem acento e em minúscula, mantendo o mesmo tamanho do texto original. */
+/** Um caractere sem acento e em minúscula, mantendo o mesmo tamanho do texto original; hífen vale
+ * como espaço ("para choque" acha "para-choque"). */
 function simplificar(c: string): string {
+  if (c === '-' || c === '–') return ' ';
   return c.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()[0] ?? c;
 }
 

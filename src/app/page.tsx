@@ -1,6 +1,6 @@
 import { Catalogo, type GrupoCatalogo } from '@/components/Catalogo';
 import { MinhasFichas } from '@/components/MinhasFichas';
-import { categoriasDe, fichasPorArtigo, todasAsFichas } from '@/lib/mbft';
+import { categoriasDe, compostosDoManual, fichasPorArtigo, todasAsFichas } from '@/lib/mbft';
 import styles from './page.module.css';
 
 export default function Inicio() {
@@ -26,7 +26,7 @@ export default function Inicio() {
         </p>
       </section>
       <MinhasFichas />
-      <Catalogo grupos={grupos} total={todasAsFichas().length} />
+      <Catalogo grupos={grupos} total={todasAsFichas().length} compostos={compostosDoManual()} />
     </main>
   );
 }
