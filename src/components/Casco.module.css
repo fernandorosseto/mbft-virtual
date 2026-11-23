@@ -74,6 +74,22 @@
   }
 }
 
+@media (max-width: 360px) {
+  /* 320 px: menos espaço entre os itens para caber Fichas, Parte geral, Ferramentas e Aa */
+  .cabecalho {
+    gap: 4px;
+  }
+
+  .menu {
+    gap: 0;
+  }
+
+  .menu a {
+    padding: 0 6px;
+    font-size: 14px;
+  }
+}
+
 .rodape {
   margin-top: auto;
   padding: 20px 16px calc(20px + env(safe-area-inset-bottom));

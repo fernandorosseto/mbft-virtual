@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { URL_MBFT_OFICIAL } from '@/lib/site';
 import { todasAsFichas, versaoDoManual } from '@/lib/mbft';
 import styles from './Casco.module.css';
+import { MenuFerramentas } from './MenuFerramentas';
 import { Preferencias } from './Preferencias';
 import { AvisoSemRede, UsoOffline } from './UsoOffline';
 
@@ -17,6 +18,7 @@ export function Cabecalho() {
         <Link href="/">Fichas</Link>
         <Link href="/parte-geral">Parte geral</Link>
       </nav>
+      <MenuFerramentas />
       <Preferencias />
     </header>
     <AvisoSemRede />

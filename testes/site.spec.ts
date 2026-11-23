@@ -69,9 +69,14 @@ test('calculadora roda/pneu: métrico e polegadas', async ({ page }) => {
   await expect(page.getByText('Art. 10. Ficam proibidas:')).toBeAttached();
   await semRolagemLateral(page);
   await page.goto('/fichas/661-02');
-  await expect(page.locator('a[href="/ferramentas/roda-pneu"]')).toBeVisible();
+  await expect(page.locator('a[href="/ferramentas/roda-pneu"]').first()).toBeVisible();
+  // Botão "Ferramentas" do cabeçalho abre a lista e leva à calculadora
+  await page.getByRole('button', { name: 'Ferramentas' }).click();
+  await page.locator('#menu-ferramentas').getByRole('link', { name: /Calculadora roda\/pneu/ }).click();
+  await expect(page).toHaveURL(/\/ferramentas\/roda-pneu$/);
+  await expect(page.locator('#menu-ferramentas')).toHaveCount(0);
   await page.goto('/?q=pneu');
-  await expect(page.locator('a[href="/ferramentas/roda-pneu"]')).toBeVisible();
+  await expect(page.locator('main a[href="/ferramentas/roda-pneu"]')).toBeVisible();
 });
 
 test('ficha: seções, CTB, ligações, desenho e copiar', async ({ page }) => {
