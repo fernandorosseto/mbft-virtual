@@ -336,19 +336,54 @@
   white-space: normal;
 }
 
-.desenhos {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 20px;
-  padding-top: 10px;
+.meias {
+  margin: 14px auto 0;
+  max-width: 360px;
 }
 
-.desenhos figure {
-  margin: 0;
-  font-size: 12px;
+.meias svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.meias figcaption {
+  margin-top: 6px;
+  font-size: 13px;
   text-align: center;
   color: var(--muted);
+}
+
+.chao {
+  stroke: var(--asphalt-3);
+  stroke-width: 2;
+}
+
+.eixo {
+  stroke: var(--sign);
+  stroke-width: 2;
+}
+
+.guia {
+  stroke: var(--muted);
+  stroke-width: 1;
+  stroke-dasharray: 4 3;
+}
+
+.cota {
+  font-family: var(--f-num);
+  font-size: 12px;
+  fill: var(--paint);
+}
+
+.legendaSvg {
+  font-size: 12px;
+  fill: var(--muted);
+}
+
+.borrachaFora {
+  fill: var(--bad);
 }
 
 .borracha {

@@ -180,18 +180,66 @@ function MmPol({ mm }: { mm: number }) {
   );
 }
 
-function Desenho({ pneu, escala, legenda }: { pneu: Pneu; escala: number; legenda: string }) {
-  const R = (pneu.d / 2) * escala;
-  const r = ((pneu.aro * POL) / 2) * escala;
-  const s = Math.ceil(R * 2 + 4);
+/**
+ * Meia roda de cada lado, coladas no meio e apoiadas no mesmo chão: original à esquerda, instalado
+ * à direita, na mesma escala. Linhas tracejadas no topo de cada uma mostram a diferença de altura.
+ */
+function MeiasRodas({ o, i, dentro }: { o: Pneu; i: Pneu; dentro: boolean }) {
+  const ALTURA = 170; // px do maior diâmetro
+  const escala = ALTURA / Math.max(o.d, i.d);
+  const Ro = (o.d / 2) * escala;
+  const Ri = (i.d / 2) * escala;
+  const ro = ((o.aro * POL) / 2) * escala;
+  const ri = ((i.aro * POL) / 2) * escala;
+  const larg = 300;
+  const cx = larg / 2;
+  const topo = 30;
+  const chao = topo + ALTURA;
+  const cyo = chao - Ro;
+  const cyi = chao - Ri;
+  const alt = chao + 26;
+  // Meio disco: esquerda (sweep 0) ou direita (sweep 1)
+  const meio = (cy: number, r: number, lado: 0 | 1) => `M ${cx} ${cy - r} A ${r} ${r} 0 0 ${lado} ${cx} ${cy + r} Z`;
+  const yo = chao - 2 * Ro;
+  const yi = chao - 2 * Ri;
+  const dif = i.d - o.d;
   return (
-    <figure>
-      <svg width={s} height={s} viewBox={`0 0 ${s} ${s}`} aria-hidden>
-        <circle cx={s / 2} cy={s / 2} r={R} className={styles.borracha} />
-        <circle cx={s / 2} cy={s / 2} r={r} className={styles.roda} />
-        <circle cx={s / 2} cy={s / 2} r={r * 0.25} className={styles.cubo} />
+    <figure className={styles.meias}>
+      <svg
+        viewBox={`0 0 ${larg} ${alt}`}
+        role="img"
+        aria-label={`Original ${f0(o.d)} mm à esquerda, instalado ${f0(i.d)} mm à direita, diferença de ${sinal(dif, f0)} mm`}
+      >
+        <line x1={0} x2={larg} y1={chao} y2={chao} className={styles.chao} />
+        <path d={meio(cyo, Ro, 0)} className={styles.borracha} />
+        <path d={meio(cyo, ro, 0)} className={styles.roda} />
+        <path d={meio(cyo, ro * 0.25, 0)} className={styles.cubo} />
+        <path d={meio(cyi, Ri, 1)} className={dentro ? styles.borracha : styles.borrachaFora} />
+        <path d={meio(cyi, ri, 1)} className={styles.roda} />
+        <path d={meio(cyi, ri * 0.25, 1)} className={styles.cubo} />
+        <line x1={cx} x2={cx} y1={topo - 8} y2={chao} className={styles.eixo} />
+        {/* Altura de cada uma */}
+        <line x1={8} x2={cx} y1={yo} y2={yo} className={styles.guia} />
+        <line x1={cx} x2={larg - 8} y1={yi} y2={yi} className={styles.guia} />
+        <text x={8} y={yo - 6} className={styles.cota}>
+          {f0(o.d)} mm
+        </text>
+        <text x={larg - 8} y={yi - 6} textAnchor="end" className={styles.cota}>
+          {f0(i.d)} mm
+        </text>
+        <text x={8} y={alt - 6} className={styles.legendaSvg}>
+          Original
+        </text>
+        <text x={larg - 8} y={alt - 6} textAnchor="end" className={styles.legendaSvg}>
+          Instalado
+        </text>
       </svg>
-      <figcaption>{legenda}</figcaption>
+      <figcaption>
+        Mesma escala, apoiadas no mesmo chão.{' '}
+        {Math.round(dif) === 0
+          ? 'Mesmo diâmetro.'
+          : `O instalado fica ${f0(Math.abs(dif))} mm (${f1(Math.abs(dif) / POL)}") ${dif > 0 ? 'mais alto' : 'mais baixo'}, e o centro da roda, ${f0(Math.abs(dif) / 2)} mm ${dif > 0 ? 'mais alto' : 'mais baixo'}.`}
+      </figcaption>
     </figure>
   );
 }
@@ -276,7 +324,6 @@ export function CalculadoraRodaPneu() {
   };
 
   const posicao = (p: number) => Math.max(0, Math.min(100, ((p + 5) / 10) * 100));
-  const escala = o && i ? 132 / Math.max(o.d, i.d) : 1;
 
   return (
     <div className={styles.calc}>
@@ -413,10 +460,7 @@ export function CalculadoraRodaPneu() {
                 </tbody>
               </table>
             </div>
-            <div className={styles.desenhos}>
-              <Desenho pneu={o} escala={escala} legenda="Original" />
-              <Desenho pneu={i} escala={escala} legenda="Instalado" />
-            </div>
+            <MeiasRodas o={o} i={i} dentro={r.dentro || jipe} />
           </section>
 
           <section className={styles.cartao}>
