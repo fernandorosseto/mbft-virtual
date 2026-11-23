@@ -53,6 +53,27 @@ test('busca: palavra composta do manual vale junta', async ({ page }) => {
   await expect(page.locator('[data-barra-ocorrencias]')).toContainText(/1 de [1-9]/);
 });
 
+test('calculadora roda/pneu: métrico e polegadas', async ({ page }) => {
+  await page.goto('/ferramentas/roda-pneu');
+  const resultado = page.locator('[role="status"]').first();
+  // 265/70 R17 (803 mm) × 265/40 R23 (796 mm): −0,82%
+  await expect(resultado).toContainText('Dentro da tolerância');
+  await expect(resultado).toContainText('−0,82%');
+  const instalado = page.locator('fieldset').nth(1);
+  await instalado.getByRole('button', { name: 'Polegadas' }).click();
+  await instalado.getByLabel('Diâmetro (pol)').fill('33');
+  await instalado.getByLabel('Aro (pol)').fill('15');
+  // 33" = 838 mm: +4,41%
+  await expect(resultado).toContainText('Fora da tolerância');
+  await expect(resultado).toContainText('+4,41%');
+  await expect(page.getByText('Art. 10. Ficam proibidas:')).toBeAttached();
+  await semRolagemLateral(page);
+  await page.goto('/fichas/661-02');
+  await expect(page.locator('a[href="/ferramentas/roda-pneu"]')).toBeVisible();
+  await page.goto('/?q=pneu');
+  await expect(page.locator('a[href="/ferramentas/roda-pneu"]')).toBeVisible();
+});
+
 test('ficha: seções, CTB, ligações, desenho e copiar', async ({ page }) => {
   await page.goto('/fichas/539-80');
   for (const id of ['enquadramento', 'quando-autuar', 'quando-nao-autuar', 'exemplos', 'informacoes', 'ctb']) {

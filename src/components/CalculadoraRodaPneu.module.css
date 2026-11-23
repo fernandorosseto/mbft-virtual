@@ -1,0 +1,466 @@
+.calc {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Sem isso, a tabela (células sem quebra) alarga a página em vez de rolar dentro do cartão */
+.calc > * {
+  min-width: 0;
+}
+
+.cartao {
+  padding: 14px;
+  background: var(--asphalt-2);
+  border: 1px solid var(--asphalt-3);
+  border-radius: 12px;
+}
+
+.cartao h2 {
+  margin-bottom: 10px;
+  font-family: var(--f-display);
+  font-size: 18px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.cartao h3 {
+  margin: 12px 0 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.nota {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Entradas */
+.pneus {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .pneus {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.pneu {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.pneu legend {
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.unidade {
+  display: inline-flex;
+  margin-bottom: 8px;
+  padding: 3px;
+  background: var(--asphalt);
+  border: 1px solid var(--asphalt-3);
+  border-radius: 999px;
+}
+
+.unidade button {
+  min-height: 36px;
+  padding: 4px 14px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.unidade button[aria-pressed='true'] {
+  color: var(--inverso-tx);
+  background: var(--inverso-bg);
+}
+
+.medida {
+  display: grid;
+  grid-template-columns: 1.3fr auto 1fr auto 1fr;
+  align-items: center;
+  gap: 6px;
+}
+
+.medida span {
+  font-family: var(--f-num);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* 16 px ou mais: o iPhone não amplia a página ao tocar */
+.medida input {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 8px 4px;
+  font-family: var(--f-num);
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--paint);
+  background: var(--asphalt);
+  border: 1.5px solid var(--asphalt-3);
+  border-radius: 8px;
+}
+
+.medida input:focus {
+  outline: 2px solid var(--sign);
+  outline-offset: 1px;
+}
+
+.invalida input {
+  border-color: var(--bad);
+}
+
+.legendas {
+  display: grid;
+  grid-template-columns: 1.3fr auto 1fr auto 1fr;
+  gap: 6px;
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.legendas i {
+  visibility: hidden;
+  font-family: var(--f-num);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 0;
+}
+
+.dica {
+  min-height: 18px;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.erro {
+  color: var(--bad);
+}
+
+.inverter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  margin-top: 6px;
+  padding: 6px 12px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--muted);
+  background: none;
+  border: 1px solid var(--asphalt-3);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.jipe {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.jipe input {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  accent-color: var(--sign);
+}
+
+.jipe small {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Resultado */
+.veredito {
+  padding: 16px;
+  border: 1.5px solid;
+  border-radius: 12px;
+}
+
+.ok {
+  color: var(--ok);
+  border-color: var(--ok);
+  background: color-mix(in srgb, var(--ok) 10%, var(--asphalt-2));
+}
+
+.fora {
+  color: var(--bad);
+  border-color: var(--bad);
+  background: color-mix(in srgb, var(--bad) 9%, var(--asphalt-2));
+}
+
+.atencao {
+  color: var(--sign-text);
+  border-color: var(--sign);
+  background: color-mix(in srgb, var(--sign) 14%, var(--asphalt-2));
+}
+
+.grande {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--f-display);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.pct {
+  margin: 4px 0 2px;
+  font-family: var(--f-display);
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.explica {
+  font-size: 14px;
+  color: var(--paint);
+}
+
+.faixa {
+  position: relative;
+  height: 34px;
+  margin: 6px 0 26px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--bad) 14%, var(--asphalt-2)) 0 20%,
+    color-mix(in srgb, var(--ok) 16%, var(--asphalt-2)) 20% 80%,
+    color-mix(in srgb, var(--bad) 14%, var(--asphalt-2)) 80%
+  );
+  border: 1px solid var(--asphalt-3);
+  border-radius: 8px;
+}
+
+.marca,
+.marcaZero {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 5px;
+  border-radius: 2px;
+  transform: translateX(-50%);
+}
+
+.marcaZero {
+  width: 3px;
+  background: var(--paint);
+  opacity: 0.35;
+}
+
+.marcaOk {
+  background: var(--ok);
+}
+
+.marcaFora {
+  background: var(--bad);
+}
+
+.rotulo {
+  position: absolute;
+  top: 100%;
+  margin-top: 4px;
+  font-family: var(--f-num);
+  font-size: 11px;
+  color: var(--muted);
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.rolagem {
+  overflow-x: auto;
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--f-num);
+  font-size: 13px;
+}
+
+.tabela th,
+.tabela td {
+  padding: 8px 6px;
+  text-align: right;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--asphalt-3);
+}
+
+.tabela thead th {
+  font-family: var(--f-body);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.tabela td small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.tabela tbody th {
+  font-family: var(--f-body);
+  font-weight: 500;
+  text-align: left;
+  color: var(--muted);
+  white-space: normal;
+}
+
+.desenhos {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 20px;
+  padding-top: 10px;
+}
+
+.desenhos figure {
+  margin: 0;
+  font-size: 12px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.borracha {
+  fill: var(--paint);
+}
+
+.roda {
+  fill: var(--asphalt-3);
+}
+
+.cubo {
+  fill: var(--muted);
+}
+
+.opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.opcoes button {
+  min-height: 36px;
+  padding: 6px 10px;
+  font-family: var(--f-num);
+  font-size: 13px;
+  color: var(--paint);
+  background: var(--asphalt);
+  border: 1px solid var(--asphalt-3);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+/* Checklist */
+.checklist {
+  list-style: none;
+}
+
+.checklist li {
+  padding: 10px 0;
+  font-size: 14px;
+  border-bottom: 1px solid var(--asphalt-3);
+}
+
+.checklist li:last-child {
+  border-bottom: 0;
+}
+
+.checklist label {
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.checklist input {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  accent-color: var(--bad);
+}
+
+.checklist small {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.irregular label > span {
+  color: var(--bad);
+}
+
+.soma {
+  margin-top: 8px;
+  font-weight: 700;
+}
+
+.somaOk {
+  color: var(--ok);
+}
+
+.somaFora {
+  color: var(--bad);
+}
+
+.acoes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.acoes button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 46px;
+  font: inherit;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.principal {
+  color: var(--inverso-tx);
+  background: var(--inverso-bg);
+  border: 0;
+}
+
+.secundario {
+  color: var(--paint);
+  background: none;
+  border: 1.5px solid var(--asphalt-3);
+}

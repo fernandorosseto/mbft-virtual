@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Fragment } from 'react';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, ArrowRight, ExternalLink, Table2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calculator, ExternalLink, Table2 } from 'lucide-react';
+import { FERRAMENTAS } from '@/lib/ferramentas';
 import { AmparoCtb } from '@/components/AmparoCtb';
 import { AtalhosFicha, type Secao } from '@/components/AtalhosFicha';
 import { BotaoCopiar } from '@/components/BotaoCopiar';
@@ -169,6 +170,16 @@ export default async function PaginaFicha({ params }: Props) {
           tom="nao"
         />
       </div>
+      {FERRAMENTAS.filter((fe) => fe.fichas.includes(f.codigo)).map((fe) => (
+        <Link key={fe.href} href={fe.href} className={styles.tabelaLink}>
+          <Calculator aria-hidden size={22} />
+          <span>
+            <strong>{fe.titulo}</strong>
+            <small>{fe.descricao}</small>
+          </span>
+          <ArrowRight aria-hidden size={18} />
+        </Link>
+      ))}
       <Coluna id="definicoes" atual={f.codigo} titulo="Definições e procedimentos" itens={f.definicoesEProcedimentos} />
       <Coluna
         id="exemplos"
@@ -368,9 +379,7 @@ function TabelaMbft({ tabela: t, atual, recuo }: { tabela: Tabela; atual: string
         <Table2 aria-hidden size={22} />
         <span>
           <strong>{pagina.titulo}</strong>
-          <small>
-            Tabela do PDF em página própria ({pags.length} páginas). Abrir a tabela
-          </small>
+          <small>Tabela do PDF em página própria ({pags.length} páginas). Abrir a tabela</small>
         </span>
         <ArrowRight aria-hidden size={18} />
       </Link>

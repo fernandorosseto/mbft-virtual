@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { paginasDeTabela } from '@/lib/figuras';
+import { FERRAMENTAS } from '@/lib/ferramentas';
 import { todasAsFichas } from '@/lib/mbft';
 import { URL_SITE } from '@/lib/site';
 
@@ -18,5 +19,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly' as const,
       priority: 0.5,
     })),
+    ...FERRAMENTAS.map((f) => ({ url: `${URL_SITE}${f.href}`, changeFrequency: 'monthly' as const, priority: 0.6 })),
   ];
 }

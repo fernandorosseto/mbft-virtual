@@ -107,6 +107,13 @@ for (const [slug, p] of Object.entries(paginasTabela ?? {})) {
   for (const img of p.imagens)
     conferir(existsSync(new URL(`../public${img.arquivo}`, import.meta.url)), `tabela sem arquivo: ${img.arquivo}`);
 }
+// Res. CONTRAN nº 916/2022 (calculadora roda/pneu): cada trecho citado é cópia do texto do DOU
+const res916 = readFileSync(new URL('../docs/normas/res916.txt', import.meta.url), 'utf8')
+  .split('\n')
+  .map((l) => l.trim());
+for (const t of ler('docs/normas/res916-trechos.json').trechos) {
+  conferir(res916.includes(t.texto), `res916-trechos.json: "${t.ref}" não é cópia de uma linha do texto do DOU`);
+}
 const figuras = ler('docs/normas/mbft/figuras.json').figuras;
 for (const [c, lista] of Object.entries(figuras)) {
   conferir(codigos.includes(c), `figuras.json: ficha inexistente ${c}`);

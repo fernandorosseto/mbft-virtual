@@ -1,11 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { List, Network, Search, SlidersHorizontal, X } from 'lucide-react';
+import { Calculator, List, Network, Search, SlidersHorizontal, X } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { IndiceBusca } from '@/app/busca.json/route';
 import { buscarNoTexto, carregarIndice as baixarIndice, casaTodos, palavrasDoTitulo, termosDe } from '@/lib/busca';
 import { SINONIMOS } from '@/lib/sinonimos';
+import { ferramentasDaBusca } from '@/lib/ferramentas';
 import { MapaBusca } from './MapaBusca';
 import { Ref, RefOutra } from './Ref';
 import styles from './Catalogo.module.css';
@@ -254,6 +255,12 @@ export function Catalogo({
                     “{t}” também busca: {SINONIMOS[t].join(', ')}
                   </p>
                 ))}
+            {consulta &&
+              ferramentasDaBusca(termosDe(consulta)).map((fe) => (
+                <Link key={fe.href} href={fe.href} className={styles.ferramenta}>
+                  <Calculator aria-hidden size={16} /> {fe.titulo}: {fe.descricao}
+                </Link>
+              ))}
           </div>
           {ativo && encontradas > 0 && (
             <div className={styles.modos} role="group" aria-label="Ver resultado como">

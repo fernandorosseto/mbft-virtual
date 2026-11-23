@@ -1,0 +1,82 @@
+{
+ "aviso": "Trechos da Res. CONTRAN nº 916/2022 copiados do texto publicado no DOU (docs/normas/res916.txt, de https://www.in.gov.br/web/dou/-/resolucao-contran-n-916-de-28-de-marco-de-2022-390300530). npm run verificar:dados confere cada trecho contra o arquivo.",
+ "fonte": "https://www.in.gov.br/web/dou/-/resolucao-contran-n-916-de-28-de-marco-de-2022-390300530",
+ "trechos": [
+  {
+   "ref": "Art. 10, caput",
+   "texto": "Art. 10. Ficam proibidas:"
+  },
+  {
+   "ref": "Art. 10, I",
+   "texto": "I - a utilização de conjunto roda/pneu que:"
+  },
+  {
+   "ref": "Art. 10, I, a",
+   "texto": "a) ultrapasse os limites externos dos para-lamas do veículo; ou"
+  },
+  {
+   "ref": "Art. 10, I, b",
+   "texto": "b) que em qualquer condição de uso, especialmente nas condições extremas de funcionamento dos sistemas de suspensão e direção, tais como esterçamento máximo para ambos os lados, extensão máxima e contração máxima do curso da suspensão, possa entrar em contato com qualquer elemento da carroceria, suspensão ou qualquer outra parte do veículo;"
+  },
+  {
+   "ref": "Art. 10, II",
+   "texto": "II - o aumento ou diminuição do diâmetro externo do conjunto roda/pneu além da tolerância de ± 3%, a ser aplicada sobre o valor, em milímetro, do diâmetro externo do conjunto roda/pneus original de fábrica do veículo em questão;"
+  },
+  {
+   "ref": "Art. 10, § 2º",
+   "texto": "§ 2º Excetuam-se da proibição prevista no inciso II os veículos classificados na espécie misto, tipo utilitário, carroçaria jipe, desde que observados os limites de diâmetro externo do conjunto pneu/roda fixados pelo fabricante."
+  },
+  {
+   "ref": "Art. 10, § 3º",
+   "texto": "§ 3º Fica permitida a extensão dos para-lamas, inclusive com o uso de alargadores e similares, desde que cumpram:"
+  },
+  {
+   "ref": "Art. 10, § 3º, I",
+   "texto": "I - com a função de abrigar o conjunto roda/pneu, evitar a projeção de detritos e o contato de pessoas e objetos com o conjunto durante sua operação;"
+  },
+  {
+   "ref": "Art. 10, § 3º, II",
+   "texto": "II - com os requisitos técnicos dos dispositivos protetores de rodas previstos na Resolução CONTRAN nº 888, de 13 de dezembro de 2021, ou suas sucedâneas; e"
+  },
+  {
+   "ref": "Art. 10, § 3º, III",
+   "texto": "III - com as disposições do art. 98 do CTB."
+  },
+  {
+   "ref": "Art. 8º, caput",
+   "texto": "Art. 8º Os veículos que sofrerem alterações no sistema de suspensão ficam obrigados a atender aos seguintes limites e exigências:"
+  },
+  {
+   "ref": "Art. 8º, I",
+   "texto": "I - veículos com Peso Bruto Total (PBT) até 3.500 kg:"
+  },
+  {
+   "ref": "Art. 8º, I, b",
+   "texto": "b) a altura mínima permitida para circulação deve ser maior ou igual a 100 mm, medidos verticalmente do solo ao ponto mais baixo da carroceria ou chassi, conforme figura apresentada no Anexo VI; e"
+  },
+  {
+   "ref": "Art. 8º, I, c",
+   "texto": "c) o conjunto de rodas e pneus não poderá tocar parte alguma do veículo quando submetido ao teste de esterçamento;"
+  },
+  {
+   "ref": "Art. 8º, § 1º",
+   "texto": "§ 1º Os veículos que tiverem sua suspensão modificada, em qualquer condição de uso, devem ter inseridos no campo das observações do CRLV-e a altura livre do solo."
+  },
+  {
+   "ref": "Art. 4º, caput",
+   "texto": "Art. 4º Para a realização de modificação em veículo já registrado, exige-se:"
+  },
+  {
+   "ref": "Art. 4º, I",
+   "texto": "I - prévia autorização da autoridade responsável pelo registro e licenciamento do veículo, conforme dispõe o art. 98 do CTB;"
+  },
+  {
+   "ref": "Art. 17, caput",
+   "texto": "Art. 17. Pela inobservância ao disposto nesta Resolução, independentemente das demais penalidades previstas em outras legislações, aplicam-se as penalidades e medidas administrativas previstas nos seguintes artigos do CTB:"
+  },
+  {
+   "ref": "Art. 17, I",
+   "texto": "I - art. 230, inciso VII: quando da ausência de autorização prévia do órgão ou entidade executivo de trânsito dos Estados e do Distrito Federal para a modificação das características do veículo; e"
+  }
+ ]
+}

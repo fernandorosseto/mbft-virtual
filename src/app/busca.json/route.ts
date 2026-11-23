@@ -2,6 +2,7 @@ import { TIPOS_LIGACAO } from '@/lib/noGrafo';
 import { citacoesTipadas, compostosDoManual, textoCompleto, todasAsFichas } from '@/lib/mbft';
 import { SECOES } from '@/lib/parteGeral';
 import { paginasDeTabela } from '@/lib/figuras';
+import { FERRAMENTAS } from '@/lib/ferramentas';
 import { normalizar } from '@/lib/texto';
 import { temFrase, VERSAO_INDICE } from '@/lib/busca';
 import { SINONIMOS } from '@/lib/sinonimos';
@@ -66,7 +67,7 @@ export function GET() {
     secoes: SECOES.map((s) => [s.id, s.numero ? `${s.numero}. ${s.titulo}` : s.titulo]),
     frases,
     compostos,
-    extras: paginasDeTabela().map((p) => `/tabela/${p.slug}`),
+    extras: [...paginasDeTabela().map((p) => `/tabela/${p.slug}`), ...FERRAMENTAS.map((f) => f.href)],
   };
   return Response.json(corpo);
 }
